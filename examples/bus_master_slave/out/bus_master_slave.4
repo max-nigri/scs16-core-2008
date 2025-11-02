@@ -1,0 +1,59 @@
+First pass: evaluating defines
+Second pass: translating all defines
+
+
+
+AFTER translating defines
+
+
+
+
+
+      before                                             after
+
+
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+`include ../simple_script_defines.v                                                                 
+                                                                                                    
+nop                                               nop                                               
+goto 4                                            goto 4                                            
+goto 12                                           goto 12                                           
+goto 13                                           goto 13                                           
+                                                                                                    
+                                                                                                    
+R0=16'h0fff                                       R0=16'h0fff                                       
+RAM[`APP_OUT0_ADDR]=R0                            RAM[2032]=R0                                      
+                                                                                                    
+                                                                                                    
+R6=20                                             R6=20                                             
+EXT_BUS[R6] = R6                                  EXT_BUS[R6] = R6                                  
+nop                                               nop                                               
+R5 = EXT_BUS[R6]                                  R5 = EXT_BUS[R6]                                  
+gosub 14                                          gosub 14                                          
+branch !c14 11                                    branch !c14 11                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+rti                                               rti                                               
+                                                                                                    
+goto 4                                            goto 4                                            
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+loop 1 1 R5                                       loop 1 1 R5                                       
+nop                                               nop                                               
+return                                            return                                            
+                                                                                                    
+                                                                                                    
+                                                                                                    

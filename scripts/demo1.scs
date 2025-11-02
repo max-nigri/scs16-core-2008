@@ -1,0 +1,48 @@
+//#def                                                  
+`define EC      50                                              
+`define EKS     51                                              
+`define Rsvd    52                                              
+`define Length  53                                                
+//#cod  
+//////////////////////////////////////////////////  
+//  
+//            Zorba Technologies LTD  
+//     hh       dd   DEMO SCRIPT 1  
+//  
+//////////////////////////////////////////////////  
+nop  
+RAM[R6++] = 18495    //  EC + EKS + Rsvd + Length  
+RAM[R6++] = 0    //  Connection identifier  
+RAM[R6++] = 0    //  HT + CSI + FC + FSN + CI + PDE + Reserved  
+RAM[R6++] = 0    //  HCS + Packet frist data  
+R1 = 2           //  Packet secound data  
+loop L_load L_load_end 28  
+L_load,      RAM[R6++] = R1  
+L_load_end,  R1 = R1 + 1  
+  
+//////////////////////////////////////////////////  
+//  
+//         Packet Header Parssing  
+//  
+/////////////////////////////////////////////////  
+  
+R1 = RAM[0]        // MOVEing the frist header word in to R1  
+R2 = R1[15:15]     // EXTRACT EC in to R2  
+R3 = R1[14:13]     // EXTRACT EKS in to R3  
+R4 = R1[12:11]     // EXTRACT Rsvd in to R4  
+R5 = R1[10:0]      // EXTRACT Length in to R4  
+  
+// next part STORE all pased part to reserved parts in the Ram  
+RAM[`EC] = R2  
+RAM[`EKS] = R3  
+RAM[`Rsvd] = R4  
+RAM[`Length] = R5               
+  
+wait c6  
+nop  
+  
+//#sub                                     
+nop                                    
+//#int             
+ 
+ 

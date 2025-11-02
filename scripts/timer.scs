@@ -1,0 +1,10 @@
+//#def
+ 
+//#cod  
+nop 
+timer_1 = R1 dec @(c2) 
+ 
+//#sub
+ 
+//#int
+ 

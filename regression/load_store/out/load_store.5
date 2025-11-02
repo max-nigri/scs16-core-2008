@@ -1,0 +1,1313 @@
+Compiling lines .... Statement clasification and translation
+
+###### Line no:    8 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	0 00000000000000000000000000000000// (    0) 00000000 NOP          nop                                 // mandatory, start with nop.
+	0 00000000  // (    0) NOP          nop                                 // mandatory, start with nop.
+
+###### Line no:    9 #### line is : goto 4
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 4
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000000100
+	Array name is G_JUMP_Command_Format, num of fields 8
+	1 01101000000000000000000000000100// (    1) 68000004 JUMP         goto 4                              // goto boot sequence, jump over the interrupt vector
+	1 68000004  // (    1) JUMP         goto 4                              // goto boot sequence, jump over the interrupt vector
+
+###### Line no:   10 #### line is : goto 89
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 89
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00001011001
+	Array name is G_JUMP_Command_Format, num of fields 8
+	2 01101000000000000000000001011001// (    2) 68000059 JUMP         goto 89                             // goto ISR, pc=2 interrupt destination
+	2 68000059  // (    2) JUMP         goto 89                             // goto ISR, pc=2 interrupt destination
+
+###### Line no:   11 #### line is : goto 90
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 90
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00001011010
+	Array name is G_JUMP_Command_Format, num of fields 8
+	3 01101000000000000000000001011010// (    3) 6800005a JUMP         goto 90                             // goto Hardbreak, pc=3 hardbreak destination
+	3 6800005a  // (    3) JUMP         goto 90                             // goto Hardbreak, pc=3 hardbreak destination
+
+###### Line no:   14 #### line is : R0=16'h0fff
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R0=16'h0fff
+Error !,width of const 16 is not as expected 11
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00111111111111
+	Dest_reg             => 0000
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	4 00111000000100000000111111111111// (    4) 38100fff LOADID       R0=16'h0fff                         // L_boot, begining of some boot sequence
+	4 38100fff  // (    4) LOADID       R0=16'h0fff                         // L_boot, begining of some boot sequence
+
+###### Line no:   17 #### line is : R6=64
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=64
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000000
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	5 00111000000100110000000001000000// (    5) 38130040 LOADID       R6=64                               // loadid
+	5 38130040  // (    5) LOADID       R6=64                               // loadid
+
+###### Line no:   18 #### line is : R7=65
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=65
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000001
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	6 00111000000100111000000001000001// (    6) 38138041 LOADID       R7=65                               // loadid
+	6 38138041  // (    6) LOADID       R7=65                               // loadid
+
+###### Line no:   20 #### line is : R1=RAM[R6]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R1=RAM[R6]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0010
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	7 00011000000110001000000100001111// (    7) 1818810f LOAD         R1=RAM[R6]                          // load
+	7 1818810f  // (    7) LOAD         R1=RAM[R6]                          // load
+
+###### Line no:   21 #### line is : R1=RAM[R7]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R1=RAM[R7]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0010
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	8 00011000000110001000000000001111// (    8) 1818800f LOAD         R1=RAM[R7]                          // load
+	8 1818800f  // (    8) LOAD         R1=RAM[R7]                          // load
+
+###### Line no:   22 #### line is : R2=RAM[R6++]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R2=RAM[R6++]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0100
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	9 00011000000111010000000100001111// (    9) 181d010f LOAD         R2=RAM[R6++]                        // load
+	9 181d010f  // (    9) LOAD         R2=RAM[R6++]                        // load
+
+###### Line no:   23 #### line is : R2=RAM[R7++]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R2=RAM[R7++]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0100
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	10 00011000000111010000000000001111// (   10) 181d000f LOAD         R2=RAM[R7++]                        // load
+	10 181d000f  // (   10) LOAD         R2=RAM[R7++]                        // load
+
+###### Line no:   25 #### line is : R3=RAM[R6]    pulse->p6
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R3=RAM[R6]    pulse->p6
+	Successfull command parsing.....
+	pulse_bus            => 0110
+	Dest_reg             => 0110
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	11 00011000000110011000000100000110// (   11) 18198106 LOAD         R3=RAM[R6]    pulse->p6             // load
+	11 18198106  // (   11) LOAD         R3=RAM[R6]    pulse->p6             // load
+
+###### Line no:   26 #### line is : R3=RAM[R7]    pulse->p7
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R3=RAM[R7]    pulse->p7
+	Successfull command parsing.....
+	pulse_bus            => 0111
+	Dest_reg             => 0110
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	12 00011000000110011000000000000111// (   12) 18198007 LOAD         R3=RAM[R7]    pulse->p7             // load
+	12 18198007  // (   12) LOAD         R3=RAM[R7]    pulse->p7             // load
+
+###### Line no:   27 #### line is : R4=RAM[R6++]  pulse->p6
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R4=RAM[R6++]  pulse->p6
+	Successfull command parsing.....
+	pulse_bus            => 0110
+	Dest_reg             => 1000
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	13 00011000000111100000000100000110// (   13) 181e0106 LOAD         R4=RAM[R6++]  pulse->p6             // load 
+	13 181e0106  // (   13) LOAD         R4=RAM[R6++]  pulse->p6             // load 
+
+###### Line no:   28 #### line is : R4=RAM[R7++]  pulse->p7
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R4=RAM[R7++]  pulse->p7
+	Successfull command parsing.....
+	pulse_bus            => 0111
+	Dest_reg             => 1000
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	14 00011000000111100000000000000111// (   14) 181e0007 LOAD         R4=RAM[R7++]  pulse->p7             // load
+	14 181e0007  // (   14) LOAD         R4=RAM[R7++]  pulse->p7             // load
+
+###### Line no:   30 #### line is : R6=66
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=66
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000010
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	15 00111000000100110000000001000010// (   15) 38130042 LOADID       R6=66                               // loadid
+	15 38130042  // (   15) LOADID       R6=66                               // loadid
+
+###### Line no:   31 #### line is : R7=67
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=67
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000011
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	16 00111000000100111000000001000011// (   16) 38138043 LOADID       R7=67                               // loadid
+	16 38138043  // (   16) LOADID       R7=67                               // loadid
+
+###### Line no:   33 #### line is : R1=RAM[100]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R1=RAM[100]
+address_mode imd, imd = 100, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 01100100
+	Dest_reg             => 0010
+	ext_bus              => 0
+	imd2                 => 000
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	17 00111000000000001011000001100100// (   17) 3800b064 LOADIA       R1=RAM[100]                         // loadia
+	17 3800b064  // (   17) LOADIA       R1=RAM[100]                         // loadia
+
+###### Line no:   34 #### line is : R1=RAM[30+R6]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R1=RAM[30+R6]
+address_mode imd_offset, imd = 30, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00011110
+	Dest_reg             => 0010
+	r6r7                 => 1
+	ext_bus              => 0
+	imd2                 => 000
+	offset               => 1
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	18 00111000000010001011000100011110// (   18) 3808b11e LOADIA       R1=RAM[30+R6]                       // loadia  with offset
+	18 3808b11e  // (   18) LOADIA       R1=RAM[30+R6]                       // loadia  with offset
+
+###### Line no:   35 #### line is : R2=RAM[30+R7]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R2=RAM[30+R7]
+address_mode imd_offset, imd = 30, r6r7 = R7, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00011110
+	Dest_reg             => 0100
+	r6r7                 => 0
+	ext_bus              => 0
+	imd2                 => 000
+	offset               => 1
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	19 00111000000010010011000000011110// (   19) 3809301e LOADIA       R2=RAM[30+R7]                       // loadia  with offset
+	19 3809301e  // (   19) LOADIA       R2=RAM[30+R7]                       // loadia  with offset
+
+###### Line no:   39 #### line is : R6=70
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=70
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000110
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	20 00111000000100110000000001000110// (   20) 38130046 LOADID       R6=70                               // loadid
+	20 38130046  // (   20) LOADID       R6=70                               // loadid
+
+###### Line no:   40 #### line is : R7=74
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=74
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001001010
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	21 00111000000100111000000001001010// (   21) 3813804a LOADID       R7=74                               // loadid
+	21 3813804a  // (   21) LOADID       R7=74                               // loadid
+
+###### Line no:   42 #### line is : R2=EXT_BUS[R6++]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R2=EXT_BUS[R6++]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0100
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	22 00011100000111010000000100001111// (   22) 1c1d010f LOAD         R2=EXT_BUS[R6++]                    // load
+	22 1c1d010f  // (   22) LOAD         R2=EXT_BUS[R6++]                    // load
+
+###### Line no:   43 #### line is : R2=EXT_BUS[R7++]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R2=EXT_BUS[R7++]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0100
+	r6r7                 => 0
+	ext_bus              => 1
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	23 00011100000111010000000000001111// (   23) 1c1d000f LOAD         R2=EXT_BUS[R7++]                    // load
+	23 1c1d000f  // (   23) LOAD         R2=EXT_BUS[R7++]                    // load
+
+###### Line no:   44 #### line is : R1=EXT_BUS[R6]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R1=EXT_BUS[R6]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0010
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	24 00011100000110001000000100001111// (   24) 1c18810f LOAD         R1=EXT_BUS[R6]                      // load
+	24 1c18810f  // (   24) LOAD         R1=EXT_BUS[R6]                      // load
+
+###### Line no:   45 #### line is : R1=EXT_BUS[R7]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R1=EXT_BUS[R7]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0010
+	r6r7                 => 0
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	25 00011100000110001000000000001111// (   25) 1c18800f LOAD         R1=EXT_BUS[R7]                      // load
+	25 1c18800f  // (   25) LOAD         R1=EXT_BUS[R7]                      // load
+
+###### Line no:   47 #### line is : R4=EXT_BUS[R6++]  pulse->p6
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R4=EXT_BUS[R6++]  pulse->p6
+	Successfull command parsing.....
+	pulse_bus            => 0110
+	Dest_reg             => 1000
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	26 00011100000111100000000100000110// (   26) 1c1e0106 LOAD         R4=EXT_BUS[R6++]  pulse->p6         // load 
+	26 1c1e0106  // (   26) LOAD         R4=EXT_BUS[R6++]  pulse->p6         // load 
+
+###### Line no:   48 #### line is : R4=EXT_BUS[R7++]  pulse->p7
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R4=EXT_BUS[R7++]  pulse->p7
+	Successfull command parsing.....
+	pulse_bus            => 0111
+	Dest_reg             => 1000
+	r6r7                 => 0
+	ext_bus              => 1
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	27 00011100000111100000000000000111// (   27) 1c1e0007 LOAD         R4=EXT_BUS[R7++]  pulse->p7         // load
+	27 1c1e0007  // (   27) LOAD         R4=EXT_BUS[R7++]  pulse->p7         // load
+
+###### Line no:   49 #### line is : R3=EXT_BUS[R6]    pulse->p6
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R3=EXT_BUS[R6]    pulse->p6
+	Successfull command parsing.....
+	pulse_bus            => 0110
+	Dest_reg             => 0110
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	28 00011100000110011000000100000110// (   28) 1c198106 LOAD         R3=EXT_BUS[R6]    pulse->p6         // load
+	28 1c198106  // (   28) LOAD         R3=EXT_BUS[R6]    pulse->p6         // load
+
+###### Line no:   50 #### line is : R3=EXT_BUS[R7]    pulse->p7
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R3=EXT_BUS[R7]    pulse->p7
+	Successfull command parsing.....
+	pulse_bus            => 0111
+	Dest_reg             => 0110
+	r6r7                 => 0
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	29 00011100000110011000000000000111// (   29) 1c198007 LOAD         R3=EXT_BUS[R7]    pulse->p7         // load
+	29 1c198007  // (   29) LOAD         R3=EXT_BUS[R7]    pulse->p7         // load
+
+###### Line no:   52 #### line is : R6=66
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=66
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000010
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	30 00111000000100110000000001000010// (   30) 38130042 LOADID       R6=66                               // loadid
+	30 38130042  // (   30) LOADID       R6=66                               // loadid
+
+###### Line no:   53 #### line is : R7=67
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=67
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000011
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	31 00111000000100111000000001000011// (   31) 38138043 LOADID       R7=67                               // loadid
+	31 38138043  // (   31) LOADID       R7=67                               // loadid
+
+###### Line no:   55 #### line is : R1=EXT_BUS[100]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R1=EXT_BUS[100]
+address_mode imd, imd = 100, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 01100100
+	Dest_reg             => 0010
+	ext_bus              => 1
+	imd2                 => 000
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	32 00111100000000001011000001100100// (   32) 3c00b064 LOADIA       R1=EXT_BUS[100]                     // loadia
+	32 3c00b064  // (   32) LOADIA       R1=EXT_BUS[100]                     // loadia
+
+###### Line no:   56 #### line is : R1=EXT_BUS[30+R6]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R1=EXT_BUS[30+R6]
+address_mode imd_offset, imd = 30, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00011110
+	Dest_reg             => 0010
+	r6r7                 => 1
+	ext_bus              => 1
+	imd2                 => 000
+	offset               => 1
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	33 00111100000010001011000100011110// (   33) 3c08b11e LOADIA       R1=EXT_BUS[30+R6]                   // loadia  with offset
+	33 3c08b11e  // (   33) LOADIA       R1=EXT_BUS[30+R6]                   // loadia  with offset
+
+###### Line no:   57 #### line is : R2=EXT_BUS[30+R7]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R2=EXT_BUS[30+R7]
+address_mode imd_offset, imd = 30, r6r7 = R7, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00011110
+	Dest_reg             => 0100
+	r6r7                 => 0
+	ext_bus              => 1
+	imd2                 => 000
+	offset               => 1
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	34 00111100000010010011000000011110// (   34) 3c09301e LOADIA       R2=EXT_BUS[30+R7]                   // loadia  with offset
+	34 3c09301e  // (   34) LOADIA       R2=EXT_BUS[30+R7]                   // loadia  with offset
+
+###### Line no:   59 #### line is : R6=68
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=68
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000100
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	35 00111000000100110000000001000100// (   35) 38130044 LOADID       R6=68                               // loadid
+	35 38130044  // (   35) LOADID       R6=68                               // loadid
+
+###### Line no:   60 #### line is : R7=69
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=69
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000101
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	36 00111000000100111000000001000101// (   36) 38138045 LOADID       R7=69                               // loadid
+	36 38138045  // (   36) LOADID       R7=69                               // loadid
+
+###### Line no:   61 #### line is : R1=EXT_BUS[30,R6[11:0]]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R1=EXT_BUS[30,R6[11:0]]
+address_mode long, imd = 30, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00011110
+	Dest_reg             => 0010
+	long                 => 1
+	r6r7                 => 1
+	ext_bus              => 1
+	imd2                 => 000
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	37 00111100001000001011000100011110// (   37) 3c20b11e LOADIA       R1=EXT_BUS[30,R6[11:0]]             // loadia  with long add
+	37 3c20b11e  // (   37) LOADIA       R1=EXT_BUS[30,R6[11:0]]             // loadia  with long add
+
+###### Line no:   62 #### line is : R2=EXT_BUS[30,R7[11:0]]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R2=EXT_BUS[30,R7[11:0]]
+address_mode long, imd = 30, r6r7 = R7, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00011110
+	Dest_reg             => 0100
+	long                 => 1
+	r6r7                 => 0
+	ext_bus              => 1
+	imd2                 => 000
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	38 00111100001000010011000000011110// (   38) 3c21301e LOADIA       R2=EXT_BUS[30,R7[11:0]]             // loadia  with long add
+	38 3c21301e  // (   38) LOADIA       R2=EXT_BUS[30,R7[11:0]]             // loadia  with long add
+
+###### Line no:   67 #### line is : R2=90
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R2=90
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001011010
+	Dest_reg             => 0100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	39 00111000000100010000000001011010// (   39) 3811005a LOADID       R2=90                               // 
+	39 3811005a  // (   39) LOADID       R2=90                               // 
+
+###### Line no:   68 #### line is : R6=20
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=20
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010100
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	40 00111000000100110000000000010100// (   40) 38130014 LOADID       R6=20                               // 
+	40 38130014  // (   40) LOADID       R6=20                               // 
+
+###### Line no:   69 #### line is : R7=24
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=24
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011000
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	41 00111000000100111000000000011000// (   41) 38138018 LOADID       R7=24                               // 
+	41 38138018  // (   41) LOADID       R7=24                               // 
+
+###### Line no:   70 #### line is : RAM[R6]   = 400
+	Scanning for best match command .....
+	Matching command is : STOREID
+	Probably STOREID command : RAM[R6]=400
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 10010000
+	r6r7                 => 1
+	add_data             => 1
+	ext_bus              => 0
+	imd2                 => 0000001
+	inc_add              => 0
+	Array name is G_STOREID_Command_Format, num of fields 10
+	42 01111000000100000000111110010000// (   42) 78100f90 STOREID      RAM[R6]   = 400                     // storeid
+	42 78100f90  // (   42) STOREID      RAM[R6]   = 400                     // storeid
+
+###### Line no:   71 #### line is : RAM[R7]   = 400
+	Scanning for best match command .....
+	Matching command is : STOREID
+	Probably STOREID command : RAM[R7]=400
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 10010000
+	r6r7                 => 0
+	add_data             => 1
+	ext_bus              => 0
+	imd2                 => 0000001
+	inc_add              => 0
+	Array name is G_STOREID_Command_Format, num of fields 10
+	43 01111000000100000000111010010000// (   43) 78100e90 STOREID      RAM[R7]   = 400                     // storeid
+	43 78100e90  // (   43) STOREID      RAM[R7]   = 400                     // storeid
+
+###### Line no:   72 #### line is : RAM[R6]   = R2
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R6]=R2
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	44 00100000000110000010011100001111// (   44) 2018270f STORE        RAM[R6]   = R2                      // store
+	44 2018270f  // (   44) STORE        RAM[R6]   = R2                      // store
+
+###### Line no:   73 #### line is : RAM[R7]   = R2
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R7]=R2
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	45 00100000000110000010011000001111// (   45) 2018260f STORE        RAM[R7]   = R2                      // store
+	45 2018260f  // (   45) STORE        RAM[R7]   = R2                      // store
+
+###### Line no:   74 #### line is : RAM[R6++] = R2
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R6++]=R2
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_STORE_Command_Format, num of fields 11
+	46 00100000000111000010011100001111// (   46) 201c270f STORE        RAM[R6++] = R2                      // store
+	46 201c270f  // (   46) STORE        RAM[R6++] = R2                      // store
+
+###### Line no:   75 #### line is : RAM[R7++] = R2
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R7++]=R2
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_STORE_Command_Format, num of fields 11
+	47 00100000000111000010011000001111// (   47) 201c260f STORE        RAM[R7++] = R2                      // store
+	47 201c260f  // (   47) STORE        RAM[R7++] = R2                      // store
+
+###### Line no:   77 #### line is : R6=30
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=30
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011110
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	48 00111000000100110000000000011110// (   48) 3813001e LOADID       R6=30                               // 
+	48 3813001e  // (   48) LOADID       R6=30                               // 
+
+###### Line no:   78 #### line is : R7=34
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=34
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000100010
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	49 00111000000100111000000000100010// (   49) 38138022 LOADID       R7=34                               // 
+	49 38138022  // (   49) LOADID       R7=34                               // 
+
+###### Line no:   79 #### line is : RAM[R6]   = R2 pulse->p6
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R6]=R2 pulse->p6
+	Successfull command parsing.....
+	pulse_bus            => 0110
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	50 00100000000110000010011100000110// (   50) 20182706 STORE        RAM[R6]   = R2 pulse->p6            // store + pulse
+	50 20182706  // (   50) STORE        RAM[R6]   = R2 pulse->p6            // store + pulse
+
+###### Line no:   80 #### line is : RAM[R7]   = R2 pulse->p7
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R7]=R2 pulse->p7
+	Successfull command parsing.....
+	pulse_bus            => 0111
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	51 00100000000110000010011000000111// (   51) 20182607 STORE        RAM[R7]   = R2 pulse->p7            // store + pulse
+	51 20182607  // (   51) STORE        RAM[R7]   = R2 pulse->p7            // store + pulse
+
+###### Line no:   81 #### line is : RAM[R6++] = R2 pulse->p6
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R6++]=R2 pulse->p6
+	Successfull command parsing.....
+	pulse_bus            => 0110
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_STORE_Command_Format, num of fields 11
+	52 00100000000111000010011100000110// (   52) 201c2706 STORE        RAM[R6++] = R2 pulse->p6            // store + pulse
+	52 201c2706  // (   52) STORE        RAM[R6++] = R2 pulse->p6            // store + pulse
+
+###### Line no:   82 #### line is : RAM[R7++] = R2 pulse->p7
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R7++]=R2 pulse->p7
+	Successfull command parsing.....
+	pulse_bus            => 0111
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_STORE_Command_Format, num of fields 11
+	53 00100000000111000010011000000111// (   53) 201c2607 STORE        RAM[R7++] = R2 pulse->p7            // store + pulse
+	53 201c2607  // (   53) STORE        RAM[R7++] = R2 pulse->p7            // store + pulse
+
+###### Line no:   84 #### line is : RAM[30]   = R2
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[30]=R2
+address_mode imd, imd = 30, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00011110
+	source_reg           => 0100
+	ext_bus              => 0
+	imd2                 => 0000
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	54 01111000000000000010011000011110// (   54) 7800261e STOREIA      RAM[30]   = R2                      // storeia 
+	54 7800261e  // (   54) STOREIA      RAM[30]   = R2                      // storeia 
+
+###### Line no:   85 #### line is : RAM[30+R6]= R2
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[30+R6]=R2
+address_mode imd_offset, imd = 30, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00011110
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 0
+	imd2                 => 0000
+	add_data             => 0
+	offset               => 1
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	55 01111000000010000010011100011110// (   55) 7808271e STOREIA      RAM[30+R6]= R2                      // storeia with offset
+	55 7808271e  // (   55) STOREIA      RAM[30+R6]= R2                      // storeia with offset
+
+###### Line no:   86 #### line is : RAM[30+R7]= R2
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[30+R7]=R2
+address_mode imd_offset, imd = 30, r6r7 = R7, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00011110
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 0
+	imd2                 => 0000
+	add_data             => 0
+	offset               => 1
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	56 01111000000010000010011000011110// (   56) 7808261e STOREIA      RAM[30+R7]= R2                      // storeia with offset
+	56 7808261e  // (   56) STOREIA      RAM[30+R7]= R2                      // storeia with offset
+
+###### Line no:   90 #### line is : R2=90
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R2=90
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001011010
+	Dest_reg             => 0100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	57 00111000000100010000000001011010// (   57) 3811005a LOADID       R2=90                               // 
+	57 3811005a  // (   57) LOADID       R2=90                               // 
+
+###### Line no:   91 #### line is : R6=20
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=20
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010100
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	58 00111000000100110000000000010100// (   58) 38130014 LOADID       R6=20                               // 
+	58 38130014  // (   58) LOADID       R6=20                               // 
+
+###### Line no:   92 #### line is : R7=24
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=24
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011000
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	59 00111000000100111000000000011000// (   59) 38138018 LOADID       R7=24                               // 
+	59 38138018  // (   59) LOADID       R7=24                               // 
+
+###### Line no:   93 #### line is : EXT_BUS[R6]   = 400
+	Scanning for best match command .....
+	Matching command is : STOREID
+	Probably STOREID command : EXT_BUS[R6]=400
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 10010000
+	r6r7                 => 1
+	add_data             => 1
+	ext_bus              => 1
+	imd2                 => 0000001
+	inc_add              => 0
+	Array name is G_STOREID_Command_Format, num of fields 10
+	60 01111100000100000000111110010000// (   60) 7c100f90 STOREID      EXT_BUS[R6]   = 400                 // storeid
+	60 7c100f90  // (   60) STOREID      EXT_BUS[R6]   = 400                 // storeid
+
+###### Line no:   94 #### line is : EXT_BUS[R7]   = 400
+	Scanning for best match command .....
+	Matching command is : STOREID
+	Probably STOREID command : EXT_BUS[R7]=400
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 10010000
+	r6r7                 => 0
+	add_data             => 1
+	ext_bus              => 1
+	imd2                 => 0000001
+	inc_add              => 0
+	Array name is G_STOREID_Command_Format, num of fields 10
+	61 01111100000100000000111010010000// (   61) 7c100e90 STOREID      EXT_BUS[R7]   = 400                 // storeid
+	61 7c100e90  // (   61) STOREID      EXT_BUS[R7]   = 400                 // storeid
+
+###### Line no:   95 #### line is : EXT_BUS[R6]   = R2
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R6]=R2
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	62 00100100000110000010011100001111// (   62) 2418270f STORE        EXT_BUS[R6]   = R2                  // store
+	62 2418270f  // (   62) STORE        EXT_BUS[R6]   = R2                  // store
+
+###### Line no:   96 #### line is : EXT_BUS[R7]   = R2
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R7]=R2
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	63 00100100000110000010011000001111// (   63) 2418260f STORE        EXT_BUS[R7]   = R2                  // store
+	63 2418260f  // (   63) STORE        EXT_BUS[R7]   = R2                  // store
+
+###### Line no:   97 #### line is : EXT_BUS[R6++] = R2
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R6++]=R2
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 1
+	Array name is G_STORE_Command_Format, num of fields 11
+	64 00100100000111000010011100001111// (   64) 241c270f STORE        EXT_BUS[R6++] = R2                  // store
+	64 241c270f  // (   64) STORE        EXT_BUS[R6++] = R2                  // store
+
+###### Line no:   98 #### line is : EXT_BUS[R7++] = R2
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R7++]=R2
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 1
+	inc_add              => 1
+	Array name is G_STORE_Command_Format, num of fields 11
+	65 00100100000111000010011000001111// (   65) 241c260f STORE        EXT_BUS[R7++] = R2                  // store
+	65 241c260f  // (   65) STORE        EXT_BUS[R7++] = R2                  // store
+
+###### Line no:  100 #### line is : R6=30
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=30
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011110
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	66 00111000000100110000000000011110// (   66) 3813001e LOADID       R6=30                               // 
+	66 3813001e  // (   66) LOADID       R6=30                               // 
+
+###### Line no:  101 #### line is : R7=34
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=34
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000100010
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	67 00111000000100111000000000100010// (   67) 38138022 LOADID       R7=34                               // 
+	67 38138022  // (   67) LOADID       R7=34                               // 
+
+###### Line no:  102 #### line is : EXT_BUS[R6]   = R2 pulse->p6
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R6]=R2 pulse->p6
+	Successfull command parsing.....
+	pulse_bus            => 0110
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	68 00100100000110000010011100000110// (   68) 24182706 STORE        EXT_BUS[R6]   = R2 pulse->p6        // store + pulse
+	68 24182706  // (   68) STORE        EXT_BUS[R6]   = R2 pulse->p6        // store + pulse
+
+###### Line no:  103 #### line is : EXT_BUS[R7]   = R2 pulse->p7
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R7]=R2 pulse->p7
+	Successfull command parsing.....
+	pulse_bus            => 0111
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	69 00100100000110000010011000000111// (   69) 24182607 STORE        EXT_BUS[R7]   = R2 pulse->p7        // store + pulse
+	69 24182607  // (   69) STORE        EXT_BUS[R7]   = R2 pulse->p7        // store + pulse
+
+###### Line no:  104 #### line is : EXT_BUS[R6++] = R2 pulse->p6
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R6++]=R2 pulse->p6
+	Successfull command parsing.....
+	pulse_bus            => 0110
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 1
+	Array name is G_STORE_Command_Format, num of fields 11
+	70 00100100000111000010011100000110// (   70) 241c2706 STORE        EXT_BUS[R6++] = R2 pulse->p6        // store + pulse
+	70 241c2706  // (   70) STORE        EXT_BUS[R6++] = R2 pulse->p6        // store + pulse
+
+###### Line no:  105 #### line is : EXT_BUS[R7++] = R2 pulse->p7
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R7++]=R2 pulse->p7
+	Successfull command parsing.....
+	pulse_bus            => 0111
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 1
+	inc_add              => 1
+	Array name is G_STORE_Command_Format, num of fields 11
+	71 00100100000111000010011000000111// (   71) 241c2607 STORE        EXT_BUS[R7++] = R2 pulse->p7        // store + pulse
+	71 241c2607  // (   71) STORE        EXT_BUS[R7++] = R2 pulse->p7        // store + pulse
+
+###### Line no:  107 #### line is : EXT_BUS[30]   = R2
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : EXT_BUS[30]=R2
+address_mode imd, imd = 30, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00011110
+	source_reg           => 0100
+	ext_bus              => 1
+	imd2                 => 0000
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	72 01111100000000000010011000011110// (   72) 7c00261e STOREIA      EXT_BUS[30]   = R2                  // storeia 
+	72 7c00261e  // (   72) STOREIA      EXT_BUS[30]   = R2                  // storeia 
+
+###### Line no:  108 #### line is : EXT_BUS[30+R6]= R2
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : EXT_BUS[30+R6]=R2
+address_mode imd_offset, imd = 30, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00011110
+	source_reg           => 0100
+	r6r7                 => 1
+	ext_bus              => 1
+	imd2                 => 0000
+	add_data             => 0
+	offset               => 1
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	73 01111100000010000010011100011110// (   73) 7c08271e STOREIA      EXT_BUS[30+R6]= R2                  // storeia with offset
+	73 7c08271e  // (   73) STOREIA      EXT_BUS[30+R6]= R2                  // storeia with offset
+
+###### Line no:  109 #### line is : EXT_BUS[30+R7]= R2
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : EXT_BUS[30+R7]=R2
+address_mode imd_offset, imd = 30, r6r7 = R7, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00011110
+	source_reg           => 0100
+	r6r7                 => 0
+	ext_bus              => 1
+	imd2                 => 0000
+	add_data             => 0
+	offset               => 1
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	74 01111100000010000010011000011110// (   74) 7c08261e STOREIA      EXT_BUS[30+R7]= R2                  // storeia with offset
+	74 7c08261e  // (   74) STOREIA      EXT_BUS[30+R7]= R2                  // storeia with offset
+
+###### Line no:  111 #### line is : R6=48
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=48
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000110000
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	75 00111000000100110000000000110000// (   75) 38130030 LOADID       R6=48                               // 
+	75 38130030  // (   75) LOADID       R6=48                               // 
+
+###### Line no:  112 #### line is : R7=52
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R7=52
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000110100
+	Dest_reg             => 1110
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	76 00111000000100111000000000110100// (   76) 38138034 LOADID       R7=52                               // 
+	76 38138034  // (   76) LOADID       R7=52                               // 
+
+###### Line no:  113 #### line is : EXT_BUS[30,R6[11:0]]= R2
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : EXT_BUS[30,R6[11:0]]=R2
+address_mode long, imd = 30, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00011110
+	source_reg           => 0100
+	long                 => 1
+	r6r7                 => 1
+	ext_bus              => 1
+	imd2                 => 0000
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	77 01111100001000000010011100011110// (   77) 7c20271e STOREIA      EXT_BUS[30,R6[11:0]]= R2            // storeia with long add
+	77 7c20271e  // (   77) STOREIA      EXT_BUS[30,R6[11:0]]= R2            // storeia with long add
+
+###### Line no:  114 #### line is : EXT_BUS[30,R7[11:0]]= R2
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : EXT_BUS[30,R7[11:0]]=R2
+address_mode long, imd = 30, r6r7 = R7, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00011110
+	source_reg           => 0100
+	long                 => 1
+	r6r7                 => 0
+	ext_bus              => 1
+	imd2                 => 0000
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	78 01111100001000000010011000011110// (   78) 7c20261e STOREIA      EXT_BUS[30,R7[11:0]]= R2            // storeia with long add
+	78 7c20261e  // (   78) STOREIA      EXT_BUS[30,R7[11:0]]= R2            // storeia with long add
+
+###### Line no:  118 #### line is : R3=16'h8033
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R3=16'h8033
+Error !,width of const 16 is not as expected 11
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000110011
+	Dest_reg             => 0110
+	imd2                 => 10
+	Array name is G_LOADID_Command_Format, num of fields 6
+	79 00111000000110011000000000110011// (   79) 38198033 LOADID       R3=16'h8033                         // 
+	79 38198033  // (   79) LOADID       R3=16'h8033                         // 
+
+###### Line no:  119 #### line is : R1=16'h007f
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=16'h007f
+Error !,width of const 16 is not as expected 11
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001111111
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	80 00111000000100001000000001111111// (   80) 3810807f LOADID       R1=16'h007f                         // 
+	80 3810807f  // (   80) LOADID       R1=16'h007f                         // 
+
+###### Line no:  120 #### line is : gr_flag = R3 > R1
+	Scanning for best match command .....
+	Matching command is : ALU
+	Probably ALU command : gr_flag=R3 > R1
+	Successfull command parsing.....
+	rb_sel               => 001
+	dest_reg             => 111
+	operation            => 011
+	ra_sel               => 011
+	sub_op               => 0
+	Array name is G_ALU_Command_Format, num of fields 8
+	81 01010000000011111001011000000000// (   81) 500f9600 ALU          gr_flag = R3 > R1                   // 
+	81 500f9600  // (   81) ALU          gr_flag = R3 > R1                   // 
+
+###### Line no:  120 #### line is : branch (!gr_flag) 85
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!gr_flag) 85
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1100
+	int_ext              => 1
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00001010101
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	82 10000000000111011110000001010101// (   82) 801de055 BRANCH       branch (!gr_flag) 85                // 
+	82 801de055  // (   82) BRANCH       branch (!gr_flag) 85                // 
+
+###### Line no:  121 #### line is : pulse->p2
+	Scanning for best match command .....
+	Matching command is : PULSE
+	Probably PULSE command : pulse->p2
+	Successfull command parsing.....
+	pulse_bus            => 0010
+	Array name is G_PULSE_Command_Format, num of fields 4
+	83 01011000000000000000000000000010// (   83) 58000002 PULSE        pulse->p2                           // 
+	83 58000002  // (   83) PULSE        pulse->p2                           // 
+
+###### Line no:  122 #### line is : goto 86
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 86
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00001010110
+	Array name is G_JUMP_Command_Format, num of fields 8
+	84 01101000000000000000000001010110// (   84) 68000056 JUMP         goto 86                             // 
+	84 68000056  // (   84) JUMP         goto 86                             // 
+
+###### Line no:  124 #### line is : pulse->p3
+	Scanning for best match command .....
+	Matching command is : PULSE
+	Probably PULSE command : pulse->p3
+	Successfull command parsing.....
+	pulse_bus            => 0011
+	Array name is G_PULSE_Command_Format, num of fields 4
+	85 01011000000000000000000000000011// (   85) 58000003 PULSE        pulse->p3                           // 
+	85 58000003  // (   85) PULSE        pulse->p3                           // 
+
+###### Line no:  131 #### line is : R5 = 10
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R5=10
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000001010
+	Dest_reg             => 1010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	86 00111000000100101000000000001010// (   86) 3812800a LOADID       R5 = 10                             // 
+	86 3812800a  // (   86) LOADID       R5 = 10                             // 
+
+###### Line no:  132 #### line is : gosub 91
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : gosub 91
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 1
+	Imd                  => 00001011011
+	Array name is G_JUMP_Command_Format, num of fields 8
+	87 01101000000100000000000001011011// (   87) 6810005b JUMP         gosub 91                            // 
+	87 6810005b  // (   87) JUMP         gosub 91                            // 
+
+###### Line no:  133 #### line is : branch !c14 88
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch !c14 88
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1110
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00001011000
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	88 10000000000111001111000001011000// (   88) 801cf058 BRANCH       branch !c14 88                      // c14 tied to "0" 
+	88 801cf058  // (   88) BRANCH       branch !c14 88                      // c14 tied to "0" 
+
+###### Line no:  141 #### line is : rti
+	Scanning for best match command .....
+	Matching command is : RETURN
+	Probably RETURN command : rti
+	Successfull command parsing.....
+	from                 => 10
+	reserved             => 0000000000000000000
+	Array name is G_RETURN_Command_Format, num of fields 4
+	89 01110000000100000000000000000000// (   89) 70100000 RETURN       rti                                 // 
+	89 70100000  // (   89) RETURN       rti                                 // 
+
+###### Line no:  143 #### line is : goto 4
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 4
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000000100
+	Array name is G_JUMP_Command_Format, num of fields 8
+	90 01101000000000000000000000000100// (   90) 68000004 JUMP         goto 4                              // 
+	90 68000004  // (   90) JUMP         goto 4                              // 
+
+###### Line no:  149 #### line is : loop 1 1 R5
+	Scanning for best match command .....
+	Matching command is : LOOP
+	Probably LOOP command : loop 1 1 R5
+	Successfull command parsing.....
+	end_offset           => 00001
+	start_offset         => 001
+	ra_sel               => 101
+	Imd                  => 0000000000
+	Array name is G_LOOP_Command_Format, num of fields 6
+	91 01001000000101001000010000000000// (   91) 48148400 LOOP         loop 1 1 R5                         // 
+	91 48148400  // (   91) LOOP         loop 1 1 R5                         // 
+
+###### Line no:  150 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	92 00000000000000000000000000000000// (   92) 00000000 NOP          nop                                 // 
+	92 00000000  // (   92) NOP          nop                                 // 
+
+###### Line no:  151 #### line is : return
+	Scanning for best match command .....
+	Matching command is : RETURN
+	Probably RETURN command : return
+	Successfull command parsing.....
+	from                 => 00
+	reserved             => 0000000000000000000
+	Array name is G_RETURN_Command_Format, num of fields 4
+	93 01110000000000000000000000000000// (   93) 70000000 RETURN       return                              // 
+	93 70000000  // (   93) RETURN       return                              // 

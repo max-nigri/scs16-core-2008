@@ -1,0 +1,294 @@
+First pass: assigning pc to non empty code lines (line2pc array)
+    0 0     0 
+    1 0     0 
+    2 0     0 
+    3 0     0 
+    4 0     0 
+    5 0     0 
+    6 0     0 
+    7 0     0 
+    8 0     0 
+    9 0     0 
+   10 0     0 
+   11 0     0 
+   12 0     0 
+   13 0     0 
+   14 0     0 
+   15 0     0 
+   16 0     0 
+   17 0     0 
+   18 0     0 
+   19 0     0 
+   20 0     0 
+   21 1     0 nop
+   22 0     1 
+   23 0     1 
+   24 0     1 `define BFA 0
+   25 0     1 `define FWP 8
+   26 0     1 `define FRP 9
+   27 0     1 `define FMN 10
+   28 0     1 
+   29 0     1 
+   30 0     1 
+   31 0     1 
+   32 0     1 
+   33 0     1 
+   34 0     1 
+   35 0     1 
+   36 0     1 
+   37 0     1 
+   38 0     1 
+   39 0     1 
+   40 0     1 
+   41 0     1 
+   42 0     1 
+   43 1     1 R6=16
+   44 1     2 RAM[R6++]=9
+   45 1     3 RAM[R6++]=9
+   46 1     4 RAM[R6++]=16'b0100011110000000
+   47 0     5 
+   48 1     5 R5=20
+   49 0     6 
+   50 0     6 
+   51 0     6 
+   52 1     6 loop L_fill_fifo_start L_fill_fifo_end R5
+   53 0     7 
+   54 1     7 R6=17
+   55 1     8 R1=RAM[R6++]
+   56 1     9 R0=RAM[R6++]
+   57 0    10 
+   58 1    10 L_fill_fifo_start,  branch (!R0[15]) L_branch_aab
+   59 1    11 nop
+   60 1    12 goto L_branch_aac
+   61 0    13 
+   62 1    13 L_branch_aab,R7=R1+`BFA
+   63 1    14 RAM[R7]=R4
+   64 1    15 R4=R4+1
+   65 1    16 L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)
+   66 0    17 
+   67 0    17 
+   68 1    17 L_branch_aac,RAM[17]=R1
+   69 1    18 RAM[18]=R0
+   70 0    19 
+   71 0    19 
+   72 1    19 R1=RAM[16]
+   73 0    20 
+   74 0    20 
+   75 0    20 
+   76 1    20 loop L_emp_fifo_start L_emp_fifo_end R5
+   77 1    21 L_emp_fifo_start,       branch (!R0[14]) L_branch_aad
+   78 1    22 nop
+   79 1    23 goto L_branch_aae
+   80 0    24 
+   81 1    24 L_branch_aad,R7=R1+`BFA
+   82 1    25 R4=RAM[R7]
+   83 1    26 L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)
+   84 0    27 
+   85 0    27 
+   86 1    27 L_branch_aae,RAM[16]=R1
+   87 1    28 RAM[18]=R0
+   88 0    29 
+   89 1    29 L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa
+   90 1    30 nop
+   91 0    31 
+   92 0    31 
+   93 0    31 
+   94 0    31 
+Second pass: eliminating start of line labels and filling label2pc hash
+Third pass: evaluating labels of loop statements
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+1 - nop
+0 - 
+0 - 
+0 - `define BFA 0
+0 - `define FWP 8
+0 - `define FRP 9
+0 - `define FMN 10
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+1 - R6=16
+1 - RAM[R6++]=9
+1 - RAM[R6++]=9
+1 - RAM[R6++]=16'b0100011110000000
+0 - 
+1 - R5=20
+0 - 
+0 - 
+0 - 
+1 - loop 4 10 R5
+0 - 
+1 - R6=17
+1 - R1=RAM[R6++]
+1 - R0=RAM[R6++]
+0 - 
+1 - branch (!R0[15]) L_branch_aab
+1 - nop
+1 - goto L_branch_aac
+0 - 
+1 - R7=R1+`BFA
+1 - RAM[R7]=R4
+1 - R4=R4+1
+1 - (R0,R1)=fifo_wr(R0,R1)
+0 - 
+0 - 
+1 - RAM[17]=R1
+1 - RAM[18]=R0
+0 - 
+0 - 
+1 - R1=RAM[16]
+0 - 
+0 - 
+0 - 
+1 - loop 1 6 R5
+1 - branch (!R0[14]) L_branch_aad
+1 - nop
+1 - goto L_branch_aae
+0 - 
+1 - R7=R1+`BFA
+1 - R4=RAM[R7]
+1 - (R0,R1)=fifo_rd(R0,R1)
+0 - 
+0 - 
+1 - RAM[16]=R1
+1 - RAM[18]=R0
+0 - 
+1 - branch !c14 L_wait_dfhfdaaa
+1 - nop
+0 - 
+0 - 
+0 - 
+0 - 
+Forth pass: evaluating command arguments labels
+===== found label L_branch_aab at pc  13
+===== found label L_branch_aac at pc  17
+===== found label L_branch_aad at pc  24
+===== found label L_branch_aae at pc  27
+===== found label L_wait_dfhfdaaa at pc  29
+// /////////////////////////////////////////////////////////////////////  
+// File:  		fifo.scs  
+// Location:		  
+// Created by:		Nadav Feldman                           
+// Date Creation:  	28.11.03  
+// Version:		1.0                                                   
+// Modified:		  
+//   
+// Project: 		SCS16  
+//   
+// Purpose:		This progrem is made to check a fifo of 16 cells.  
+// useing 2 loop one to fill the fifo and one to empty it.  
+//   
+// Description:           
+//   
+// How to use it:	                                                   
+//   
+// ToDo:                                                             
+//   
+// /////////////////////////////////////////////////////////////////////  
+//   
+nop                                                 //     0                                                   
+//   
+//   
+`define BFA 0                                       //     1 `define BFA 0                                     
+`define FWP 8                                       //     1 `define FWP 8                                     
+`define FRP 9                                       //     1 `define FRP 9                                     
+`define FMN 10                                      //     1 `define FMN 10                                    
+//   
+// in this example we define a fifo of 16 lines located in RAM  
+// in the region `BFA (Base Fifo Address) to `BFA+15  
+// its control struct is located above the fifo region, however  
+// its location is totally controlled by the programmer.  
+// the control struct consist of 3 lines  
+// RAM[16] is the rd pointer   
+// RAM[17] is the wr pointer  
+// RAM[18] {full=0 empty=1 size[6:0]=16  len[6:0]=0}  
+//   
+//   
+// fifo control structure initiation  
+// in this specific example, I'm setting the rd,wr ptr to point to 9  
+// which is near the middle of the fifo. this will demonstrate the  
+// wrap around mechanism  
+R6=16                                               //     1                                                   
+RAM[R6++]=9                                         //     2 RAM[16] is the rd pointer                         
+RAM[R6++]=9                                         //     3 RAM[17] is the wr pointer                         
+RAM[R6++]=16'b0100011110000000                      //     4 full=0 empty=1 size=16  len=0                     
+//   
+R5=20                                               //     5                                                   
+//   
+// writing R5 times to an empty fifo  
+//   
+loop 4 10 R5                                        //     6 fifo fill loop invokation                         
+// loop pre-conditioning  
+R6=17                                               //     7                                                   
+R1=RAM[R6++]                                        //     8 loading the wr pointer to R1                      
+R0=RAM[R6++]                                        //     9 loading the control to R0                         
+//   
+branch (!R0[15]) 13                                 //    10 checking the full                                 
+nop                                                 //    11 full!!, do something			                           
+goto 17                                             //    12                                                   
+//   
+R7=R1+`BFA                                          //    13 calc abs wr ptr                                   
+RAM[R7]=R4                                          //    14 wr the data                                       
+R4=R4+1                                             //    15 inc the data                                      
+(R0,R1)=fifo_wr(R0,R1)                              //    16 update control	                                   
+//   
+//   
+RAM[17]=R1                                          //    17 saving back the wr pointer to RAM[17]             
+RAM[18]=R0                                          //    18 saving back the control record to RAM[18]         
+//   
+//   
+R1=RAM[16]                                          //    19 loading the rd pointer to R1                      
+//   
+// reading R5 times from a full fifo  
+//   
+loop 1 6 R5                                         //    20                                                   
+branch (!R0[14]) 24                                 //    21 checking the empty                                
+nop                                                 //    22 empty!!, do something                             
+goto 27                                             //    23                                                   
+//   
+R7=R1+`BFA                                          //    24 calc the abs rd ptr                               
+R4=RAM[R7]                                          //    25 rd the data		                                     
+(R0,R1)=fifo_rd(R0,R1)                              //    26 update control                                    
+//   
+//   
+RAM[16]=R1                                          //    27 saving back the rd pointer to RAM[16]             
+RAM[18]=R0                                          //    28 saving back the control record to RAM[18]         
+//   
+branch !c14 29                                      //    29 stop                                              
+nop                                                 //    30                                                   
+//   
+//   
+//   
+// /////////////////////  

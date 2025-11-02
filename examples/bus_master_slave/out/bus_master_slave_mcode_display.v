@@ -1,0 +1,17 @@
+	    0	:$display("pc =     0 :\t nop                            ");
+	    1	:$display("pc =     1 :\t goto 4                         // goto boot sequence");
+	    2	:$display("pc =     2 :\t goto 12                        // goto ISR");
+	    3	:$display("pc =     3 :\t goto 13                        // prepare ");
+	    4	:$display("pc =     4 :\t R0=16'h0fff                    // L_boot, begining of some boot sequence");
+	    5	:$display("pc =     5 :\t RAM[`APP_OUT0_ADDR]=R0         // init app out regs");
+	    6	:$display("pc =     6 :\t R6=20                          ");
+	    7	:$display("pc =     7 :\t EXT_BUS[R6] = R6               // external bus write");
+	    8	:$display("pc =     8 :\t nop                            ");
+	    9	:$display("pc =     9 :\t R5 = EXT_BUS[R6]               // external bus read ");
+	   10	:$display("pc =    10 :\t gosub 14                       ");
+	   11	:$display("pc =    11 :\t branch !c14 11                 // c14 tied to "0" ");
+	   12	:$display("pc =    12 :\t rti                            ");
+	   13	:$display("pc =    13 :\t goto 4                         ");
+	   14	:$display("pc =    14 :\t loop 1 1 R5                    ");
+	   15	:$display("pc =    15 :\t nop                            ");
+	   16	:$display("pc =    16 :\t return                         ");

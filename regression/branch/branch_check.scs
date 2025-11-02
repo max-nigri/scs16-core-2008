@@ -1,0 +1,139 @@
+nop
+/////////////////////////////////////////////////////////////////
+//////// registers bits check                            ////////
+/////////////////////////////////////////////////////////////////
+
+R1=1
+if (R1[0]) L_bit_a
+goto L_bad_end
+L_bit_a,R5=R5+1
+if (!R1[0]) L_bad_end
+R5=R5+1
+if (R1[6]) L_bad_end
+R5=R5+1
+R2=7
+branch R2[0] 12                      //pc : 10
+goto L_bad_end
+R5=R5+1
+if (!R2[11]) L_bit_b
+goto L_bad_end
+L_bit_b,R5=R5+1                      //pc : 15
+R1=R1+120                            //R1=121
+branch (R1[6]) 14'h13
+goto L_bad_end
+R5=R5+1
+branch (R1[6]) 14'b10110             //pc : 20
+goto L_bad_end
+R5=R5+1
+if (!R3[12]) L_bit_c
+goto L_bad_end 
+L_bit_c,R5=R5+1                      //pc : 25
+if (!R6[12]) L_bit_d
+goto L_bad_end 
+L_bit_d,R5=R5+1
+
+/////////////////////////////////////////////////////////////////
+//////// eq gr ls ovf zero neg flags check               ////////
+/////////////////////////////////////////////////////////////////
+
+R0=-23
+R4=-23                               //pc : 30
+if (R0==R4)L_flag_a                  //eq flag
+goto L_bad_end 
+L_flag_a,R5=R5+1
+ls_flag=R0>R4                        //pc : 35
+branch eq_flag 38
+goto L_bad_end 
+R5=R5+1 
+R4=32767                            
+R0=200                               //pc : 40
+R6=R0+R4                              
+branch ovf_flag 44                   //ovf_flag
+goto L_bad_end 
+R5=R5+1
+if (R0>R4) L_flag_b                  //pc : 45 ls_flag  
+goto L_bad_end 
+L_flag_b,R5=R5+1
+if (R4<R0) L_flag_c                  //gr flag
+goto L_bad_end                       //pc : 51
+L_flag_c,R5=R5+1                     
+branch !ls_flag 55 
+goto L_bad_end 
+R5=R5+1
+R4=12 
+R0=-12
+R3=R4+R0                            
+branch zero_flag 61                 //zero_flag
+goto L_bad_end                      //pc : 60
+R5=R5+1
+R4=R0+R3
+branch neg_flag 65                  //neg_flag
+goto L_bad_end 
+R5=R5+1                             //** R5 = 17 **
+
+/////////////////////////////////////////////////////////////////
+//////// conditions check                                ////////
+/////////////////////////////////////////////////////////////////
+branch c0 68
+goto L_bad_end 
+R5=R5+1 
+branch !c1 71
+goto L_bad_end 
+R5=R5+1 
+branch c2 74
+goto L_bad_end 
+R5=R5+1 
+branch !c3 77
+goto L_bad_end 
+R5=R5+1 
+branch c4 80
+goto L_bad_end 
+R5=R5+1 
+branch !c5 83
+goto L_bad_end 
+R5=R5+1 
+branch c6 86
+goto L_bad_end 
+R5=R5+1 
+branch !c7 89
+goto L_bad_end 
+R5=R5+1                                    //** R5 = 25 **      
+
+branch c8 92
+goto L_bad_end 
+R5=R5+1 
+branch !c9 95
+goto L_bad_end 
+R5=R5+1 
+branch c10 98
+goto L_bad_end 
+R5=R5+1 
+branch !c11 101
+goto L_bad_end 
+R5=R5+1 
+branch c12 104
+goto L_bad_end 
+R5=R5+1 
+branch !c13 107
+goto L_bad_end 
+R5=R5+1 
+branch c14 110
+goto L_bad_end 
+R5=R5+1 
+branch !c15 113
+goto L_bad_end 
+R5=R5+1 
+branch c14 14'h74
+goto L_bad_end 
+R5=R5+1 
+branch !c15 14'b1110111
+goto L_bad_end 
+R5=R5+1                                     //** R5 = 35 **      
+
+
+
+wait !c2
+
+L_bad_end,R5=-999
+nop
+

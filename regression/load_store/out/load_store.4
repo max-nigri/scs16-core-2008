@@ -1,0 +1,169 @@
+First pass: evaluating defines
+Second pass: translating all defines
+
+
+
+AFTER translating defines
+
+
+
+
+
+      before                                             after
+
+
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+`include ../simple_script_defines.v                                                                 
+                                                                                                    
+nop                                               nop                                               
+goto 4                                            goto 4                                            
+goto 89                                           goto 89                                           
+goto 90                                           goto 90                                           
+                                                                                                    
+                                                                                                    
+R0=16'h0fff                                       R0=16'h0fff                                       
+                                                                                                    
+                                                                                                    
+R6=64                                             R6=64                                             
+R7=65                                             R7=65                                             
+                                                                                                    
+R1=RAM[R6]                                        R1=RAM[R6]                                        
+R1=RAM[R7]                                        R1=RAM[R7]                                        
+R2=RAM[R6++]                                      R2=RAM[R6++]                                      
+R2=RAM[R7++]                                      R2=RAM[R7++]                                      
+                                                                                                    
+R3=RAM[R6]    pulse->p6                           R3=RAM[R6]    pulse->p6                           
+R3=RAM[R7]    pulse->p7                           R3=RAM[R7]    pulse->p7                           
+R4=RAM[R6++]  pulse->p6                           R4=RAM[R6++]  pulse->p6                           
+R4=RAM[R7++]  pulse->p7                           R4=RAM[R7++]  pulse->p7                           
+                                                                                                    
+R6=66                                             R6=66                                             
+R7=67                                             R7=67                                             
+                                                                                                    
+R1=RAM[100]                                       R1=RAM[100]                                       
+R1=RAM[30+R6]                                     R1=RAM[30+R6]                                     
+R2=RAM[30+R7]                                     R2=RAM[30+R7]                                     
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R6=70                                             R6=70                                             
+R7=74                                             R7=74                                             
+                                                                                                    
+R2=EXT_BUS[R6++]                                  R2=EXT_BUS[R6++]                                  
+R2=EXT_BUS[R7++]                                  R2=EXT_BUS[R7++]                                  
+R1=EXT_BUS[R6]                                    R1=EXT_BUS[R6]                                    
+R1=EXT_BUS[R7]                                    R1=EXT_BUS[R7]                                    
+                                                                                                    
+R4=EXT_BUS[R6++]  pulse->p6                       R4=EXT_BUS[R6++]  pulse->p6                       
+R4=EXT_BUS[R7++]  pulse->p7                       R4=EXT_BUS[R7++]  pulse->p7                       
+R3=EXT_BUS[R6]    pulse->p6                       R3=EXT_BUS[R6]    pulse->p6                       
+R3=EXT_BUS[R7]    pulse->p7                       R3=EXT_BUS[R7]    pulse->p7                       
+                                                                                                    
+R6=66                                             R6=66                                             
+R7=67                                             R7=67                                             
+                                                                                                    
+R1=EXT_BUS[100]                                   R1=EXT_BUS[100]                                   
+R1=EXT_BUS[30+R6]                                 R1=EXT_BUS[30+R6]                                 
+R2=EXT_BUS[30+R7]                                 R2=EXT_BUS[30+R7]                                 
+                                                                                                    
+R6=68                                             R6=68                                             
+R7=69                                             R7=69                                             
+R1=EXT_BUS[30,R6[11:0]]                           R1=EXT_BUS[30,R6[11:0]]                           
+R2=EXT_BUS[30,R7[11:0]]                           R2=EXT_BUS[30,R7[11:0]]                           
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R2=90                                             R2=90                                             
+R6=20                                             R6=20                                             
+R7=24                                             R7=24                                             
+RAM[R6]   = 400                                   RAM[R6]   = 400                                   
+RAM[R7]   = 400                                   RAM[R7]   = 400                                   
+RAM[R6]   = R2                                    RAM[R6]   = R2                                    
+RAM[R7]   = R2                                    RAM[R7]   = R2                                    
+RAM[R6++] = R2                                    RAM[R6++] = R2                                    
+RAM[R7++] = R2                                    RAM[R7++] = R2                                    
+                                                                                                    
+R6=30                                             R6=30                                             
+R7=34                                             R7=34                                             
+RAM[R6]   = R2 pulse->p6                          RAM[R6]   = R2 pulse->p6                          
+RAM[R7]   = R2 pulse->p7                          RAM[R7]   = R2 pulse->p7                          
+RAM[R6++] = R2 pulse->p6                          RAM[R6++] = R2 pulse->p6                          
+RAM[R7++] = R2 pulse->p7                          RAM[R7++] = R2 pulse->p7                          
+                                                                                                    
+RAM[30]   = R2                                    RAM[30]   = R2                                    
+RAM[30+R6]= R2                                    RAM[30+R6]= R2                                    
+RAM[30+R7]= R2                                    RAM[30+R7]= R2                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R2=90                                             R2=90                                             
+R6=20                                             R6=20                                             
+R7=24                                             R7=24                                             
+EXT_BUS[R6]   = 400                               EXT_BUS[R6]   = 400                               
+EXT_BUS[R7]   = 400                               EXT_BUS[R7]   = 400                               
+EXT_BUS[R6]   = R2                                EXT_BUS[R6]   = R2                                
+EXT_BUS[R7]   = R2                                EXT_BUS[R7]   = R2                                
+EXT_BUS[R6++] = R2                                EXT_BUS[R6++] = R2                                
+EXT_BUS[R7++] = R2                                EXT_BUS[R7++] = R2                                
+                                                                                                    
+R6=30                                             R6=30                                             
+R7=34                                             R7=34                                             
+EXT_BUS[R6]   = R2 pulse->p6                      EXT_BUS[R6]   = R2 pulse->p6                      
+EXT_BUS[R7]   = R2 pulse->p7                      EXT_BUS[R7]   = R2 pulse->p7                      
+EXT_BUS[R6++] = R2 pulse->p6                      EXT_BUS[R6++] = R2 pulse->p6                      
+EXT_BUS[R7++] = R2 pulse->p7                      EXT_BUS[R7++] = R2 pulse->p7                      
+                                                                                                    
+EXT_BUS[30]   = R2                                EXT_BUS[30]   = R2                                
+EXT_BUS[30+R6]= R2                                EXT_BUS[30+R6]= R2                                
+EXT_BUS[30+R7]= R2                                EXT_BUS[30+R7]= R2                                
+                                                                                                    
+R6=48                                             R6=48                                             
+R7=52                                             R7=52                                             
+EXT_BUS[30,R6[11:0]]= R2                          EXT_BUS[30,R6[11:0]]= R2                          
+EXT_BUS[30,R7[11:0]]= R2                          EXT_BUS[30,R7[11:0]]= R2                          
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R3=16'h8033                                       R3=16'h8033                                       
+R1=16'h007f                                       R1=16'h007f                                       
+gr_flag = R3 > R1                                 gr_flag = R3 > R1                                 
+branch (!gr_flag) 85                              branch (!gr_flag) 85                              
+pulse->p2                                         pulse->p2                                         
+goto 86                                           goto 86                                           
+                                                                                                    
+pulse->p3                                         pulse->p3                                         
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R5 = 10                                           R5 = 10                                           
+gosub 91                                          gosub 91                                          
+branch !c14 88                                    branch !c14 88                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+rti                                               rti                                               
+                                                                                                    
+goto 4                                            goto 4                                            
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+loop 1 1 R5                                       loop 1 1 R5                                       
+nop                                               nop                                               
+return                                            return                                            
+                                                                                                    
+                                                                                                    
+                                                                                                    

@@ -1,0 +1,213 @@
+Compiling lines .... Statement clasification and translation
+
+###### Line no:    8 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	0 00000000000000000000000000000000// (    0) 00000000 NOP          nop                                 // 
+	0 00000000  // (    0) NOP          nop                                 // 
+
+###### Line no:    9 #### line is : goto 4
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 4
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000000100
+	Array name is G_JUMP_Command_Format, num of fields 8
+	1 01101000000000000000000000000100// (    1) 68000004 JUMP         goto 4                              // goto boot sequence
+	1 68000004  // (    1) JUMP         goto 4                              // goto boot sequence
+
+###### Line no:   10 #### line is : goto 12
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 12
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000001100
+	Array name is G_JUMP_Command_Format, num of fields 8
+	2 01101000000000000000000000001100// (    2) 6800000c JUMP         goto 12                             // goto ISR
+	2 6800000c  // (    2) JUMP         goto 12                             // goto ISR
+
+###### Line no:   11 #### line is : goto 13
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 13
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000001101
+	Array name is G_JUMP_Command_Format, num of fields 8
+	3 01101000000000000000000000001101// (    3) 6800000d JUMP         goto 13                             // prepare 
+	3 6800000d  // (    3) JUMP         goto 13                             // prepare 
+
+###### Line no:   14 #### line is : R0=16'h0fff
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R0=16'h0fff
+Error !,width of const 16 is not as expected 11
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00111111111111
+	Dest_reg             => 0000
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	4 00111000000100000000111111111111// (    4) 38100fff LOADID       R0=16'h0fff                         // L_boot, begining of some boot sequence
+	4 38100fff  // (    4) LOADID       R0=16'h0fff                         // L_boot, begining of some boot sequence
+
+###### Line no:   15 #### line is : RAM[2032]=R0
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[2032]=R0
+address_mode imd, imd = 2032, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 11110000
+	source_reg           => 0000
+	ext_bus              => 0
+	imd2                 => 0111
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	5 01111000000000111000011011110000// (    5) 780386f0 STOREIA      RAM[`APP_OUT0_ADDR]=R0              // init app out regs
+	5 780386f0  // (    5) STOREIA      RAM[`APP_OUT0_ADDR]=R0              // init app out regs
+
+###### Line no:   18 #### line is : R6=20
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=20
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010100
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	6 00111000000100110000000000010100// (    6) 38130014 LOADID       R6=20                               // 
+	6 38130014  // (    6) LOADID       R6=20                               // 
+
+###### Line no:   19 #### line is : EXT_BUS[R6] = R6
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : EXT_BUS[R6]=R6
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 1100
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	7 00100100000110000110011100001111// (    7) 2418670f STORE        EXT_BUS[R6] = R6                    // external bus write
+	7 2418670f  // (    7) STORE        EXT_BUS[R6] = R6                    // external bus write
+
+###### Line no:   20 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	8 00000000000000000000000000000000// (    8) 00000000 NOP          nop                                 // 
+	8 00000000  // (    8) NOP          nop                                 // 
+
+###### Line no:   21 #### line is : R5 = EXT_BUS[R6]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R5=EXT_BUS[R6]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 1010
+	r6r7                 => 1
+	ext_bus              => 1
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	9 00011100000110101000000100001111// (    9) 1c1a810f LOAD         R5 = EXT_BUS[R6]                    // external bus read 
+	9 1c1a810f  // (    9) LOAD         R5 = EXT_BUS[R6]                    // external bus read 
+
+###### Line no:   22 #### line is : gosub 14
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : gosub 14
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 1
+	Imd                  => 00000001110
+	Array name is G_JUMP_Command_Format, num of fields 8
+	10 01101000000100000000000000001110// (   10) 6810000e JUMP         gosub 14                            // 
+	10 6810000e  // (   10) JUMP         gosub 14                            // 
+
+###### Line no:   23 #### line is : branch !c14 11
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch !c14 11
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1110
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000001011
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	11 10000000000111001111000000001011// (   11) 801cf00b BRANCH       branch !c14 11                      // c14 tied to "0" 
+	11 801cf00b  // (   11) BRANCH       branch !c14 11                      // c14 tied to "0" 
+
+###### Line no:   31 #### line is : rti
+	Scanning for best match command .....
+	Matching command is : RETURN
+	Probably RETURN command : rti
+	Successfull command parsing.....
+	from                 => 10
+	reserved             => 0000000000000000000
+	Array name is G_RETURN_Command_Format, num of fields 4
+	12 01110000000100000000000000000000// (   12) 70100000 RETURN       rti                                 // 
+	12 70100000  // (   12) RETURN       rti                                 // 
+
+###### Line no:   33 #### line is : goto 4
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 4
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000000100
+	Array name is G_JUMP_Command_Format, num of fields 8
+	13 01101000000000000000000000000100// (   13) 68000004 JUMP         goto 4                              // 
+	13 68000004  // (   13) JUMP         goto 4                              // 
+
+###### Line no:   40 #### line is : loop 1 1 R5
+	Scanning for best match command .....
+	Matching command is : LOOP
+	Probably LOOP command : loop 1 1 R5
+	Successfull command parsing.....
+	end_offset           => 00001
+	start_offset         => 001
+	ra_sel               => 101
+	Imd                  => 0000000000
+	Array name is G_LOOP_Command_Format, num of fields 6
+	14 01001000000101001000010000000000// (   14) 48148400 LOOP         loop 1 1 R5                         // 
+	14 48148400  // (   14) LOOP         loop 1 1 R5                         // 
+
+###### Line no:   41 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	15 00000000000000000000000000000000// (   15) 00000000 NOP          nop                                 // 
+	15 00000000  // (   15) NOP          nop                                 // 
+
+###### Line no:   42 #### line is : return
+	Scanning for best match command .....
+	Matching command is : RETURN
+	Probably RETURN command : return
+	Successfull command parsing.....
+	from                 => 00
+	reserved             => 0000000000000000000
+	Array name is G_RETURN_Command_Format, num of fields 4
+	16 01110000000000000000000000000000// (   16) 70000000 RETURN       return                              // 
+	16 70000000  // (   16) RETURN       return                              // 

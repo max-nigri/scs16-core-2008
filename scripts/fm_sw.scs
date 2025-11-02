@@ -1,0 +1,402 @@
+     //include the registers
+
+`include ..\pkg_i2c.v
+`include ..\pkg_ocp.v
+`include ..\pkg_mcu.v
+`include ..\api_opcodes.v
+
+
+`define VER_NUMBER 1
+
+//-----------------------------------------------------------
+//DMEM memory usage
+//-----------------------------------------------------------
+
+`define tuner_search_mode				30
+`define i2c_current_opcode				31
+`define i2c_read_state					32
+`define i2c_current_data				33
+`define i2c_current_addr				34
+
+`define var_band_limit_low				35
+`define var_band_limit_high				36
+
+
+
+// direct read variables
+`define FM_VAR_BASE_ADDR				200
+`define FM_VAR_FREQ						`FM_VAR_BASE_ADDR + 0
+`define FM_VAR_AF_FREQ					`FM_VAR_BASE_ADDR + 1
+`define FM_VAR_MOST_MODE				`FM_VAR_BASE_ADDR + 2
+`define FM_VAR_MOST_BLEND				`FM_VAR_BASE_ADDR + 3
+`define FM_VAR_DEMPH_MODE				`FM_VAR_BASE_ADDR + 4
+`define FM_VAR_SEARCH_LVL				`FM_VAR_BASE_ADDR + 5
+`define FM_VAR_BAND						`FM_VAR_BASE_ADDR + 6
+`define FM_VAR_MUTE_STATUS				`FM_VAR_BASE_ADDR + 7
+`define FM_VAR_RDS_PAUSE_LVL			`FM_VAR_BASE_ADDR + 8
+`define FM_VAR_RDS_PAUSE_DUR			`FM_VAR_BASE_ADDR + 9
+`define FM_VAR_RDS_MEM					`FM_VAR_BASE_ADDR + 10
+`define FM_VAR_RDS_BLK_B				`FM_VAR_BASE_ADDR + 11
+`define FM_VAR_RDS_MSK_B				`FM_VAR_BASE_ADDR + 12
+`define FM_VAR_RDS_PI_MASK				`FM_VAR_BASE_ADDR + 13
+`define FM_VAR_RDS_PI					`FM_VAR_BASE_ADDR + 14
+`define FM_VAR_RDS_SYSTEM				`FM_VAR_BASE_ADDR + 15
+`define FM_VAR_INT_MASK					`FM_VAR_BASE_ADDR + 16
+`define FM_VAR_SEARCH_DIR				`FM_VAR_BASE_ADDR + 17
+`define FM_VAR_FIRM_VER					`FM_VAR_BASE_ADDR + 18
+`define FM_VAR_ASIC_VER					`FM_VAR_BASE_ADDR + 19
+`define FM_VAR_ASIC_ID					`FM_VAR_BASE_ADDR + 20
+`define FM_VAR_MAN_ID					`FM_VAR_BASE_ADDR + 21
+`define FM_VAR_FLAGS					`FM_VAR_BASE_ADDR + 22
+`define FM_VAR_
+
+
+`define OPCODE_TO_FM_VAR_OFFSET			`FM_VAR_BASE_ADDR - `MIN_READ_OPCODE
+
+//====================================================
+//	iROM code start (copy + code_download)
+//====================================================
+
+L_code_start, nop			// pc 0  //NOP madatory
+goto L_copy_code			// pc 1 - start to copy the code to RAM
+goto L_interupt_routine		// pc 2 goto L_interupt_routine
+goto L_hard_break_code		// pc 3 goto L_hard_break_code
+
+
+`define COPY_C_SRC_ADDR			`OCP_IROM_BASE_ADDR+L_code_start
+`define COPY_C_DST_ADDR			`OCP_IRAM_BASE_ADDR
+`define COPY_C_LENGTH			L_code_end-L_code_start
+
+L_copy_code,	R0 = `COPY_C_SRC_ADDR							// source address
+				R1 = `COPY_C_DST_ADDR							// destination address
+				R2 = `COPY_C_LENGTH								// length to copy
+				
+				R3 = OCP[`OCP_DBG_CTRL_MSB_ADDR]
+//				R3 = OCP[16'h603]
+
+				// first loop to read data from iROM to dRAM
+L_copy_c_loop,	R3[`OCP_DBG_CTRL_OCM_IMEM_SEL_BIT:`OCP_DBG_CTRL_OCM_IMEM_SEL_BIT] = 0		// clear IMEM_SEL_BIT
+				OCP[`OCP_DBG_CTRL_MSB_ADDR] = R3				// Instruction ROM is accessible at OCP address space 0x1000 - 0x2FFF
+				R6 = 0											// R6 = loop index
+				R7 = R0											// R7 = source address
+loop L_loop1_start L_loop1_end 16
+L_loop1_start,	R4 = OCP[R7++]									// read data to copy
+L_loop1_end,	RAM[R6++] = R4									// write data to copy
+				R0 = R0 + 16
+	
+				// second loop to write data from dRAM to iRAM
+				R3[`OCP_DBG_CTRL_OCM_IMEM_SEL_BIT:`OCP_DBG_CTRL_OCM_IMEM_SEL_BIT] = 1		// set IMEM_SEL_BIT
+				OCP[`OCP_DBG_CTRL_MSB_ADDR] = R3				// Instruction RAM is accessible at OCP address space 0x1000 - 0x2FFF
+				R6 = 0											// R6 = loop index
+				R7 = R1											// R7 = destination address
+loop L_loop2_start L_loop2_end 16
+L_loop2_start,	R4 = RAM[R6++]									// read data to copy
+L_loop2_end,	OCP[R7++] = R4									// write data to copy
+				R1 = R1 + 16
+					
+				R2 = R2 - 16
+				if (R2>0) L_copy_c_loop							// if length to copy > 0 goto copy_loop
+
+
+`define COPY_D_SRC_ADDR			`OCP_IROM_BASE_ADDR+L_data_start
+`define COPY_D_DST_ADDR			300
+`define COPY_D_LENGTH			L_data_end-L_data_start
+
+L_copy_data,	R7 = `COPY_D_SRC_ADDR							// source address
+				R6 = `COPY_D_DST_ADDR							// destination address (dRAM tables)
+				R5 = `COPY_D_LENGTH								// length to copy
+				
+				// loop to read data from iROM to dRAM
+loop L_loop3_start L_loop3_end R5
+L_loop3_start,	R4 = OCP[R7++]									// read data to copy
+L_loop3_end,	RAM[R6++] = R4									// write data to copy
+					
+				device_3->4'1xxx								// switch device 15 to run from iRAM
+				goto L_init										// goto init
+
+
+//====================================================
+//	code_download
+//====================================================
+L_code_download,R2 = `I2C_READ_STATE_ADDR_MSB
+				RAM[`i2c_read_state] = R2								// i2c_read_state = 4
+
+// We get here after the I2C interrupt detect code download opcode. addr and data are not read yet.
+L_cd_wait,		wait `CONDITION_I2C_RX									// wait for code download data
+//				if (R0[`I2C_STAT_STC_BIT]) {							// check if START condition
+				if (R0[6]) {											// check if START condition
+					// START condition									
+					R1 = OCP[`I2C_DATA_ADDR]							// R1 = current opcode
+					RAM[`i2c_current_opcode] = R1						// save current opcode in RAM
+
+					OCP[`I2C_STAT_ADDR] = 16'h0048						// clear STC and RRDY
+
+					if (R1 == `OPDODE_CODE_DOWNLOAD) L_code_download
+					if (R1 == `OPDODE_RESET) {
+						goto 0											// todo - reset
+					}
+					// unknown OPCODE for code download - ignore
+					R2 = `I2C_READ_STATE_IDLE
+					RAM[`i2c_read_state] = R2							// i2c_read_state = 0
+					goto L_cd_wait
+				}
+				else { // else it is not START condition
+					R1 = OCP[`I2C_DATA_ADDR]							// read current data
+					R2 = RAM[`i2c_read_state]							// read current read state
+					if (R2 == `I2C_READ_STATE_ADDR_MSB) {
+						R1 = R1<<8
+						RAM[`i2c_current_addr] = R1
+						goto L_cd_next_state
+					}
+					if (R2 == `I2C_READ_STATE_ADDR_LSB) {
+						R3 = RAM[`i2c_current_addr]
+						R1 = R1 | R3
+						RAM[`i2c_current_addr] = R1
+						goto L_cd_next_state
+					}
+					if (R2 == `I2C_READ_STATE_DATA_MSB) {
+						R1 = R1<<8
+						RAM[`i2c_current_data] = R1
+						goto L_cd_next_state
+					}
+					if (R2 == `I2C_READ_STATE_DATA_LSB) {
+						R3 = RAM[`i2c_current_data]
+						R1 = R1 | R3									// R1 = current data
+						R7 = RAM[`i2c_current_addr]						// R7 = current addr
+						RAM[R7++] = R1									// save data in RAM
+						RAM[`i2c_current_addr] = R7						// save next addr to write
+						
+						R2 = `I2C_READ_STATE_DATA_MSB					// update read state
+						RAM[`i2c_read_state] = R2
+						goto L_cd_wait
+					}
+
+L_cd_next_state,	if (R2 != 0) {										// go to next state only if not IDLE
+						R2=R2-1
+					}
+					goto L_cd_wait 
+				}
+
+
+
+//====================================================
+//	code start 
+//====================================================
+
+
+			
+L_init,		R7 = 0
+			R5 = 300													// clear variables in RAM
+			loop 1 1 R5
+			RAM[R7++] = 0
+
+			// init I2C
+			OCP[`I2C_OA_ADDR] = 16'h0022								// set i2c own address
+			OCP[`I2C_CON_ADDR] = 16'h8000								// enable I2C_en
+			OCP[`I2C_IE_ADDR] = 16'h0008								// enable RRDY interrupt
+			OCP[`I2C_BUF_ADDR] = 16'h8182								// set RX_THR=1 TX_THR=2
+    
+
+L_main,		nop
+			goto L_main
+
+L_interupt_routine,
+			goto L_I2C_RRDY
+
+
+
+
+L_I2C_RRDY,		R0 = OCP[`I2C_STAT_ADDR]								// read I2C status
+				if (R0[`I2C_STAT_STC_BIT]) {							// check if START condition
+					// START condition									
+					R1 = OCP[`I2C_DATA_ADDR]							// R1 = current opcode
+					RAM[`i2c_current_opcode] = R1						// save current opcode in RAM
+
+					OCP[`I2C_STAT_ADDR] = 16'h0048						// clear STC and RRDY
+
+					R2 = OCP[`I2C_BUF_ADDR]
+					R2[6:6] = 1											// set TX_FIFO_CLR
+					OCP[`I2C_BUF_ADDR] = R2
+
+					R2 = OCP[`I2C_IE_ADDR]
+					R2[4:4] = 0											// clear XRDY_IE
+					OCP[`I2C_IE_ADDR] = R2
+
+					R2 = `I2C_READ_STATE_DATA_MSB
+					RAM[`i2c_read_state] = R2							// i2c_read_state = 2
+
+					if (R1 == `OPDODE_CODE_DOWNLOAD) L_code_download
+					
+					if (R1 == `OPDODE_HW_REGISTER_SET_GET) {
+						R2 = `I2C_READ_STATE_ADDR_MSB
+						RAM[`i2c_read_state] = R2
+						goto L_end_rrdy
+					}
+
+					R3 = 0												// R3 is return value to i2c tx fifo
+					if (R1 == `OPDODE_RDS_DATA_GET) {
+						goto L_read_rds_data
+					}
+
+					if (R1 == `OPCODE_STEREO_GET) {
+						R2=0		//R2 = OCP[`STEREO_STATUS]			// todo: read stereo status
+						R3=R2[1:1]										// todo: extraxt st/mono bit
+						goto L_wr_i2c_tx_fifo
+					}
+
+					if (R1 == `OPCODE_RSSI_LVL_GET) {
+						R3=0		//R3 = OCP[`AFE_RSSI]				// todo: read RSSI
+						goto L_wr_i2c_tx_fifo
+					}
+
+					if (R1 == `OPCODE_IF_COUNT_GET) {
+						R3=0		//R3 = OCP[`AFE_IF_COUNT]			// todo: read IF_COUNT
+						goto L_wr_i2c_tx_fifo
+					}
+
+					if (R1 == `OPCODE_FLAG_GET) {
+						R3 = RAM[`FM_VAR_FLAGS]							// read FLAG
+						R2 = R3 & -1									// clear FLAG bits on read
+						RAM[`FM_VAR_FLAGS] = R2							// save FLAG
+						goto L_wr_i2c_tx_fifo
+					}
+
+					if (R1 < `MIN_READ_OPCODE) L_wr_i2c_tx_fifo  		// if unknown opcode - return 0
+					if (R1 > `MAX_READ_OPCODE) L_wr_i2c_tx_fifo
+					
+					// OpCode is in range of immidiate answer
+					R7 = R1
+					R3 = RAM[`OPCODE_TO_FM_VAR_OFFSET+R7]
+
+
+L_wr_i2c_tx_fifo,	OCP[`I2C_DATA_ADDR] = R3_l						// write data to I2C TX FIFO
+					OCP[`I2C_DATA_ADDR] = R3_h
+					 
+				}
+				else { // else it is not START condition
+					R1 = OCP[`I2C_DATA_ADDR]						// read current data
+					R2 = RAM[`i2c_read_state]						// read current read state
+					if (R2 == `I2C_READ_STATE_ADDR_MSB) {
+						R1 = R1<<8
+						RAM[`i2c_current_addr] = R1
+						goto L_end_rrdy2
+					}
+					if (R2 == `I2C_READ_STATE_ADDR_LSB) {
+						R3 = RAM[`i2c_current_addr]
+						R1 = R1 + R3
+						RAM[`i2c_current_addr] = R1
+						// prepare data in case host want to read
+						R7 = RAM[`i2c_current_addr]					// read current i2c address
+						R1 = RAM[R7]								// read data from this address
+						OCP[`I2C_DATA_ADDR] = R1_l					// write data to I2C TX FIFO
+						OCP[`I2C_DATA_ADDR] = R1_h
+						goto L_end_rrdy2
+					}
+					if (R2 == `I2C_READ_STATE_DATA_MSB) {
+						R1 = R1<<8
+						RAM[`i2c_current_data] = R1
+						goto L_end_rrdy2
+					}
+					if (R2 == `I2C_READ_STATE_DATA_LSB) {
+						R3 = RAM[`i2c_current_data]
+						R1 = R1 + R3
+						RAM[`i2c_current_data] = R1
+						R2 = 0										// update read state, because we jump from here
+						RAM[`i2c_read_state] = R2
+						goto L_exec_i2c_command
+					}
+
+L_end_rrdy2,		if (R2 != 0) {	// go to next state only if not IDLE
+						R2=R2-1
+					} 
+				}
+
+L_end_rrdy,		nop
+
+				// todo - return from interrupt
+
+
+L_exec_i2c_command, R1 = RAM[`i2c_current_opcode]						// R1 = current opcode
+					if (R1 < `MIN_WRITE_OPCODE) L_exec_end		  		// if unknown opcode - dont execute
+					if (R1 > `MAX_WRITE_OPCODE) L_exec_end
+					R2 = RAM[`i2c_current_data]							// R2 = i2c_current_data
+
+					R7 = R1
+					RAM[`OPCODE_TO_FM_VAR_OFFSET+R7] = R2				// save data in RAM according to opcode
+
+					// execute command
+//					R5 = R1-'MIN_WRITE_OPCODE							// calc opcode offset
+					R5 = R1-10							// calc opcode offset
+					goto R5												// relative jump to opcode code
+					goto L_execute_freq_set_get		
+					goto L_execute_af_freq_set_get		
+					goto L_execute_most_mode_set_get	
+					goto L_execute_most_blend_set_get	
+					goto L_execute_demph_mode_set_get	
+					goto L_execute_search_lvl_set_get	
+					goto L_execute_band_set_get		
+					goto L_execute_mute_status_set_get	
+					goto L_execute_rds_pause_lvl_set_get
+					goto L_execute_rds_pause_dur_set_get
+					goto L_execute_rds_mem_set_get		
+					goto L_execute_rds_blk_b_set_get	
+					goto L_execute_rds_msk_b_set_get	
+					goto L_execute_rds_pi_mask_set_get	
+					goto L_execute_rds_pi_set_get		
+					goto L_execute_rds_system_set_get	
+					goto L_execute_int_mask_set_get	
+					goto L_execute_search_dir_set_get	
+
+L_execute_freq_set_get,				goto L_exec_end						// nothing to do - freq was saved
+L_execute_af_freq_set_get,			goto L_exec_end						// nothing to do - af_freq was saved
+L_execute_most_mode_set_get,		nop
+L_execute_most_blend_set_get,		nop
+L_execute_demph_mode_set_get,		nop
+L_execute_search_lvl_set_get,		nop
+L_execute_band_set_get,				if (R2 == `BAND_SET_EUROPE_US) {		// if param is EUROPE_US
+										R7 = `var_band_limit_low
+										RAM[R7++] = `BAND_LIMIT_EUROPE_US_LOW
+										RAM[R7] = `BAND_LIMIT_EUROPE_US_HIGH
+									}
+									else {
+										R7 = `var_band_limit_low
+										RAM[R7++] = `BAND_LIMIT_JAPAN_LOW
+										RAM[R7] = `BAND_LIMIT_JAPAN_HIGH
+									}
+									goto L_exec_end
+L_execute_mute_status_set_get,		nop
+L_execute_rds_pause_lvl_set_get,	nop
+L_execute_rds_pause_dur_set_get,	nop
+L_execute_rds_mem_set_get,			nop
+L_execute_rds_blk_b_set_get,		nop
+L_execute_rds_msk_b_set_get,		nop
+L_execute_rds_pi_mask_set_get,		nop
+L_execute_rds_pi_set_get,			nop
+L_execute_rds_system_set_get,		nop
+L_execute_int_mask_set_get,			nop
+L_execute_search_dir_set_get,		goto L_exec_end						// nothing to do - search_dir was saved
+
+
+L_exec_end, nop
+
+
+L_read_rds_data, nop
+
+
+L_code_end, nop			  // code end
+
+//====================================================
+//	data start 
+//====================================================
+
+L_data_start,	nop
+				nop
+				nop
+				nop
+				nop
+				nop
+				nop
+				nop
+				nop
+L_data_end,		nop
+

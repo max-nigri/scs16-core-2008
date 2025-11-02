@@ -1,0 +1,167 @@
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    0 : nop                            // mandatory, start with nop.                              
+pc =    1 : goto 4                         // goto boot sequence, jump over the interrupt ve ...      
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+pc =    4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+                                                              R0                  = 0fff
+pc =    5 : RAM[`APP_OUT0_ADDR]=R0         // init app out regs                                       
+pc =    5 : RAM[`APP_OUT0_ADDR]=R0         // init app out regs                                       
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+pc =    6 : R6=100                                                                                    
+                                                              R6                  = 0064
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    7 : OCP[R6] = R6                                                                              
+pc =    8 : nop                                                                                       
+pc =    9 : R5 = OCP[R6]                                                                              
+pc =    9 : R5 = OCP[R6]                                                                              
+pc =    9 : R5 = OCP[R6]                                                                              
+                                                              R5                  = 0064
+pc =   10 : gosub 14                                                                                  
+                                                              sub_return_add      = 00b
+pc =   14 : loop 1 1 R5                                                                               
+                                                              loop_start          = 00f
+                                                              loop_end            = 00f
+                                                              loop_cnt            = 064
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 063
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 062
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 061
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 060
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 05f
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 05e
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 05d
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 05c
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 05b
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 05a
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 059
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 058
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 057
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 056
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 055
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 054
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 053
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 052
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 051
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 050
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 04f
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 04e
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 04d
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 04c
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 04b
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 04a
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 049
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 048
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 047
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 046
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 045
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 044
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 043
+pc =   15 : nop                                                                                       
+                                                              loop_cnt            = 042
+pc =   15 : nop                                                                                       

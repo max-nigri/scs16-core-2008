@@ -1,0 +1,306 @@
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     0 : nop                            // mandatory, start with nop.                              
+pc =     1 : goto 4                         // goto boot sequence, jump over the interrupt ve ...      
+pc =     4 : R0=16'h0fff                    // L_boot, begining of some boot sequence                  
+                                                              R0                  = 0fff
+pc =     5 : R6=64                          // loadid                                                  
+                                                              R6                  = 0040
+pc =     6 : R7=65                          // loadid                                                  
+                                                              R7                  = 0041
+pc =     7 : R1=RAM[R6]                     // load                                                    
+                                                              R1                  = 0040
+pc =     8 : R1=RAM[R7]                     // load                                                    
+                                                              R1                  = 0041
+pc =     9 : R2=RAM[R6++]                   // load                                                    
+                                                              R2                  = 0040
+                                                              R6                  = 0041
+pc =    10 : R2=RAM[R7++]                   // load                                                    
+                                                              R2                  = 0041
+                                                              R7                  = 0042
+pc =    11 : R3=RAM[R6]    pulse->p6        // load                                                    
+                                                              R3                  = 0041
+                                                              pulse               = 000000001000000
+pc =    12 : R3=RAM[R7]    pulse->p7        // load                                                    
+                                                              R3                  = 0042
+                                                              pulse               = 000000010000000
+pc =    13 : R4=RAM[R6++]  pulse->p6        // load                                                    
+                                                              R4                  = 0041
+                                                              R6                  = 0042
+                                                              pulse               = 000000001000000
+pc =    14 : R4=RAM[R7++]  pulse->p7        // load                                                    
+                                                              R4                  = 0042
+                                                              R7                  = 0043
+                                                              pulse               = 000000010000000
+pc =    15 : R6=66                          // loadid                                                  
+                                                              pulse               = 000000000000000
+pc =    16 : R7=67                          // loadid                                                  
+pc =    17 : R1=RAM[100]                    // loadia                                                  
+                                                              R1                  = 0064
+pc =    18 : R1=RAM[30+R6]                  // loadia  with offset                                     
+                                                              R1                  = 0060
+pc =    19 : R2=RAM[30+R7]                  // loadia  with offset                                     
+                                                              R2                  = 0061
+pc =    20 : R6=70                          // loadid                                                  
+                                                              R6                  = 0046
+pc =    21 : R7=74                          // loadid                                                  
+                                                              R7                  = 004a
+pc =    22 : R2=EXT_BUS[R6++]               // load                                                    
+                                                              R2                  = 0000
+                                                              R6                  = 0047
+pc =    22 : R2=EXT_BUS[R6++]               // load                                                    
+                                                              R6                  = 0048
+pc =    22 : R2=EXT_BUS[R6++]               // load                                                    
+                                                              R2                  = 0047
+                                                              R6                  = 0049
+pc =    22 : R2=EXT_BUS[R6++]               // load                                                    
+                                                              R6                  = 004a
+pc =    23 : R2=EXT_BUS[R7++]               // load                                                    
+                                                              R7                  = 004b
+pc =    23 : R2=EXT_BUS[R7++]               // load                                                    
+                                                              R7                  = 004c
+pc =    23 : R2=EXT_BUS[R7++]               // load                                                    
+                                                              R2                  = 004b
+                                                              R7                  = 004d
+pc =    23 : R2=EXT_BUS[R7++]               // load                                                    
+                                                              R7                  = 004e
+pc =    24 : R1=EXT_BUS[R6]                 // load                                                    
+                                                              R1                  = 004b
+pc =    24 : R1=EXT_BUS[R6]                 // load                                                    
+pc =    24 : R1=EXT_BUS[R6]                 // load                                                    
+pc =    24 : R1=EXT_BUS[R6]                 // load                                                    
+pc =    25 : R1=EXT_BUS[R7]                 // load                                                    
+pc =    25 : R1=EXT_BUS[R7]                 // load                                                    
+pc =    25 : R1=EXT_BUS[R7]                 // load                                                    
+                                                              R1                  = 004f
+pc =    25 : R1=EXT_BUS[R7]                 // load                                                    
+pc =    26 : R4=EXT_BUS[R6++]  pulse->p6    // load                                                    
+                                                              R4                  = 004f
+                                                              R6                  = 004b
+                                                              pulse               = 000000001000000
+pc =    26 : R4=EXT_BUS[R6++]  pulse->p6    // load                                                    
+                                                              R6                  = 004c
+pc =    26 : R4=EXT_BUS[R6++]  pulse->p6    // load                                                    
+                                                              R4                  = 004b
+                                                              R6                  = 004d
+pc =    26 : R4=EXT_BUS[R6++]  pulse->p6    // load                                                    
+                                                              R6                  = 004e
+pc =    27 : R4=EXT_BUS[R7++]  pulse->p7    // load                                                    
+                                                              R7                  = 004f
+                                                              pulse               = 000000010000000
+pc =    27 : R4=EXT_BUS[R7++]  pulse->p7    // load                                                    
+                                                              R7                  = 0050
+pc =    27 : R4=EXT_BUS[R7++]  pulse->p7    // load                                                    
+                                                              R4                  = 004f
+                                                              R7                  = 0051
+pc =    27 : R4=EXT_BUS[R7++]  pulse->p7    // load                                                    
+                                                              R7                  = 0052
+pc =    28 : R3=EXT_BUS[R6]    pulse->p6    // load                                                    
+                                                              R3                  = 004f
+                                                              pulse               = 000000001000000
+pc =    28 : R3=EXT_BUS[R6]    pulse->p6    // load                                                    
+pc =    28 : R3=EXT_BUS[R6]    pulse->p6    // load                                                    
+pc =    28 : R3=EXT_BUS[R6]    pulse->p6    // load                                                    
+pc =    29 : R3=EXT_BUS[R7]    pulse->p7    // load                                                    
+                                                              pulse               = 000000010000000
+pc =    29 : R3=EXT_BUS[R7]    pulse->p7    // load                                                    
+pc =    29 : R3=EXT_BUS[R7]    pulse->p7    // load                                                    
+                                                              R3                  = 0053
+pc =    29 : R3=EXT_BUS[R7]    pulse->p7    // load                                                    
+pc =    30 : R6=66                          // loadid                                                  
+                                                              R6                  = 0042
+                                                              pulse               = 000000000000000
+pc =    31 : R7=67                          // loadid                                                  
+                                                              R7                  = 0043
+pc =    32 : R1=EXT_BUS[100]                // loadia                                                  
+                                                              R1                  = 0053
+pc =    32 : R1=EXT_BUS[100]                // loadia                                                  
+pc =    32 : R1=EXT_BUS[100]                // loadia                                                  
+                                                              R1                  = 0065
+pc =    32 : R1=EXT_BUS[100]                // loadia                                                  
+pc =    33 : R1=EXT_BUS[30+R6]              // loadia  with offset                                     
+pc =    33 : R1=EXT_BUS[30+R6]              // loadia  with offset                                     
+pc =    33 : R1=EXT_BUS[30+R6]              // loadia  with offset                                     
+                                                              R1                  = 0061
+pc =    33 : R1=EXT_BUS[30+R6]              // loadia  with offset                                     
+pc =    34 : R2=EXT_BUS[30+R7]              // loadia  with offset                                     
+                                                              R2                  = 0061
+pc =    34 : R2=EXT_BUS[30+R7]              // loadia  with offset                                     
+pc =    34 : R2=EXT_BUS[30+R7]              // loadia  with offset                                     
+                                                              R2                  = 0062
+pc =    34 : R2=EXT_BUS[30+R7]              // loadia  with offset                                     
+pc =    35 : R6=68                          // loadid                                                  
+                                                              R6                  = 0044
+pc =    36 : R7=69                          // loadid                                                  
+                                                              R7                  = 0045
+pc =    37 : R1=EXT_BUS[30,R6[11:0]]        // loadia  with long add                                   
+                                                              R1                  = 0062
+pc =    37 : R1=EXT_BUS[30,R6[11:0]]        // loadia  with long add                                   
+pc =    37 : R1=EXT_BUS[30,R6[11:0]]        // loadia  with long add                                   
+pc =    37 : R1=EXT_BUS[30,R6[11:0]]        // loadia  with long add                                   
+pc =    38 : R2=EXT_BUS[30,R7[11:0]]        // loadia  with long add                                   
+pc =    38 : R2=EXT_BUS[30,R7[11:0]]        // loadia  with long add                                   
+pc =    38 : R2=EXT_BUS[30,R7[11:0]]        // loadia  with long add                                   
+pc =    38 : R2=EXT_BUS[30,R7[11:0]]        // loadia  with long add                                   
+pc =    39 : R2=90                                                                                     
+pc =    40 : R6=20                                                                                     
+                                                              R6                  = 0014
+pc =    41 : R7=24                                                                                     
+                                                              R7                  = 0018
+pc =    42 : RAM[R6]   = 400                // storeid                                                 
+pc =    43 : RAM[R7]   = 400                // storeid                                                 
+pc =    44 : RAM[R6]   = R2                 // store                                                   
+pc =    45 : RAM[R7]   = R2                 // store                                                   
+pc =    46 : RAM[R6++] = R2                 // store                                                   
+                                                              R6                  = 0015
+pc =    47 : RAM[R7++] = R2                 // store                                                   
+                                                              R7                  = 0019
+pc =    48 : R6=30                                                                                     
+                                                              R6                  = 001e
+pc =    49 : R7=34                                                                                     
+                                                              R7                  = 0022
+pc =    50 : RAM[R6]   = R2 pulse->p6       // store + pulse                                           
+                                                              pulse               = 000000001000000
+pc =    51 : RAM[R7]   = R2 pulse->p7       // store + pulse                                           
+                                                              pulse               = 000000010000000
+pc =    52 : RAM[R6++] = R2 pulse->p6       // store + pulse                                           
+                                                              R6                  = 001f
+                                                              pulse               = 000000001000000
+pc =    53 : RAM[R7++] = R2 pulse->p7       // store + pulse                                           
+                                                              R7                  = 0023
+                                                              pulse               = 000000010000000
+pc =    54 : RAM[30]   = R2                 // storeia                                                 
+                                                              pulse               = 000000000000000
+pc =    55 : RAM[30+R6]= R2                 // storeia with offset                                     
+pc =    56 : RAM[30+R7]= R2                 // storeia with offset                                     
+pc =    57 : R2=90                                                                                     
+pc =    58 : R6=20                                                                                     
+                                                              R6                  = 0014
+pc =    59 : R7=24                                                                                     
+                                                              R7                  = 0018
+pc =    60 : EXT_BUS[R6]   = 400            // storeid                                                 
+pc =    60 : EXT_BUS[R6]   = 400            // storeid                                                 
+pc =    60 : EXT_BUS[R6]   = 400            // storeid                                                 
+pc =    61 : EXT_BUS[R7]   = 400            // storeid                                                 
+pc =    61 : EXT_BUS[R7]   = 400            // storeid                                                 
+pc =    61 : EXT_BUS[R7]   = 400            // storeid                                                 
+pc =    62 : EXT_BUS[R6]   = R2             // store                                                   
+pc =    62 : EXT_BUS[R6]   = R2             // store                                                   
+pc =    62 : EXT_BUS[R6]   = R2             // store                                                   
+pc =    63 : EXT_BUS[R7]   = R2             // store                                                   
+pc =    63 : EXT_BUS[R7]   = R2             // store                                                   
+pc =    63 : EXT_BUS[R7]   = R2             // store                                                   
+pc =    64 : EXT_BUS[R6++] = R2             // store                                                   
+                                                              R6                  = 0015
+pc =    64 : EXT_BUS[R6++] = R2             // store                                                   
+                                                              R6                  = 0016
+pc =    64 : EXT_BUS[R6++] = R2             // store                                                   
+                                                              R6                  = 0017
+pc =    65 : EXT_BUS[R7++] = R2             // store                                                   
+                                                              R7                  = 0019
+pc =    65 : EXT_BUS[R7++] = R2             // store                                                   
+                                                              R7                  = 001a
+pc =    65 : EXT_BUS[R7++] = R2             // store                                                   
+                                                              R7                  = 001b
+pc =    66 : R6=30                                                                                     
+                                                              R6                  = 001e
+pc =    67 : R7=34                                                                                     
+                                                              R7                  = 0022
+pc =    68 : EXT_BUS[R6]   = R2 pulse->p6   // store + pulse                                           
+                                                              pulse               = 000000001000000
+pc =    68 : EXT_BUS[R6]   = R2 pulse->p6   // store + pulse                                           
+pc =    68 : EXT_BUS[R6]   = R2 pulse->p6   // store + pulse                                           
+pc =    69 : EXT_BUS[R7]   = R2 pulse->p7   // store + pulse                                           
+                                                              pulse               = 000000010000000
+pc =    69 : EXT_BUS[R7]   = R2 pulse->p7   // store + pulse                                           
+pc =    69 : EXT_BUS[R7]   = R2 pulse->p7   // store + pulse                                           
+pc =    70 : EXT_BUS[R6++] = R2 pulse->p6   // store + pulse                                           
+                                                              R6                  = 001f
+                                                              pulse               = 000000001000000
+pc =    70 : EXT_BUS[R6++] = R2 pulse->p6   // store + pulse                                           
+                                                              R6                  = 0020
+pc =    70 : EXT_BUS[R6++] = R2 pulse->p6   // store + pulse                                           
+                                                              R6                  = 0021
+pc =    71 : EXT_BUS[R7++] = R2 pulse->p7   // store + pulse                                           
+                                                              R7                  = 0023
+                                                              pulse               = 000000010000000
+pc =    71 : EXT_BUS[R7++] = R2 pulse->p7   // store + pulse                                           
+                                                              R7                  = 0024
+pc =    71 : EXT_BUS[R7++] = R2 pulse->p7   // store + pulse                                           
+                                                              R7                  = 0025
+pc =    72 : EXT_BUS[30]   = R2             // storeia                                                 
+                                                              pulse               = 000000000000000
+pc =    72 : EXT_BUS[30]   = R2             // storeia                                                 
+pc =    72 : EXT_BUS[30]   = R2             // storeia                                                 
+pc =    73 : EXT_BUS[30+R6]= R2             // storeia with offset                                     
+pc =    73 : EXT_BUS[30+R6]= R2             // storeia with offset                                     
+pc =    73 : EXT_BUS[30+R6]= R2             // storeia with offset                                     
+pc =    74 : EXT_BUS[30+R7]= R2             // storeia with offset                                     
+pc =    74 : EXT_BUS[30+R7]= R2             // storeia with offset                                     
+pc =    74 : EXT_BUS[30+R7]= R2             // storeia with offset                                     
+pc =    75 : R6=48                                                                                     
+                                                              R6                  = 0030
+pc =    76 : R7=52                                                                                     
+                                                              R7                  = 0034
+pc =    77 : EXT_BUS[30,R6[11:0]]= R2       // storeia with long add                                   
+pc =    77 : EXT_BUS[30,R6[11:0]]= R2       // storeia with long add                                   
+pc =    77 : EXT_BUS[30,R6[11:0]]= R2       // storeia with long add                                   
+pc =    78 : EXT_BUS[30,R7[11:0]]= R2       // storeia with long add                                   
+pc =    78 : EXT_BUS[30,R7[11:0]]= R2       // storeia with long add                                   
+pc =    78 : EXT_BUS[30,R7[11:0]]= R2       // storeia with long add                                   
+pc =    79 : R3=16'h8033                                                                               
+                                                              R3                  = 8033
+pc =    80 : R1=16'h007f                                                                               
+pc =    81 : gr_flag = R3 > R1                                                                         
+                                                              status              = 001000
+pc =    82 : branch (!gr_flag) 85                                                                      
+pc =    85 : pulse->p3                                                                                 
+                                                              pulse               = 000000000001000
+pc =    86 : R5 = 10                                                                                   
+                                                              R5                  = 000a
+                                                              pulse               = 000000000000000
+pc =    87 : gosub 91                                                                                  
+                                                              sub_return_add      = 0058
+pc =    91 : loop 1 1 R5                                                                               
+                                                              loop_start          = 005c
+                                                              loop_end            = 005c
+                                                              loop_cnt            = 00a
+pc =    92 : nop                                                                                       
+                                                              loop_cnt            = 009
+pc =    92 : nop                                                                                       
+                                                              loop_cnt            = 008
+pc =    92 : nop                                                                                       
+                                                              loop_cnt            = 007
+pc =    92 : nop                                                                                       
+                                                              loop_cnt            = 006
+pc =    92 : nop                                                                                       

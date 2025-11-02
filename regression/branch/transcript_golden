@@ -1,0 +1,174 @@
+# Reading c:/cad_tools/Modeltech_5.7f/tcl/vsim/pref.tcl 
+# do run_scs16.do 
+# Solid green 0
+# Solid green 2
+# DoubleDash blue 1
+# Solid red 1
+# DoubleDash red 1
+# Solid red 1
+# Solid blue 1
+# 582x254+0+462
+# 1244x408+15+-9
+# 594x489+343+155
+# 287x177+738+231
+# 195
+# 682x691+590+25
+# 150
+# 100
+# 682x254+590+462
+# Courier New
+# 10
+# roman
+# normal
+# 785x408+62+59
+# P:/Designs/Concepts/<top_scs_instal_dir>/verilog/modelsim.tcl
+# 247x77+1033+231
+# 287x177+738+231
+# 534x177+746+0
+# 287x408+0+462
+# 247x100+1033+308
+# 0
+# 682x700+590+462
+# Variable Constant Generic Parameter Specparam Memory
+# Model Technology ModelSim SE vlog 5.7f Compiler 2003.09 Sep 15 2003
+# -- Compiling module ahb_slave
+# -- Compiling module cgate
+# -- Compiling module imem
+# -- Compiling module dmem
+# -- Compiling module scs16
+# -- Compiling module scs16_wrapper
+# -- Compiling module scsu
+# -- Compiling module scsu_tf
+# 
+# Top level modules:
+# 	scsu_tf
+# vsim work.scsu_tf 
+# Loading work.scsu_tf
+# Loading work.scsu
+# Loading work.dmem
+# Loading work.imem
+# Loading work.scs16
+# Loading work.scs16_wrapper
+# Loading work.cgate
+# Loading work.ahb_slave
+# loading micro code from   :out/branch_check_mcode_b.v                                                                          
+# loading sniffer code from :out/branch_check_mcode_xdisplay_hex.v                                                               
+# pc =    x :                                                                                           
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    0 : nop                                                                                       
+# pc =    1 : R1=1                                                                                      
+#                                                               R1                  = 0001
+# pc =    2 : branch (R1[0]) 4                                                                          
+# pc =    4 : R5=R5+1                                                                                   
+#                                                               R5                  = 0001
+# pc =    5 : branch (!R1[0]) 121                                                                       
+# pc =    6 : R5=R5+1                                                                                   
+#                                                               R5                  = 0002
+# pc =    7 : branch (R1[6]) 121                                                                        
+# pc =    8 : R5=R5+1                                                                                   
+#                                                               R5                  = 0003
+# pc =    9 : R2=7                                                                                      
+#                                                               R2                  = 0007
+# pc =   10 : branch R2[0] 12                // pc : 10                                                 
+# pc =   12 : R5=R5+1                                                                                   
+#                                                               R5                  = 0004
+# pc =   13 : branch (!R2[11]) 15                                                                       
+# pc =   15 : R5=R5+1                        // pc : 15                                                 
+#                                                               R5                  = 0005
+# pc =   16 : R1=R1+120                      // R1=121                                                  
+#                                                               R1                  = 0079
+# pc =   17 : branch (R1[6]) 11'h13                                                                     
+# pc =   19 : R5=R5+1                                                                                   
+#                                                               R5                  = 0006
+# pc =   20 : branch (R1[6]) 11'b10110       // pc : 20                                                 
+# pc =   22 : R5=R5+1                                                                                   
+#                                                               R5                  = 0007
+# pc =   23 : branch (!R3[12]) 25                                                                       
+# pc =   25 : R5=R5+1                        // pc : 25                                                 
+#                                                               R5                  = 0008
+# pc =   26 : branch (!R6[12]) 28                                                                       
+# pc =   28 : R5=R5+1                                                                                   
+#                                                               R5                  = 0009
+# pc =   29 : R0=-23                                                                                    
+#                                                               R0                  = ffe9
+# pc =   30 : R4=-23                         // pc : 30                                                 
+#                                                               R4                  = ffe9
+# pc =   31 : eq_flag = R0==R4                                                                          
+#                                                               status              = 100000
+# pc =   32 : branch (eq_flag) 34            // eq flag                                                 
+# pc =   34 : R5=R5+1                                                                                   
+#                                                               R5                  = 000a
+# pc =   35 : ls_flag=R0>R4                  // pc : 35                                                 
+# pc =   36 : branch eq_flag 38                                                                         
+# pc =   38 : R5=R5+1                                                                                   
+#                                                               R5                  = 000b
+# pc =   39 : R4=32767                                                                                  
+#                                                               R4                  = 7fff
+# pc =   40 : R0=200                         // pc : 40                                                 
+#                                                               R0                  = 00c8
+# pc =   41 : R6=R0+R4                                                                                  
+#                                                               R6                  = 80c7
+#                                                               status              = 100100
+# pc =   42 : branch ovf_flag 44             // ovf_flag                                                
+# pc =   44 : R5=R5+1                                                                                   
+#                                                               R5                  = 000c
+#                                                               status              = 100000
+# pc =   45 : gr_flag = R0>R4                                                                           
+#                                                               status              = 001000
+# pc =   46 : branch (gr_flag) 48            // pc : 45 ls_flag                                         
+# pc =   47 : goto 121                                                                                  
+# pc =  121 : R5=-999                                                                                   
+#                                                               R5                  = fc19
+# pc =  122 : nop                                                                                       
+# pc =  123 :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# pc =    x :                                                                                           
+# Break at test_flow_branch_check.v line 74
+# Simulation Breakpoint: Break at test_flow_branch_check.v line 74
+# MACRO ./run_scs16.do PAUSED at line 24

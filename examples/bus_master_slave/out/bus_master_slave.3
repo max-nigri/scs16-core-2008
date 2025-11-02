@@ -1,0 +1,145 @@
+First pass: assigning pc to non empty code lines (line2pc array)
+    0 0     0 
+    1 0     0 
+    2 0     0 
+    3 0     0 
+    4 0     0 
+    5 0     0 `include ../simple_script_defines.v
+    6 0     0 
+    7 1     0 nop
+    8 1     1 goto L_boot
+    9 1     2 goto L_ISR
+   10 1     3 goto L_hardbreak_response
+   11 0     4 
+   12 0     4 
+   13 1     4 L_boot, R0=16'h0fff
+   14 1     5 RAM[`APP_OUT0_ADDR]=R0
+   15 0     6 
+   16 0     6 
+   17 1     6 R6=20
+   18 1     7 EXT_BUS[R6] = R6
+   19 1     8 nop
+   20 1     9 R5 = EXT_BUS[R6]
+   21 1    10 gosub L_delay
+   22 1    11 L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa
+   23 0    12 
+   24 0    12 
+   25 0    12 
+   26 0    12 
+   27 0    12 
+   28 0    12 
+   29 0    12 
+   30 1    12 L_ISR,  rti
+   31 0    13 
+   32 1    13 L_hardbreak_response,  goto L_boot
+   33 0    14 
+   34 0    14 
+   35 0    14 
+   36 0    14 
+   37 0    14 
+   38 0    14 
+   39 1    14 L_delay, loop L_c L_c R5
+   40 1    15 L_c, nop
+   41 1    16 return
+   42 0    17 
+   43 0    17 
+   44 0    17 
+Second pass: eliminating start of line labels and filling label2pc hash
+Third pass: evaluating labels of loop statements
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - `include ../simple_script_defines.v
+0 - 
+1 - nop
+1 - goto L_boot
+1 - goto L_ISR
+1 - goto L_hardbreak_response
+0 - 
+0 - 
+1 - R0=16'h0fff
+1 - RAM[`APP_OUT0_ADDR]=R0
+0 - 
+0 - 
+1 - R6=20
+1 - EXT_BUS[R6] = R6
+1 - nop
+1 - R5 = EXT_BUS[R6]
+1 - gosub L_delay
+1 - branch !c14 L_wait_dfhfdaaa
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+1 - rti
+0 - 
+1 - goto L_boot
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+1 - loop 1 1 R5
+1 - nop
+1 - return
+0 - 
+0 - 
+0 - 
+Forth pass: evaluating command arguments labels
+===== found label L_boot at pc  4
+===== found label L_ISR at pc  12
+===== found label L_hardbreak_response at pc  13
+===== found label L_delay at pc  14
+===== found label L_wait_dfhfdaaa at pc  11
+===== found label L_boot at pc  4
+// scs compiler creates an "out" directory at the invokation  
+// directory, and proceeds with the compilation from that directory  
+// so if one wants to use relative path for the include files  
+// one must use the ../ notation   
+//   
+`include ../simple_script_defines.v                 //     0 `include ../simple_script_defines.v               
+//   
+nop                                                 //     0                                                   
+goto 4                                              //     1 goto boot sequence                                
+goto 12                                             //     2 goto ISR                                          
+goto 13                                             //     3 prepare                                           
+//   
+//   
+R0=16'h0fff                                         //     4 L_boot, begining of some boot sequence            
+RAM[`APP_OUT0_ADDR]=R0                              //     5 init app out regs                                 
+// do something  
+//   
+R6=20                                               //     6                                                   
+EXT_BUS[R6] = R6                                    //     7 external bus write                                
+nop                                                 //     8                                                   
+R5 = EXT_BUS[R6]                                    //     9 external bus read                                 
+gosub 14                                            //    10                                                   
+branch !c14 11                                      //    11 c14 tied to "0"                                   
+//   
+//   
+// //////////////////////////////////////////////  
+// routines  
+// //////////////////////////////////////////////  
+// //////////////////////////////////////////////  
+//   
+rti                                                 //    12                                                   
+//   
+goto 4                                              //    13                                                   
+//   
+//   
+// //////////////////////////////////////////////  
+// ///////// L_delay ////////////////////////////  
+// //////////////////////////////////////////////  
+//   
+loop 1 1 R5                                         //    14                                                   
+nop                                                 //    15                                                   
+return                                              //    16                                                   
+//   
+//   
+//   

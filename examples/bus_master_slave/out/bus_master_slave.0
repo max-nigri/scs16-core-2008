@@ -1,0 +1,46 @@
+zero pass, spliting the input file into three arrays, @codes @codes_for_presentation @comments
+    0 // scs compiler creates an "out" directory at the invokation
+    1 // directory, and proceeds with the compilation from that directory
+    2 // so if one wants to use relative path for the include files
+    3 // one must use the ../ notation 
+    4 // 
+    5 `include ../simple_script_defines.v                 // `include ../simple_script_defines.v
+    6 // 
+    7 nop                                                 // 
+    8 goto L_boot                                         // goto boot sequence
+    9 goto L_ISR                                          // goto ISR
+   10 goto L_hardbreak_response                           // prepare 
+   11 // 
+   12 // 
+   13 L_boot, R0=16'h0fff                                 // L_boot, begining of some boot sequence
+   14   RAM[`APP_OUT0_ADDR]=R0                            // init app out regs
+   15 // do something
+   16 // 
+   17   R6=20                                             // 
+   18         EXT_BUS[R6] = R6                            // external bus write
+   19   nop                                               // 
+   20         R5 = EXT_BUS[R6]                            // external bus read 
+   21   gosub L_delay                                     // 
+   22   wait c14                                          // c14 tied to "0" 
+   23 // 
+   24 // 
+   25 // //////////////////////////////////////////////
+   26 // routines
+   27 // //////////////////////////////////////////////
+   28 // //////////////////////////////////////////////
+   29 // 
+   30 L_ISR,  rti                                         // 
+   31 // 
+   32 L_hardbreak_response, goto L_boot                   // 
+   33 // 
+   34 // 
+   35 // //////////////////////////////////////////////
+   36 // ///////// L_delay ////////////////////////////
+   37 // //////////////////////////////////////////////
+   38 // 
+   39 L_delay, loop L_c L_c R5                            // 
+   40 L_c, nop                                            // 
+   41 return                                              // 
+   42 // 
+   43 // 
+   44 // 

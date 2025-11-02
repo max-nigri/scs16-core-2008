@@ -1,0 +1,157 @@
+First pass: evaluating defines
+Second pass: translating all defines
+
+
+
+AFTER translating defines
+
+
+
+
+
+      before                                             after
+
+
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+`include ../simple_script_defines.v                                                                 
+                                                                                                    
+nop                                               nop                                               
+goto 4                                            goto 4                                            
+goto 71                                           goto 71                                           
+goto 72                                           goto 72                                           
+                                                                                                    
+                                                                                                    
+R0=16'h0fff                                       R0=16'h0fff                                       
+                                                                                                    
+RAM[`APP_OUT0_ADDR]=R0                            RAM[2032]=R0                                      
+                                                                                                    
+                                                                                                    
+R5=5                                              R5=5                                              
+                                                                                                    
+branch (!R5[2]) 9                                 branch (!R5[2]) 9                                 
+R1=1                                              R1=1                                              
+                                                                                                    
+branch (R5[2]) 11                                 branch (R5[2]) 11                                 
+R1=2                                              R1=2                                              
+                                                                                                    
+R1=30                                             R1=30                                             
+                                                                                                    
+branch (!c0) 14                                   branch (!c0) 14                                   
+R1=1                                              R1=1                                              
+                                                                                                    
+branch (!c8) 16                                   branch (!c8) 16                                   
+R1=2                                              R1=2                                              
+                                                                                                    
+                                                                                                    
+R1=40                                             R1=40                                             
+                                                                                                    
+branch (!c0) 20                                   branch (!c0) 20                                   
+R1=7                                              R1=7                                              
+goto 21                                           goto 21                                           
+                                                                                                    
+R1=8                                              R1=8                                              
+                                                                                                    
+                                                                                                    
+branch (!c8) 24                                   branch (!c8) 24                                   
+R1=9                                              R1=9                                              
+goto 25                                           goto 25                                           
+                                                                                                    
+R1=10                                             R1=10                                             
+                                                                                                    
+                                                                                                    
+                                                                                                    
+branch (!c0) 32                                   branch (!c0) 32                                   
+branch (!c1) 30                                   branch (!c1) 30                                   
+branch (!c2) 29                                   branch (!c2) 29                                   
+R1=11                                             R1=11                                             
+                                                                                                    
+R1=12                                             R1=12                                             
+                                                                                                    
+R1=13                                             R1=13                                             
+goto 33                                           goto 33                                           
+                                                                                                    
+R1=14                                             R1=14                                             
+                                                                                                    
+                                                                                                    
+                                                                                                    
+branch (!c6) 36                                   branch (!c6) 36                                   
+R1=20                                             R1=20                                             
+goto 46                                           goto 46                                           
+branch (!c7) 39                                   branch (!c7) 39                                   
+R1=21                                             R1=21                                             
+goto 46                                           goto 46                                           
+branch (!c8) 42                                   branch (!c8) 42                                   
+R1=22                                             R1=22                                             
+goto 46                                           goto 46                                           
+branch (!c9) 45                                   branch (!c9) 45                                   
+R1=23                                             R1=23                                             
+goto 46                                           goto 46                                           
+                                                                                                    
+R1=24                                             R1=24                                             
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R2=40                                             R2=40                                             
+gr_flag = R2>40                                   gr_flag = R2>40                                   
+branch (!gr_flag) 51                              branch (!gr_flag) 51                              
+R1=30                                             R1=30                                             
+goto 52                                           goto 52                                           
+                                                                                                    
+R1=31                                             R1=31                                             
+                                                                                                    
+                                                                                                    
+R2=40                                             R2=40                                             
+gr_flag = R2>40                                   gr_flag = R2>40                                   
+branch (!gr_flag) 56                              branch (!gr_flag) 56                              
+R1=30                                             R1=30                                             
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R2=40                                             R2=40                                             
+gr_flag = R2>40                                   gr_flag = R2>40                                   
+branch (!eq_flag) 61                              branch (!eq_flag) 61                              
+R1=30                                             R1=30                                             
+goto 66                                           goto 66                                           
+branch (!ls_flag) 64                              branch (!ls_flag) 64                              
+R1=31                                             R1=31                                             
+goto 66                                           goto 66                                           
+branch (!gr_flag) 66                              branch (!gr_flag) 66                              
+R1=31                                             R1=31                                             
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R2=50                                             R2=50                                             
+branch (R2[0]) 69                                 branch (R2[0]) 69                                 
+R2=60                                             R2=60                                             
+R2=70                                             R2=70                                             
+                                                                                                    
+branch !c14 70                                    branch !c14 70                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+rti                                               rti                                               
+                                                                                                    
+goto 4                                            goto 4                                            
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+loop 1 1 R5                                       loop 1 1 R5                                       
+nop                                               nop                                               
+return                                            return                                            
+                                                                                                    
+                                                                                                    
+                                                                                                    

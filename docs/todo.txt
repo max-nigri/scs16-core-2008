@@ -1,0 +1,11 @@
+1. DATA token
+	done with one field
+2. longer comments in log
+	  done
+3. hex arithmetics in `define
+4. int_return = Rx | RAM[R7] | imd ?
+	today can do : int_return = RAM[...]
+5. level interupt instead of pulse
+	 done
+
+

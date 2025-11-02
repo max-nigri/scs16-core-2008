@@ -1,0 +1,141 @@
+// scs compiler creates an "out" directory at the invokation
+// directory, and proceeds with the compilation from that directory
+// so if one wants to use relative path for the include files
+// one must use the ../ notation 
+
+`include ../simple_script_defines.v
+
+nop                        // mandatory, start with nop.
+goto L_boot                // goto boot sequence, jump over the interrupt vector
+goto L_ISR                 // goto ISR, pc=2 interrupt destination
+goto L_hardbreak_response  // goto Hardbreak, pc=3 hardbreak destination
+
+
+L_boot, R0=16'h0fff                     // L_boot, begining of some boot sequence
+        // do something
+        RAM[`APP_OUT0_ADDR]=R0          // init app out regs
+        // do something
+        
+        R5=5
+        // simple register bit branch
+        if (R5[2]) {            // bit of reg branch
+           R1=1                 // branch not taken
+        }
+        if (!R5[2]) {           // !bit of reg branch
+           R1=2                 // branch not taken
+        }
+        R1=30                   // condition is set to 16'hff00
+        // simple condition bit branch
+        if (c0) {               // bit of condition branch
+           R1=1                 // branch not taken
+        }
+        if (!c8) {              // !bit of condition branch
+           R1=2                 // branch not taken
+        }
+
+        R1=40
+        // if else example
+        if (c0) {               // bit of condition branch
+           R1=7                 // branch not taken
+        }
+        else {
+           R1=8                 // branch taken
+        }
+        // if else with branch taken
+        if (!c8) {              // bit of condition branch
+           R1=9                 // branch not taken
+        }
+        else {
+           R1=10                // branch taken
+        }
+
+        // nested if
+        if (c0) {               // bit of condition branch
+           if (c1) {
+              if (c2) {
+                 R1=11
+              }
+              R1=12
+           }
+           R1=13
+        }
+        else {
+           R1=14                
+        }
+
+        // if else if example
+        if (c6) {               // if elsif start
+           R1=20
+        }
+        elsif (c7) {
+           R1=21
+        }
+        elsif (c8) {
+           R1=22
+        }
+        elsif (c9) {
+           R1=23
+        }
+        else {
+           R1=24
+        }
+
+        
+        R2=40
+        if (R2>40) {            // alu assist branch
+           R1=30
+        }
+        else {
+           R1=31
+        }
+
+        R2=40
+        if (R2>40) {            // alu assist branch
+           R1=30
+        }
+        // the following elsif with compare is not supported
+        // elsif (R2==40) {
+        //   R1=31
+        // }
+        
+        // instead, one can do the following
+        R2=40
+        gr_flag = R2>40         // explicit alu compare
+        if (eq_flag) {          // start of alu if elsif emulation
+           R1=30
+        }
+        elsif (ls_flag) {
+           R1=31
+        }
+        elsif (gr_flag) {
+           R1=31
+        }
+
+        // if ( some condition) L_label
+        R2=50
+        if (R2[0]) L_simple_branch      // basic branch
+        R2=60
+        L_simple_branch, R2=70          // L_simple_branch      
+
+        wait c14            // c14 tied to "0" 
+
+
+////////////////////////////////////////////////
+// routines
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+
+L_ISR,  rti
+
+L_hardbreak_response, goto L_boot 
+
+////////////////////////////////////////////////
+/////////// L_delay ////////////////////////////
+////////////////////////////////////////////////
+
+L_delay, loop L_c L_c R5
+L_c, nop
+return
+
+
+

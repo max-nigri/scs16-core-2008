@@ -1,0 +1,99 @@
+Pre-Processing flow control ......
+	searching for if ( Rx (==|!=|>|<>) ) ... expression, inserting alui and translating to branch
+	searching for if ( cx ) ... expression and translating to branch
+	searching wait cx ... expression and translating to branch with label
+    0     1                                                     // /////////////////////////////////////////////////////////////////////
+    1     2                                                     // File:  		fifo.scs
+    2     3                                                     // Location:		
+    3     4                                                     // Created by:		Nadav Feldman                         
+    4     5                                                     // Date Creation:  	28.11.03
+    5     6                                                     // Version:		1.0                                                 
+    6     7                                                     // Modified:		
+    7     8                                                     // 
+    8     9                                                     // Project: 		SCS16
+    9    10                                                     // 
+   10    11                                                     // Purpose:		This progrem is made to check a fifo of 16 cells.
+   11    12                                                     // useing 2 loop one to fill the fifo and one to empty it.
+   12    13                                                     // 
+   13    14                                                     // Description:         
+   14    15                                                     // 
+   15    16                                                     // How to use it:	                                                 
+   16    17                                                     // 
+   17    18                                                     // ToDo:                                                           
+   18    19                                                     // 
+   19    20                                                     // /////////////////////////////////////////////////////////////////////
+   20    21                                                     // 
+   21    22 nop                                                 // 
+   22    23                                                     // 
+   23    24                                                     // 
+   24    25 `define BFA 0                                       // `define BFA 0
+   25    26 `define FWP 8                                       // `define FWP 8
+   26    27 `define FRP 9                                       // `define FRP 9
+   27    28 `define FMN 10                                      // `define FMN 10
+   28    29                                                     // 
+   29    30                                                     // in this example we define a fifo of 16 lines located in RAM
+   30    31                                                     // in the region `BFA (Base Fifo Address) to `BFA+15
+   31    32                                                     // its control struct is located above the fifo region, however
+   32    33                                                     // its location is totally controlled by the programmer.
+   33    34                                                     // the control struct consist of 3 lines
+   34    35                                                     // RAM[16] is the rd pointer 
+   35    36                                                     // RAM[17] is the wr pointer
+   36    37                                                     // RAM[18] {full=0 empty=1 size[6:0]=16  len[6:0]=0}
+   37    38                                                     // 
+   38    39                                                     // 
+   39    40                                                     // fifo control structure initiation
+   40    41                                                     // in this specific example, I'm setting the rd,wr ptr to point to 9
+   41    42                                                     // which is near the middle of the fifo. this will demonstrate the
+   42    43                                                     // wrap around mechanism
+   43    44 R6=16                                               // 
+   44    45 RAM[R6++]=9                                         // RAM[16] is the rd pointer
+   45    46 RAM[R6++]=9                                         // RAM[17] is the wr pointer
+   46    47 RAM[R6++]=16'b0100011110000000                      // full=0 empty=1 size=16  len=0
+   47    48                                                     // 
+   48    49 R5=20                                               // 
+   49    50                                                     // 
+   50    51                                                     // writing R5 times to an empty fifo
+   51    52                                                     // 
+   52    53 loop L_fill_fifo_start L_fill_fifo_end R5           // fifo fill loop invokation
+   53    54                                                     // loop pre-conditioning
+   54    55      R6=17                                          // 
+   55    56      R1=RAM[R6++]                                   // loading the wr pointer to R1
+   56    57      R0=RAM[R6++]                                   // loading the control to R0
+   57    58                                                     // 
+   58    59 L_fill_fifo_start,  if (!R0[15]){                   // checking the full
+   59    60          nop                                        // full!!, do something			
+   60    61           }                                         // 
+   61    62           else{                                     // 
+   62    63         R7=R1+`BFA                                  // calc abs wr ptr
+   63    64         RAM[R7]=R4                                  // wr the data
+   64    65         R4=R4+1                                     // inc the data
+   65    66 L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)          // update control	
+   66    67       }                                             // 
+   67    68                                                     // 
+   68    69 RAM[17]=R1                                          // saving back the wr pointer to RAM[17]
+   69    70 RAM[18]=R0                                          // saving back the control record to RAM[18]
+   70    71                                                     // 
+   71    72                                                     // 
+   72    73       R1=RAM[16]                                    // loading the rd pointer to R1 
+   73    74                                                     // 
+   74    75                                                     // reading R5 times from a full fifo
+   75    76                                                     // 
+   76    77 loop L_emp_fifo_start L_emp_fifo_end R5             // 
+   77    78 L_emp_fifo_start,       if (!R0[14]){               // checking the empty
+   78    79          nop                                        // empty!!, do something
+   79    80       }                                             // 
+   80    81       else{                                         // 
+   81    82         R7=R1+`BFA                                  // calc the abs rd ptr
+   82    83         R4=RAM[R7]                                  // rd the data		
+   83    84 L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)         // update control
+   84    85       }                                             // 
+   85    86                                                     // 
+   86    87 RAM[16]=R1                                          // saving back the rd pointer to RAM[16]
+   87    88 RAM[18]=R0                                          // saving back the control record to RAM[18]
+   88    89                                                     // 
+   89    90 L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa        // stop
+   90    91 nop                                                 // 
+   91    92                                                     // 
+   92    93                                                     // 
+   93    94                                                     // 
+   94    95                                                     // /////////////////////

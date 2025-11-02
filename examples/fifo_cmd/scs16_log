@@ -1,0 +1,411 @@
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     0 : nop                                                                                       
+pc =     1 : R6=16                                                                                     
+                                                              R6                  = 0010
+pc =     2 : RAM[R6++]=9                    // RAM[16] is the rd pointer                               
+                                                              R6                  = 0011
+pc =     3 : RAM[R6++]=9                    // RAM[17] is the wr pointer                               
+                                                              R6                  = 0012
+pc =     4 : RAM[R6++]=16'b0100011110000000 // full=0 empty=1 size=16  len=0                           
+                                                              R6                  = 0013
+pc =     5 : R5=20                                                                                     
+                                                              R5                  = 0014
+pc =     6 : loop 4 10 R5                   // fifo fill loop invokation                               
+                                                              loop_start          = 000a
+                                                              loop_end            = 0010
+                                                              loop_cnt            = 014
+pc =     7 : R6=17                                                                                     
+                                                              R6                  = 0011
+pc =     8 : R1=RAM[R6++]                   // loading the wr pointer to R1                            
+                                                              R1                  = 0009
+                                                              R6                  = 0012
+pc =     9 : R0=RAM[R6++]                   // loading the control to R0                               
+                                                              R0                  = 4780
+                                                              R6                  = 0013
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0009
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0001
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0781
+                                                              R1                  = 000a
+                                                              loop_cnt            = 013
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 000a
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0002
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0782
+                                                              R1                  = 000b
+                                                              loop_cnt            = 012
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 000b
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0003
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0783
+                                                              R1                  = 000c
+                                                              loop_cnt            = 011
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 000c
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0004
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0784
+                                                              R1                  = 000d
+                                                              loop_cnt            = 010
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 000d
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0005
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0785
+                                                              R1                  = 000e
+                                                              loop_cnt            = 00f
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 000e
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0006
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0786
+                                                              R1                  = 000f
+                                                              loop_cnt            = 00e
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 000f
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0007
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0787
+                                                              R1                  = 0000
+                                                              loop_cnt            = 00d
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0000
+                                                              status              = 000010
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0008
+                                                              status              = 000000
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0788
+                                                              R1                  = 0001
+                                                              loop_cnt            = 00c
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0001
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0009
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 0789
+                                                              R1                  = 0002
+                                                              loop_cnt            = 00b
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0002
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 000a
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 078a
+                                                              R1                  = 0003
+                                                              loop_cnt            = 00a
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0003
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 000b
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 078b
+                                                              R1                  = 0004
+                                                              loop_cnt            = 009
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0004
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 000c
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 078c
+                                                              R1                  = 0005
+                                                              loop_cnt            = 008
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0005
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 000d
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 078d
+                                                              R1                  = 0006
+                                                              loop_cnt            = 007
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0006
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 000e
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 078e
+                                                              R1                  = 0007
+                                                              loop_cnt            = 006
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0007
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 000f
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 078f
+                                                              R1                  = 0008
+                                                              loop_cnt            = 005
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    13 : R7=R1+`BFA                     // calc abs wr ptr                                         
+                                                              R7                  = 0008
+pc =    14 : RAM[R7]=R4                     // wr the data                                             
+pc =    15 : R4=R4+1                        // inc the data                                            
+                                                              R4                  = 0010
+pc =    16 : (R0,R1)=fifo_wr(R0,R1)         // update control	                                         
+                                                              R0                  = 8790
+                                                              R1                  = 0009
+                                                              loop_cnt            = 004
+pc =    10 : branch (!R0[15]) 13            // checking the full                                       
+pc =    11 : nop                            // full!!, do something			                                 
+pc =    12 : goto 17                                                                                   
+pc =    17 : RAM[17]=R1                     // saving back the wr pointer to RAM[17]                   
+pc =    18 : RAM[18]=R0                     // saving back the control record to RAM[18]               
+pc =    19 : R1=RAM[16]                     // loading the rd pointer to R1                            
+pc =    20 : loop 1 6 R5                                                                               
+                                                              loop_start          = 0015
+                                                              loop_end            = 001a
+                                                              loop_cnt            = 014
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0009
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0000
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 078f
+                                                              R1                  = 000a
+                                                              loop_cnt            = 013
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 000a
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0001
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 078e
+                                                              R1                  = 000b
+                                                              loop_cnt            = 012
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 000b
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0002
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 078d
+                                                              R1                  = 000c
+                                                              loop_cnt            = 011
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 000c
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0003
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 078c
+                                                              R1                  = 000d
+                                                              loop_cnt            = 010
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 000d
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0004
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 078b
+                                                              R1                  = 000e
+                                                              loop_cnt            = 00f
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 000e
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0005
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 078a
+                                                              R1                  = 000f
+                                                              loop_cnt            = 00e
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 000f
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0006
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0789
+                                                              R1                  = 0000
+                                                              loop_cnt            = 00d
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0000
+                                                              status              = 000010
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0007
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0788
+                                                              R1                  = 0001
+                                                              loop_cnt            = 00c
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0001
+                                                              status              = 000000
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0008
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0787
+                                                              R1                  = 0002
+                                                              loop_cnt            = 00b
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0002
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 0009
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0786
+                                                              R1                  = 0003
+                                                              loop_cnt            = 00a
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0003
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 000a
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0785
+                                                              R1                  = 0004
+                                                              loop_cnt            = 009
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0004
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 000b
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0784
+                                                              R1                  = 0005
+                                                              loop_cnt            = 008
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0005
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 000c
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0783
+                                                              R1                  = 0006
+                                                              loop_cnt            = 007
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0006
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 000d
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0782
+                                                              R1                  = 0007
+                                                              loop_cnt            = 006
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0007
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 000e
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 0781
+                                                              R1                  = 0008
+                                                              loop_cnt            = 005
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    24 : R7=R1+`BFA                     // calc the abs rd ptr                                     
+                                                              R7                  = 0008
+pc =    25 : R4=RAM[R7]                     // rd the data		                                           
+                                                              R4                  = 000f
+pc =    26 : (R0,R1)=fifo_rd(R0,R1)         // update control                                          
+                                                              R0                  = 4780
+                                                              R1                  = 0009
+                                                              loop_cnt            = 004
+pc =    21 : branch (!R0[14]) 24            // checking the empty                                      
+pc =    22 : nop                            // empty!!, do something                                   
+pc =    23 : goto 27                                                                                   
+pc =    27 : RAM[16]=R1                     // saving back the rd pointer to RAM[16]                   
+pc =    28 : RAM[18]=R0                     // saving back the control record to RAM[18]               
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    
+pc =    29 : branch !c14 29                 // stop                                                    

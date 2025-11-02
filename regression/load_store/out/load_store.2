@@ -1,0 +1,874 @@
+Translating if, else, elsif construct to branch with lables
+here ==============
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  1, level=0          `include ../simple_script_defines.v
+pc=  1, level=0          
+pc=  2, level=0          nop
+pc=  3, level=0           goto L_boot
+pc=  4, level=0           goto L_ISR
+pc=  5, level=0           goto L_hardbreak_response
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  6, level=0          L_boot, R0=16'h0fff
+pc=  6, level=0          
+pc=  6, level=0          
+pc=  7, level=0            R6=64
+pc=  8, level=0            R7=65
+pc=  8, level=0          
+pc=  9, level=0                   R1=RAM[R6]
+pc= 10, level=0            R1=RAM[R7]
+pc= 11, level=0                   R2=RAM[R6++]
+pc= 12, level=0            R2=RAM[R7++]
+pc= 12, level=0          
+pc= 13, level=0                   R3=RAM[R6]    pulse->p6
+pc= 14, level=0            R3=RAM[R7]    pulse->p7
+pc= 15, level=0                   R4=RAM[R6++]  pulse->p6
+pc= 16, level=0            R4=RAM[R7++]  pulse->p7
+pc= 16, level=0          
+pc= 17, level=0            R6=66
+pc= 18, level=0            R7=67
+pc= 18, level=0          
+pc= 19, level=0                   R1=RAM[100]
+pc= 20, level=0            R1=RAM[30+R6]
+pc= 21, level=0                   R2=RAM[30+R7]
+pc= 21, level=0          
+pc= 21, level=0          
+pc= 21, level=0          
+pc= 22, level=0            R6=70
+pc= 23, level=0            R7=74
+pc= 23, level=0          
+pc= 24, level=0                   R2=EXT_BUS[R6++]
+pc= 25, level=0            R2=EXT_BUS[R7++]
+pc= 26, level=0                   R1=EXT_BUS[R6]
+pc= 27, level=0            R1=EXT_BUS[R7]
+pc= 27, level=0          
+pc= 28, level=0                   R4=EXT_BUS[R6++]  pulse->p6
+pc= 29, level=0            R4=EXT_BUS[R7++]  pulse->p7
+pc= 30, level=0                   R3=EXT_BUS[R6]    pulse->p6
+pc= 31, level=0            R3=EXT_BUS[R7]    pulse->p7
+pc= 31, level=0          
+pc= 32, level=0            R6=66
+pc= 33, level=0            R7=67
+pc= 33, level=0          
+pc= 34, level=0                   R1=EXT_BUS[100]
+pc= 35, level=0            R1=EXT_BUS[30+R6]
+pc= 36, level=0                   R2=EXT_BUS[30+R7]
+pc= 36, level=0          
+pc= 37, level=0            R6=68
+pc= 38, level=0            R7=69
+pc= 39, level=0            R1=EXT_BUS[30,R6[11:0]]
+pc= 40, level=0                   R2=EXT_BUS[30,R7[11:0]]
+pc= 40, level=0          
+pc= 40, level=0          
+pc= 40, level=0          
+pc= 40, level=0          
+pc= 41, level=0            R2=90
+pc= 42, level=0            R6=20
+pc= 43, level=0            R7=24
+pc= 44, level=0            RAM[R6]   = 400
+pc= 45, level=0            RAM[R7]   = 400
+pc= 46, level=0            RAM[R6]   = R2
+pc= 47, level=0            RAM[R7]   = R2
+pc= 48, level=0            RAM[R6++] = R2
+pc= 49, level=0            RAM[R7++] = R2
+pc= 49, level=0          
+pc= 50, level=0            R6=30
+pc= 51, level=0            R7=34
+pc= 52, level=0            RAM[R6]   = R2 pulse->p6
+pc= 53, level=0            RAM[R7]   = R2 pulse->p7
+pc= 54, level=0            RAM[R6++] = R2 pulse->p6
+pc= 55, level=0            RAM[R7++] = R2 pulse->p7
+pc= 55, level=0          
+pc= 56, level=0            RAM[30]   = R2
+pc= 57, level=0            RAM[30+R6]= R2
+pc= 58, level=0            RAM[30+R7]= R2
+pc= 58, level=0          
+pc= 58, level=0          
+pc= 58, level=0          
+pc= 59, level=0            R2=90
+pc= 60, level=0            R6=20
+pc= 61, level=0            R7=24
+pc= 62, level=0            EXT_BUS[R6]   = 400
+pc= 63, level=0            EXT_BUS[R7]   = 400
+pc= 64, level=0            EXT_BUS[R6]   = R2
+pc= 65, level=0            EXT_BUS[R7]   = R2
+pc= 66, level=0            EXT_BUS[R6++] = R2
+pc= 67, level=0            EXT_BUS[R7++] = R2
+pc= 67, level=0          
+pc= 68, level=0            R6=30
+pc= 69, level=0            R7=34
+pc= 70, level=0            EXT_BUS[R6]   = R2 pulse->p6
+pc= 71, level=0            EXT_BUS[R7]   = R2 pulse->p7
+pc= 72, level=0            EXT_BUS[R6++] = R2 pulse->p6
+pc= 73, level=0            EXT_BUS[R7++] = R2 pulse->p7
+pc= 73, level=0          
+pc= 74, level=0            EXT_BUS[30]   = R2
+pc= 75, level=0            EXT_BUS[30+R6]= R2
+pc= 76, level=0            EXT_BUS[30+R7]= R2
+pc= 76, level=0          
+pc= 77, level=0            R6=48
+pc= 78, level=0            R7=52
+pc= 79, level=0            EXT_BUS[30,R6[11:0]]= R2
+pc= 80, level=0            EXT_BUS[30,R7[11:0]]= R2
+pc= 80, level=0          
+pc= 80, level=0          
+pc= 80, level=0          
+pc= 81, level=0            R3=16'h8033
+pc= 82, level=0            R1=16'h007f
+pc= 83, level=0          gr_flag = R3 > R1
+pc= 84, level=01           if (!gr_flag){
+pc= 85, level=01              pulse->p2
+pc= 85, level=0            }
+pc= 85, level=02           else {
+pc= 86, level=02              pulse->p3
+pc= 86, level=0            }
+pc= 86, level=0          
+pc= 86, level=0          
+pc= 86, level=0          
+pc= 86, level=0          
+pc= 86, level=0          
+pc= 87, level=0                  R5 = 10
+pc= 88, level=0            gosub L_delay
+pc= 89, level=0            L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa
+pc= 89, level=0          
+pc= 89, level=0          
+pc= 89, level=0          
+pc= 89, level=0          
+pc= 89, level=0          
+pc= 89, level=0          
+pc= 89, level=0          
+pc= 90, level=0          L_ISR,  rti
+pc= 90, level=0          
+pc= 91, level=0          L_hardbreak_response,  goto L_boot
+pc= 91, level=0          
+pc= 91, level=0          
+pc= 91, level=0          
+pc= 91, level=0          
+pc= 91, level=0          
+pc= 92, level=0          L_delay, loop L_c L_c R5
+pc= 93, level=0          L_c, nop
+pc= 94, level=0          return
+pc= 94, level=0          
+pc= 94, level=0          
+pc= 94, level=0          
+
+The levels are array is :
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 01 01 0 02 02 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+>>>>>>>>>>>>>>>>   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 120, 125
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 120 125
+########### from translate_seq_type_2label  : if_then_else
+#   if (!gr_flag){
+#      pulse->p2
+#   }
+#   else {
+#      pulse->p3
+#   }
+Successful translation of if_then_else 120 - 125
+	  if (!gr_flag){                                    branch (!gr_flag) L_branch_aab                  
+	     pulse->p2                                         pulse->p2                                    
+	  }                                                 goto L_branch_aac                               
+	  else {                                                                                            
+	     pulse->p3                                         L_branch_aab,pulse->p3                       
+	  }                                                 L_branch_aac                                    
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+
+
+
+From parse flow control
+	After finding and translating .....
+
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          `include ../simple_script_defines.v               `include ../simple_script_defines.v               
+level=0                                                                                                              
+level=0          nop                                               nop                                               
+level=0           goto L_boot                                       goto L_boot                                      
+level=0           goto L_ISR                                        goto L_ISR                                       
+level=0           goto L_hardbreak_response                         goto L_hardbreak_response                        
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_boot, R0=16'h0fff                               L_boot, R0=16'h0fff                               
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R6=64                                             R6=64                                           
+level=0            R7=65                                             R7=65                                           
+level=0                                                                                                              
+level=0                   R1=RAM[R6]                                        R1=RAM[R6]                               
+level=0            R1=RAM[R7]                                        R1=RAM[R7]                                      
+level=0                   R2=RAM[R6++]                                      R2=RAM[R6++]                             
+level=0            R2=RAM[R7++]                                      R2=RAM[R7++]                                    
+level=0                                                                                                              
+level=0                   R3=RAM[R6]    pulse->p6                           R3=RAM[R6]    pulse->p6                  
+level=0            R3=RAM[R7]    pulse->p7                           R3=RAM[R7]    pulse->p7                         
+level=0                   R4=RAM[R6++]  pulse->p6                           R4=RAM[R6++]  pulse->p6                  
+level=0            R4=RAM[R7++]  pulse->p7                           R4=RAM[R7++]  pulse->p7                         
+level=0                                                                                                              
+level=0            R6=66                                             R6=66                                           
+level=0            R7=67                                             R7=67                                           
+level=0                                                                                                              
+level=0                   R1=RAM[100]                                       R1=RAM[100]                              
+level=0            R1=RAM[30+R6]                                     R1=RAM[30+R6]                                   
+level=0                   R2=RAM[30+R7]                                     R2=RAM[30+R7]                            
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R6=70                                             R6=70                                           
+level=0            R7=74                                             R7=74                                           
+level=0                                                                                                              
+level=0                   R2=EXT_BUS[R6++]                                  R2=EXT_BUS[R6++]                         
+level=0            R2=EXT_BUS[R7++]                                  R2=EXT_BUS[R7++]                                
+level=0                   R1=EXT_BUS[R6]                                    R1=EXT_BUS[R6]                           
+level=0            R1=EXT_BUS[R7]                                    R1=EXT_BUS[R7]                                  
+level=0                                                                                                              
+level=0                   R4=EXT_BUS[R6++]  pulse->p6                       R4=EXT_BUS[R6++]  pulse->p6              
+level=0            R4=EXT_BUS[R7++]  pulse->p7                       R4=EXT_BUS[R7++]  pulse->p7                     
+level=0                   R3=EXT_BUS[R6]    pulse->p6                       R3=EXT_BUS[R6]    pulse->p6              
+level=0            R3=EXT_BUS[R7]    pulse->p7                       R3=EXT_BUS[R7]    pulse->p7                     
+level=0                                                                                                              
+level=0            R6=66                                             R6=66                                           
+level=0            R7=67                                             R7=67                                           
+level=0                                                                                                              
+level=0                   R1=EXT_BUS[100]                                   R1=EXT_BUS[100]                          
+level=0            R1=EXT_BUS[30+R6]                                 R1=EXT_BUS[30+R6]                               
+level=0                   R2=EXT_BUS[30+R7]                                 R2=EXT_BUS[30+R7]                        
+level=0                                                                                                              
+level=0            R6=68                                             R6=68                                           
+level=0            R7=69                                             R7=69                                           
+level=0            R1=EXT_BUS[30,R6[11:0]]                           R1=EXT_BUS[30,R6[11:0]]                         
+level=0                   R2=EXT_BUS[30,R7[11:0]]                           R2=EXT_BUS[30,R7[11:0]]                  
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R2=90                                             R2=90                                           
+level=0            R6=20                                             R6=20                                           
+level=0            R7=24                                             R7=24                                           
+level=0            RAM[R6]   = 400                                   RAM[R6]   = 400                                 
+level=0            RAM[R7]   = 400                                   RAM[R7]   = 400                                 
+level=0            RAM[R6]   = R2                                    RAM[R6]   = R2                                  
+level=0            RAM[R7]   = R2                                    RAM[R7]   = R2                                  
+level=0            RAM[R6++] = R2                                    RAM[R6++] = R2                                  
+level=0            RAM[R7++] = R2                                    RAM[R7++] = R2                                  
+level=0                                                                                                              
+level=0            R6=30                                             R6=30                                           
+level=0            R7=34                                             R7=34                                           
+level=0            RAM[R6]   = R2 pulse->p6                          RAM[R6]   = R2 pulse->p6                        
+level=0            RAM[R7]   = R2 pulse->p7                          RAM[R7]   = R2 pulse->p7                        
+level=0            RAM[R6++] = R2 pulse->p6                          RAM[R6++] = R2 pulse->p6                        
+level=0            RAM[R7++] = R2 pulse->p7                          RAM[R7++] = R2 pulse->p7                        
+level=0                                                                                                              
+level=0            RAM[30]   = R2                                    RAM[30]   = R2                                  
+level=0            RAM[30+R6]= R2                                    RAM[30+R6]= R2                                  
+level=0            RAM[30+R7]= R2                                    RAM[30+R7]= R2                                  
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R2=90                                             R2=90                                           
+level=0            R6=20                                             R6=20                                           
+level=0            R7=24                                             R7=24                                           
+level=0            EXT_BUS[R6]   = 400                               EXT_BUS[R6]   = 400                             
+level=0            EXT_BUS[R7]   = 400                               EXT_BUS[R7]   = 400                             
+level=0            EXT_BUS[R6]   = R2                                EXT_BUS[R6]   = R2                              
+level=0            EXT_BUS[R7]   = R2                                EXT_BUS[R7]   = R2                              
+level=0            EXT_BUS[R6++] = R2                                EXT_BUS[R6++] = R2                              
+level=0            EXT_BUS[R7++] = R2                                EXT_BUS[R7++] = R2                              
+level=0                                                                                                              
+level=0            R6=30                                             R6=30                                           
+level=0            R7=34                                             R7=34                                           
+level=0            EXT_BUS[R6]   = R2 pulse->p6                      EXT_BUS[R6]   = R2 pulse->p6                    
+level=0            EXT_BUS[R7]   = R2 pulse->p7                      EXT_BUS[R7]   = R2 pulse->p7                    
+level=0            EXT_BUS[R6++] = R2 pulse->p6                      EXT_BUS[R6++] = R2 pulse->p6                    
+level=0            EXT_BUS[R7++] = R2 pulse->p7                      EXT_BUS[R7++] = R2 pulse->p7                    
+level=0                                                                                                              
+level=0            EXT_BUS[30]   = R2                                EXT_BUS[30]   = R2                              
+level=0            EXT_BUS[30+R6]= R2                                EXT_BUS[30+R6]= R2                              
+level=0            EXT_BUS[30+R7]= R2                                EXT_BUS[30+R7]= R2                              
+level=0                                                                                                              
+level=0            R6=48                                             R6=48                                           
+level=0            R7=52                                             R7=52                                           
+level=0            EXT_BUS[30,R6[11:0]]= R2                          EXT_BUS[30,R6[11:0]]= R2                        
+level=0            EXT_BUS[30,R7[11:0]]= R2                          EXT_BUS[30,R7[11:0]]= R2                        
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R3=16'h8033                                       R3=16'h8033                                     
+level=0            R1=16'h007f                                       R1=16'h007f                                     
+level=0          gr_flag = R3 > R1                                 gr_flag = R3 > R1                                 
+level=01           branch (!gr_flag) L_branch_aab                    if (!gr_flag){                                  
+level=01              pulse->p2                                         pulse->p2                                    
+level=0            goto L_branch_aac                                 }                                               
+level=02                                                             else {                                          
+level=02              L_branch_aab,pulse->p3                            pulse->p3                                    
+level=0            L_branch_aac                                      }                                               
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                  R5 = 10                                           R5 = 10                                   
+level=0            gosub L_delay                                     gosub L_delay                                   
+level=0            L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_ISR,  rti                                       L_ISR,  rti                                       
+level=0                                                                                                              
+level=0          L_hardbreak_response,  goto L_boot                L_hardbreak_response,  goto L_boot                
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_delay, loop L_c L_c R5                          L_delay, loop L_c L_c R5                          
+level=0          L_c, nop                                          L_c, nop                                          
+level=0          return                                            return                                            
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+
+
+
+AFTER moving a label with an empty line to the next code line
+
+
+
+
+
+      before                                             after
+
+
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+`include ../simple_script_defines.v               | |`include ../simple_script_defines.v               
+                                                  | |                                                  
+nop                                               | |nop                                               
+ goto L_boot                                      | | goto L_boot                                      
+ goto L_ISR                                       | | goto L_ISR                                       
+ goto L_hardbreak_response                        | | goto L_hardbreak_response                        
+                                                  | |                                                  
+                                                  | |                                                  
+L_boot, R0=16'h0fff                               | |L_boot, R0=16'h0fff                               
+                                                  | |                                                  
+                                                  | |                                                  
+  R6=64                                           | |  R6=64                                           
+  R7=65                                           | |  R7=65                                           
+                                                  | |                                                  
+         R1=RAM[R6]                               | |         R1=RAM[R6]                               
+  R1=RAM[R7]                                      | |  R1=RAM[R7]                                      
+         R2=RAM[R6++]                             | |         R2=RAM[R6++]                             
+  R2=RAM[R7++]                                    | |  R2=RAM[R7++]                                    
+                                                  | |                                                  
+         R3=RAM[R6]    pulse->p6                  | |         R3=RAM[R6]    pulse->p6                  
+  R3=RAM[R7]    pulse->p7                         | |  R3=RAM[R7]    pulse->p7                         
+         R4=RAM[R6++]  pulse->p6                  | |         R4=RAM[R6++]  pulse->p6                  
+  R4=RAM[R7++]  pulse->p7                         | |  R4=RAM[R7++]  pulse->p7                         
+                                                  | |                                                  
+  R6=66                                           | |  R6=66                                           
+  R7=67                                           | |  R7=67                                           
+                                                  | |                                                  
+         R1=RAM[100]                              | |         R1=RAM[100]                              
+  R1=RAM[30+R6]                                   | |  R1=RAM[30+R6]                                   
+         R2=RAM[30+R7]                            | |         R2=RAM[30+R7]                            
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+  R6=70                                           | |  R6=70                                           
+  R7=74                                           | |  R7=74                                           
+                                                  | |                                                  
+         R2=EXT_BUS[R6++]                         | |         R2=EXT_BUS[R6++]                         
+  R2=EXT_BUS[R7++]                                | |  R2=EXT_BUS[R7++]                                
+         R1=EXT_BUS[R6]                           | |         R1=EXT_BUS[R6]                           
+  R1=EXT_BUS[R7]                                  | |  R1=EXT_BUS[R7]                                  
+                                                  | |                                                  
+         R4=EXT_BUS[R6++]  pulse->p6              | |         R4=EXT_BUS[R6++]  pulse->p6              
+  R4=EXT_BUS[R7++]  pulse->p7                     | |  R4=EXT_BUS[R7++]  pulse->p7                     
+         R3=EXT_BUS[R6]    pulse->p6              | |         R3=EXT_BUS[R6]    pulse->p6              
+  R3=EXT_BUS[R7]    pulse->p7                     | |  R3=EXT_BUS[R7]    pulse->p7                     
+                                                  | |                                                  
+  R6=66                                           | |  R6=66                                           
+  R7=67                                           | |  R7=67                                           
+                                                  | |                                                  
+         R1=EXT_BUS[100]                          | |         R1=EXT_BUS[100]                          
+  R1=EXT_BUS[30+R6]                               | |  R1=EXT_BUS[30+R6]                               
+         R2=EXT_BUS[30+R7]                        | |         R2=EXT_BUS[30+R7]                        
+                                                  | |                                                  
+  R6=68                                           | |  R6=68                                           
+  R7=69                                           | |  R7=69                                           
+  R1=EXT_BUS[30,R6[11:0]]                         | |  R1=EXT_BUS[30,R6[11:0]]                         
+         R2=EXT_BUS[30,R7[11:0]]                  | |         R2=EXT_BUS[30,R7[11:0]]                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+  R2=90                                           | |  R2=90                                           
+  R6=20                                           | |  R6=20                                           
+  R7=24                                           | |  R7=24                                           
+  RAM[R6]   = 400                                 | |  RAM[R6]   = 400                                 
+  RAM[R7]   = 400                                 | |  RAM[R7]   = 400                                 
+  RAM[R6]   = R2                                  | |  RAM[R6]   = R2                                  
+  RAM[R7]   = R2                                  | |  RAM[R7]   = R2                                  
+  RAM[R6++] = R2                                  | |  RAM[R6++] = R2                                  
+  RAM[R7++] = R2                                  | |  RAM[R7++] = R2                                  
+                                                  | |                                                  
+  R6=30                                           | |  R6=30                                           
+  R7=34                                           | |  R7=34                                           
+  RAM[R6]   = R2 pulse->p6                        | |  RAM[R6]   = R2 pulse->p6                        
+  RAM[R7]   = R2 pulse->p7                        | |  RAM[R7]   = R2 pulse->p7                        
+  RAM[R6++] = R2 pulse->p6                        | |  RAM[R6++] = R2 pulse->p6                        
+  RAM[R7++] = R2 pulse->p7                        | |  RAM[R7++] = R2 pulse->p7                        
+                                                  | |                                                  
+  RAM[30]   = R2                                  | |  RAM[30]   = R2                                  
+  RAM[30+R6]= R2                                  | |  RAM[30+R6]= R2                                  
+  RAM[30+R7]= R2                                  | |  RAM[30+R7]= R2                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+  R2=90                                           | |  R2=90                                           
+  R6=20                                           | |  R6=20                                           
+  R7=24                                           | |  R7=24                                           
+  EXT_BUS[R6]   = 400                             | |  EXT_BUS[R6]   = 400                             
+  EXT_BUS[R7]   = 400                             | |  EXT_BUS[R7]   = 400                             
+  EXT_BUS[R6]   = R2                              | |  EXT_BUS[R6]   = R2                              
+  EXT_BUS[R7]   = R2                              | |  EXT_BUS[R7]   = R2                              
+  EXT_BUS[R6++] = R2                              | |  EXT_BUS[R6++] = R2                              
+  EXT_BUS[R7++] = R2                              | |  EXT_BUS[R7++] = R2                              
+                                                  | |                                                  
+  R6=30                                           | |  R6=30                                           
+  R7=34                                           | |  R7=34                                           
+  EXT_BUS[R6]   = R2 pulse->p6                    | |  EXT_BUS[R6]   = R2 pulse->p6                    
+  EXT_BUS[R7]   = R2 pulse->p7                    | |  EXT_BUS[R7]   = R2 pulse->p7                    
+  EXT_BUS[R6++] = R2 pulse->p6                    | |  EXT_BUS[R6++] = R2 pulse->p6                    
+  EXT_BUS[R7++] = R2 pulse->p7                    | |  EXT_BUS[R7++] = R2 pulse->p7                    
+                                                  | |                                                  
+  EXT_BUS[30]   = R2                              | |  EXT_BUS[30]   = R2                              
+  EXT_BUS[30+R6]= R2                              | |  EXT_BUS[30+R6]= R2                              
+  EXT_BUS[30+R7]= R2                              | |  EXT_BUS[30+R7]= R2                              
+                                                  | |                                                  
+  R6=48                                           | |  R6=48                                           
+  R7=52                                           | |  R7=52                                           
+  EXT_BUS[30,R6[11:0]]= R2                        | |  EXT_BUS[30,R6[11:0]]= R2                        
+  EXT_BUS[30,R7[11:0]]= R2                        | |  EXT_BUS[30,R7[11:0]]= R2                        
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+  R3=16'h8033                                     | |  R3=16'h8033                                     
+  R1=16'h007f                                     | |  R1=16'h007f                                     
+gr_flag = R3 > R1                                 | |gr_flag = R3 > R1                                 
+  branch (!gr_flag) L_branch_aab                  | |  branch (!gr_flag) L_branch_aab                  
+     pulse->p2                                    | |     pulse->p2                                    
+  goto L_branch_aac                               | |  goto L_branch_aac                               
+                                                  | |                                                  
+     L_branch_aab,pulse->p3                       | |     L_branch_aab,pulse->p3                       
+  L_branch_aac                                    | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+        R5 = 10                                   | |L_branch_aac,        R5 = 10                      
+  gosub L_delay                                   | |  gosub L_delay                                   
+  L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    | |  L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+L_ISR,  rti                                       | |L_ISR,  rti                                       
+                                                  | |                                                  
+L_hardbreak_response,  goto L_boot                | |L_hardbreak_response,  goto L_boot                
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+L_delay, loop L_c L_c R5                          | |L_delay, loop L_c L_c R5                          
+L_c, nop                                          | |L_c, nop                                          
+return                                            | |return                                            
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+
+
+
+AFTER reducing two or more lables in the same line to one
+
+
+
+
+
+      before                                             after
+
+
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+`include ../simple_script_defines.v               `include ../simple_script_defines.v               
+                                                                                                    
+nop                                               nop                                               
+ goto L_boot                                       goto L_boot                                      
+ goto L_ISR                                        goto L_ISR                                       
+ goto L_hardbreak_response                         goto L_hardbreak_response                        
+                                                                                                    
+                                                                                                    
+L_boot, R0=16'h0fff                               L_boot, R0=16'h0fff                               
+                                                                                                    
+                                                                                                    
+  R6=64                                             R6=64                                           
+  R7=65                                             R7=65                                           
+                                                                                                    
+         R1=RAM[R6]                                        R1=RAM[R6]                               
+  R1=RAM[R7]                                        R1=RAM[R7]                                      
+         R2=RAM[R6++]                                      R2=RAM[R6++]                             
+  R2=RAM[R7++]                                      R2=RAM[R7++]                                    
+                                                                                                    
+         R3=RAM[R6]    pulse->p6                           R3=RAM[R6]    pulse->p6                  
+  R3=RAM[R7]    pulse->p7                           R3=RAM[R7]    pulse->p7                         
+         R4=RAM[R6++]  pulse->p6                           R4=RAM[R6++]  pulse->p6                  
+  R4=RAM[R7++]  pulse->p7                           R4=RAM[R7++]  pulse->p7                         
+                                                                                                    
+  R6=66                                             R6=66                                           
+  R7=67                                             R7=67                                           
+                                                                                                    
+         R1=RAM[100]                                       R1=RAM[100]                              
+  R1=RAM[30+R6]                                     R1=RAM[30+R6]                                   
+         R2=RAM[30+R7]                                     R2=RAM[30+R7]                            
+                                                                                                    
+                                                                                                    
+                                                                                                    
+  R6=70                                             R6=70                                           
+  R7=74                                             R7=74                                           
+                                                                                                    
+         R2=EXT_BUS[R6++]                                  R2=EXT_BUS[R6++]                         
+  R2=EXT_BUS[R7++]                                  R2=EXT_BUS[R7++]                                
+         R1=EXT_BUS[R6]                                    R1=EXT_BUS[R6]                           
+  R1=EXT_BUS[R7]                                    R1=EXT_BUS[R7]                                  
+                                                                                                    
+         R4=EXT_BUS[R6++]  pulse->p6                       R4=EXT_BUS[R6++]  pulse->p6              
+  R4=EXT_BUS[R7++]  pulse->p7                       R4=EXT_BUS[R7++]  pulse->p7                     
+         R3=EXT_BUS[R6]    pulse->p6                       R3=EXT_BUS[R6]    pulse->p6              
+  R3=EXT_BUS[R7]    pulse->p7                       R3=EXT_BUS[R7]    pulse->p7                     
+                                                                                                    
+  R6=66                                             R6=66                                           
+  R7=67                                             R7=67                                           
+                                                                                                    
+         R1=EXT_BUS[100]                                   R1=EXT_BUS[100]                          
+  R1=EXT_BUS[30+R6]                                 R1=EXT_BUS[30+R6]                               
+         R2=EXT_BUS[30+R7]                                 R2=EXT_BUS[30+R7]                        
+                                                                                                    
+  R6=68                                             R6=68                                           
+  R7=69                                             R7=69                                           
+  R1=EXT_BUS[30,R6[11:0]]                           R1=EXT_BUS[30,R6[11:0]]                         
+         R2=EXT_BUS[30,R7[11:0]]                           R2=EXT_BUS[30,R7[11:0]]                  
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+  R2=90                                             R2=90                                           
+  R6=20                                             R6=20                                           
+  R7=24                                             R7=24                                           
+  RAM[R6]   = 400                                   RAM[R6]   = 400                                 
+  RAM[R7]   = 400                                   RAM[R7]   = 400                                 
+  RAM[R6]   = R2                                    RAM[R6]   = R2                                  
+  RAM[R7]   = R2                                    RAM[R7]   = R2                                  
+  RAM[R6++] = R2                                    RAM[R6++] = R2                                  
+  RAM[R7++] = R2                                    RAM[R7++] = R2                                  
+                                                                                                    
+  R6=30                                             R6=30                                           
+  R7=34                                             R7=34                                           
+  RAM[R6]   = R2 pulse->p6                          RAM[R6]   = R2 pulse->p6                        
+  RAM[R7]   = R2 pulse->p7                          RAM[R7]   = R2 pulse->p7                        
+  RAM[R6++] = R2 pulse->p6                          RAM[R6++] = R2 pulse->p6                        
+  RAM[R7++] = R2 pulse->p7                          RAM[R7++] = R2 pulse->p7                        
+                                                                                                    
+  RAM[30]   = R2                                    RAM[30]   = R2                                  
+  RAM[30+R6]= R2                                    RAM[30+R6]= R2                                  
+  RAM[30+R7]= R2                                    RAM[30+R7]= R2                                  
+                                                                                                    
+                                                                                                    
+                                                                                                    
+  R2=90                                             R2=90                                           
+  R6=20                                             R6=20                                           
+  R7=24                                             R7=24                                           
+  EXT_BUS[R6]   = 400                               EXT_BUS[R6]   = 400                             
+  EXT_BUS[R7]   = 400                               EXT_BUS[R7]   = 400                             
+  EXT_BUS[R6]   = R2                                EXT_BUS[R6]   = R2                              
+  EXT_BUS[R7]   = R2                                EXT_BUS[R7]   = R2                              
+  EXT_BUS[R6++] = R2                                EXT_BUS[R6++] = R2                              
+  EXT_BUS[R7++] = R2                                EXT_BUS[R7++] = R2                              
+                                                                                                    
+  R6=30                                             R6=30                                           
+  R7=34                                             R7=34                                           
+  EXT_BUS[R6]   = R2 pulse->p6                      EXT_BUS[R6]   = R2 pulse->p6                    
+  EXT_BUS[R7]   = R2 pulse->p7                      EXT_BUS[R7]   = R2 pulse->p7                    
+  EXT_BUS[R6++] = R2 pulse->p6                      EXT_BUS[R6++] = R2 pulse->p6                    
+  EXT_BUS[R7++] = R2 pulse->p7                      EXT_BUS[R7++] = R2 pulse->p7                    
+                                                                                                    
+  EXT_BUS[30]   = R2                                EXT_BUS[30]   = R2                              
+  EXT_BUS[30+R6]= R2                                EXT_BUS[30+R6]= R2                              
+  EXT_BUS[30+R7]= R2                                EXT_BUS[30+R7]= R2                              
+                                                                                                    
+  R6=48                                             R6=48                                           
+  R7=52                                             R7=52                                           
+  EXT_BUS[30,R6[11:0]]= R2                          EXT_BUS[30,R6[11:0]]= R2                        
+  EXT_BUS[30,R7[11:0]]= R2                          EXT_BUS[30,R7[11:0]]= R2                        
+                                                                                                    
+                                                                                                    
+                                                                                                    
+  R3=16'h8033                                       R3=16'h8033                                     
+  R1=16'h007f                                       R1=16'h007f                                     
+gr_flag = R3 > R1                                 gr_flag = R3 > R1                                 
+  branch (!gr_flag) L_branch_aab                    branch (!gr_flag) L_branch_aab                  
+     pulse->p2                                         pulse->p2                                    
+  goto L_branch_aac                                 goto L_branch_aac                               
+                                                                                                    
+     L_branch_aab,pulse->p3                            L_branch_aab,pulse->p3                       
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+L_branch_aac,        R5 = 10                      L_branch_aac,        R5 = 10                      
+  gosub L_delay                                     gosub L_delay                                   
+  L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+L_ISR,  rti                                       L_ISR,  rti                                       
+                                                                                                    
+L_hardbreak_response,  goto L_boot                L_hardbreak_response,  goto L_boot                
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+L_delay, loop L_c L_c R5                          L_delay, loop L_c L_c R5                          
+L_c, nop                                          L_c, nop                                          
+return                                            return                                            
+                                                                                                    
+                                                                                                    
+                                                                                                    
+
+
+
+
+From parse flow control
+	After label reduction .....
+
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          `include ../simple_script_defines.v               `include ../simple_script_defines.v               
+level=0                                                                                                              
+level=0          nop                                               nop                                               
+level=0           goto L_boot                                       goto L_boot                                      
+level=0           goto L_ISR                                        goto L_ISR                                       
+level=0           goto L_hardbreak_response                         goto L_hardbreak_response                        
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_boot, R0=16'h0fff                               L_boot, R0=16'h0fff                               
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R6=64                                             R6=64                                           
+level=0            R7=65                                             R7=65                                           
+level=0                                                                                                              
+level=0                   R1=RAM[R6]                                        R1=RAM[R6]                               
+level=0            R1=RAM[R7]                                        R1=RAM[R7]                                      
+level=0                   R2=RAM[R6++]                                      R2=RAM[R6++]                             
+level=0            R2=RAM[R7++]                                      R2=RAM[R7++]                                    
+level=0                                                                                                              
+level=0                   R3=RAM[R6]    pulse->p6                           R3=RAM[R6]    pulse->p6                  
+level=0            R3=RAM[R7]    pulse->p7                           R3=RAM[R7]    pulse->p7                         
+level=0                   R4=RAM[R6++]  pulse->p6                           R4=RAM[R6++]  pulse->p6                  
+level=0            R4=RAM[R7++]  pulse->p7                           R4=RAM[R7++]  pulse->p7                         
+level=0                                                                                                              
+level=0            R6=66                                             R6=66                                           
+level=0            R7=67                                             R7=67                                           
+level=0                                                                                                              
+level=0                   R1=RAM[100]                                       R1=RAM[100]                              
+level=0            R1=RAM[30+R6]                                     R1=RAM[30+R6]                                   
+level=0                   R2=RAM[30+R7]                                     R2=RAM[30+R7]                            
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R6=70                                             R6=70                                           
+level=0            R7=74                                             R7=74                                           
+level=0                                                                                                              
+level=0                   R2=EXT_BUS[R6++]                                  R2=EXT_BUS[R6++]                         
+level=0            R2=EXT_BUS[R7++]                                  R2=EXT_BUS[R7++]                                
+level=0                   R1=EXT_BUS[R6]                                    R1=EXT_BUS[R6]                           
+level=0            R1=EXT_BUS[R7]                                    R1=EXT_BUS[R7]                                  
+level=0                                                                                                              
+level=0                   R4=EXT_BUS[R6++]  pulse->p6                       R4=EXT_BUS[R6++]  pulse->p6              
+level=0            R4=EXT_BUS[R7++]  pulse->p7                       R4=EXT_BUS[R7++]  pulse->p7                     
+level=0                   R3=EXT_BUS[R6]    pulse->p6                       R3=EXT_BUS[R6]    pulse->p6              
+level=0            R3=EXT_BUS[R7]    pulse->p7                       R3=EXT_BUS[R7]    pulse->p7                     
+level=0                                                                                                              
+level=0            R6=66                                             R6=66                                           
+level=0            R7=67                                             R7=67                                           
+level=0                                                                                                              
+level=0                   R1=EXT_BUS[100]                                   R1=EXT_BUS[100]                          
+level=0            R1=EXT_BUS[30+R6]                                 R1=EXT_BUS[30+R6]                               
+level=0                   R2=EXT_BUS[30+R7]                                 R2=EXT_BUS[30+R7]                        
+level=0                                                                                                              
+level=0            R6=68                                             R6=68                                           
+level=0            R7=69                                             R7=69                                           
+level=0            R1=EXT_BUS[30,R6[11:0]]                           R1=EXT_BUS[30,R6[11:0]]                         
+level=0                   R2=EXT_BUS[30,R7[11:0]]                           R2=EXT_BUS[30,R7[11:0]]                  
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R2=90                                             R2=90                                           
+level=0            R6=20                                             R6=20                                           
+level=0            R7=24                                             R7=24                                           
+level=0            RAM[R6]   = 400                                   RAM[R6]   = 400                                 
+level=0            RAM[R7]   = 400                                   RAM[R7]   = 400                                 
+level=0            RAM[R6]   = R2                                    RAM[R6]   = R2                                  
+level=0            RAM[R7]   = R2                                    RAM[R7]   = R2                                  
+level=0            RAM[R6++] = R2                                    RAM[R6++] = R2                                  
+level=0            RAM[R7++] = R2                                    RAM[R7++] = R2                                  
+level=0                                                                                                              
+level=0            R6=30                                             R6=30                                           
+level=0            R7=34                                             R7=34                                           
+level=0            RAM[R6]   = R2 pulse->p6                          RAM[R6]   = R2 pulse->p6                        
+level=0            RAM[R7]   = R2 pulse->p7                          RAM[R7]   = R2 pulse->p7                        
+level=0            RAM[R6++] = R2 pulse->p6                          RAM[R6++] = R2 pulse->p6                        
+level=0            RAM[R7++] = R2 pulse->p7                          RAM[R7++] = R2 pulse->p7                        
+level=0                                                                                                              
+level=0            RAM[30]   = R2                                    RAM[30]   = R2                                  
+level=0            RAM[30+R6]= R2                                    RAM[30+R6]= R2                                  
+level=0            RAM[30+R7]= R2                                    RAM[30+R7]= R2                                  
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R2=90                                             R2=90                                           
+level=0            R6=20                                             R6=20                                           
+level=0            R7=24                                             R7=24                                           
+level=0            EXT_BUS[R6]   = 400                               EXT_BUS[R6]   = 400                             
+level=0            EXT_BUS[R7]   = 400                               EXT_BUS[R7]   = 400                             
+level=0            EXT_BUS[R6]   = R2                                EXT_BUS[R6]   = R2                              
+level=0            EXT_BUS[R7]   = R2                                EXT_BUS[R7]   = R2                              
+level=0            EXT_BUS[R6++] = R2                                EXT_BUS[R6++] = R2                              
+level=0            EXT_BUS[R7++] = R2                                EXT_BUS[R7++] = R2                              
+level=0                                                                                                              
+level=0            R6=30                                             R6=30                                           
+level=0            R7=34                                             R7=34                                           
+level=0            EXT_BUS[R6]   = R2 pulse->p6                      EXT_BUS[R6]   = R2 pulse->p6                    
+level=0            EXT_BUS[R7]   = R2 pulse->p7                      EXT_BUS[R7]   = R2 pulse->p7                    
+level=0            EXT_BUS[R6++] = R2 pulse->p6                      EXT_BUS[R6++] = R2 pulse->p6                    
+level=0            EXT_BUS[R7++] = R2 pulse->p7                      EXT_BUS[R7++] = R2 pulse->p7                    
+level=0                                                                                                              
+level=0            EXT_BUS[30]   = R2                                EXT_BUS[30]   = R2                              
+level=0            EXT_BUS[30+R6]= R2                                EXT_BUS[30+R6]= R2                              
+level=0            EXT_BUS[30+R7]= R2                                EXT_BUS[30+R7]= R2                              
+level=0                                                                                                              
+level=0            R6=48                                             R6=48                                           
+level=0            R7=52                                             R7=52                                           
+level=0            EXT_BUS[30,R6[11:0]]= R2                          EXT_BUS[30,R6[11:0]]= R2                        
+level=0            EXT_BUS[30,R7[11:0]]= R2                          EXT_BUS[30,R7[11:0]]= R2                        
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R3=16'h8033                                       R3=16'h8033                                     
+level=0            R1=16'h007f                                       R1=16'h007f                                     
+level=0          gr_flag = R3 > R1                                 gr_flag = R3 > R1                                 
+level=01           branch (!gr_flag) L_branch_aab                    if (!gr_flag){                                  
+level=01              pulse->p2                                         pulse->p2                                    
+level=0            goto L_branch_aac                                 }                                               
+level=02                                                             else {                                          
+level=02              L_branch_aab,pulse->p3                            pulse->p3                                    
+level=0                                                              }                                               
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_branch_aac,        R5 = 10                              R5 = 10                                   
+level=0            gosub L_delay                                     gosub L_delay                                   
+level=0            L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_ISR,  rti                                       L_ISR,  rti                                       
+level=0                                                                                                              
+level=0          L_hardbreak_response,  goto L_boot                L_hardbreak_response,  goto L_boot                
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_delay, loop L_c L_c R5                          L_delay, loop L_c L_c R5                          
+level=0          L_c, nop                                          L_c, nop                                          
+level=0          return                                            return                                            
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              

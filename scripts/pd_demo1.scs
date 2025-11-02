@@ -1,0 +1,163 @@
+`define APP_OUT0    11'h7f0
+`define APP_OUT1    11'h7f1
+`define APP_OUT2    11'h7f2
+`define APP_OUT3    11'h7f3
+`define APP_OUT4    11'h7f4
+`define APP_OUT5    11'h7f5
+`define APP_OUT6    11'h7f6
+`define APP_OUT7    11'h7f7
+
+`define ISR_TO_ALL_MAILBOX  	11'h100
+
+nop
+goto L_boot  		   // goto boot sequence
+goto L_ISR		   // goto ISR
+goto L_hardbreak_response  // prepare 
+
+timer_0 = 20 dec @(c15)   //
+wait t0_done
+
+L_wait_HB, wait c14        // c14 tied to "0"
+
+L_hardbreak_response, device_3->4'bxx1x	// select GPR1 on s1
+	R5 = s1                    	// the index of the script
+	goto R5 
+	goto L_script1            	// launching script1
+	goto L_script2             	// launching script2
+	goto L_script2             	// launching script3
+	goto L_script2             	// launching script4
+	goto L_wait_HB			// return to wait_HB
+
+
+/////////////////////////////////////////////////////////////////////////////
+// script 1
+/////////////////////////////////////////////////////////////////////////////
+L_script1, nop
+	timer_0 = 200 dec @(c15)   	// c15 tied to "1" => timer_0 count clocks
+	timer_1 = 10  dec @(c15)   	// the same
+	R3 = 72                    	// the value for the first write
+	RAM[`APP_OUT3]=R3        	// setting d2a value
+	pulse->p5   
+	wait t1_done               	// waiting for t1 to complete
+	gosub L_a2d_2_read
+
+	wait t0_done               	// wait for the long timer to complete	
+	goto L_wait_HB
+
+/////////////////////////////////////////////////////////////////////////////
+// script 2
+/////////////////////////////////////////////////////////////////////////////
+L_script2, nop
+	goto L_wait_HB
+
+/////////////////////////////////////////////////////////////////////////////
+// routines
+/////////////////////////////////////////////////////////////////////////////
+
+L_boot, R0=16'h1080 		   	// L_boot, begining of some boot sequence
+	RAM[`APP_OUT0]=R0                  	// init app out regs
+	R0=16'habcd
+	RAM[`APP_OUT1]=R0                  	// init app out regs
+	R0=16'h1111
+	RAM[`APP_OUT2]=R0                  	// init app out regs
+	R0=16'h0101
+	RAM[`APP_OUT3]=R0                  	// init app out regs
+// also can be done with load from ram and write to APP
+// where data in ram was prepared by host
+	pulse-> p4 				// qualify the data
+// possibly check some config pin or reg and do something
+	if (c5) {
+		R0=16'h0203
+		RAM[`APP_OUT4]=R0            	// init app out regs
+	}
+	
+// do something
+	R6=6
+	RAM[R6]=16'h3223
+	RAM[11'h7f0]=R6 // should go to APP_OUT0
+	goto L_wait_HB  // end boot goto wait_HB
+
+/////////////////////////////////////////////////////////////////////////////
+
+L_ISR, R7 = 32 // ISR start code. start add of sample buffer	
+	loop L_get_samples L_get_samples 30
+	L_get_samples, RAM[R7++]=R1 R1=s1 pulse->p3 	// read a2d buff
+	// do the analysis 
+	// put result in predefined add for other processes to check
+	R0 = 16'h0111			// three ports needs some service
+	RAM[`ISR_TO_ALL_MAILBOX] = R0   // put result in mailbox
+	rti
+ 
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// ocp sub-routines
+/////////////////////////////////////////////////////////////////////////////
+
+L_ocp_write, RAM[R7++] = R3 pulse->p3   // issue a store command to mem space outside the RAM
+wait c2 // wait for completion of the ocp slave
+return
+
+
+/////////////////////////////////////////////////////////////////////////////
+L_a2d_2_read, pulse-> p7  // p7 is start cmd for a2d_2
+device_3->4'bxxx1	// selecting a2d_2 on s0
+wait_load c7 R2= s0     // wait for the a2d result
+return                  // return value at R2
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+////////////// L_get_data_c0c1 /////////////////
+////////////////////////////////////////////////
+L_get_data_c0c1, loop L_b L_b R5
+pulse->p0 // for the external device to generate the next input
+R2=s0 pulse->p0
+L_b, wait_store c0 RAM[R7++]=R2=s0 pulse->p0 breakif c1
+RAM[R7++]=R2 // writing the last element
+return
+////////////////////////////////////////////////
+////////////// L_get_data_c0c0 /////////////////
+////////////////////////////////////////////////
+L_get_data_c0c0, loop L_d L_d R5
+pulse->p0 // for the external device to generate the next input
+R2=s0 pulse->p0
+L_d, wait_store c0 RAM[R7++]=R2=s0 pulse->p0 breakif !c0
+RAM[R7++]=R2 // writing the last element
+return
+////////////////////////////////////////////////
+//////////// L_send_data_c0c0 //////////////////
+////////////////////////////////////////////////
+L_send_data_c0c0, loop L_s L_s R5
+L_s, wait_load c0 R0=RAM[R7++]  pulse->p0 breakif !c0
+// RAM[R7++]=R2 // writing the last element
+return
+////////////////////////////////////////////////
+//////////// L_send_data_c0c1 //////////////////
+////////////////////////////////////////////////
+L_send_data_c0c1, loop L_s L_s R5
+L_s, wait_load c0 R0=RAM[R7++]  pulse->p0 breakif c1
+// RAM[R7++]=R2 // writing the last element
+return
+////////////////////////////////////////////////
+/////////// L_delay ////////////////////////////
+////////////////////////////////////////////////
+L_delay, loop L_c L_c R5
+L_c, nop
+return
+////////////////////////////////////////////////
+///////// L_sub_synch //////////////////////////
+////////////////////////////////////////////////
+L_sub_synch, if (c0) L_sub_synch // waiting for c0 to fall
+return
+
+L_hard_break_code, goto L_script2 // indirect example
+nop
+
+

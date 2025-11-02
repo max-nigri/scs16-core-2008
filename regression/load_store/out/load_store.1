@@ -1,0 +1,159 @@
+Pre-Processing flow control ......
+	searching for if ( Rx (==|!=|>|<>) ) ... expression, inserting alui and translating to branch
+	searching for if ( cx ) ... expression and translating to branch
+	searching wait cx ... expression and translating to branch with label
+    0     1                                                     // scs compiler creates an "out" directory at the invokation
+    1     2                                                     // directory, and proceeds with the compilation from that directory
+    2     3                                                     // so if one wants to use relative path for the include files
+    3     4                                                     // one must use the ../ notation 
+    4     5                                                     // 
+    5     6 `include ../simple_script_defines.v                 // `include ../simple_script_defines.v
+    6     7                                                     // 
+    7     8 nop                                                 // mandatory, start with nop.
+    8     9  goto L_boot                                        // goto boot sequence, jump over the interrupt vector
+    9    10  goto L_ISR                                         // goto ISR, pc=2 interrupt destination
+   10    11  goto L_hardbreak_response                          // goto Hardbreak, pc=3 hardbreak destination
+   11    12                                                     // 
+   12    13                                                     // 
+   13    14 L_boot, R0=16'h0fff                                 // L_boot, begining of some boot sequence
+   14    15                                                     // do something
+   15    16                                                     // internal load
+   16    17   R6=64                                             // loadid
+   17    18   R7=65                                             // loadid
+   18    19                                                     // 
+   19    20          R1=RAM[R6]                                 // load
+   20    21   R1=RAM[R7]                                        // load
+   21    22          R2=RAM[R6++]                               // load
+   22    23   R2=RAM[R7++]                                      // load
+   23    24                                                     // 
+   24    25          R3=RAM[R6]    pulse->p6                    // load
+   25    26   R3=RAM[R7]    pulse->p7                           // load
+   26    27          R4=RAM[R6++]  pulse->p6                    // load 
+   27    28   R4=RAM[R7++]  pulse->p7                           // load
+   28    29                                                     // 
+   29    30   R6=66                                             // loadid
+   30    31   R7=67                                             // loadid
+   31    32                                                     // 
+   32    33          R1=RAM[100]                                // loadia
+   33    34   R1=RAM[30+R6]                                     // loadia  with offset
+   34    35          R2=RAM[30+R7]                              // loadia  with offset
+   35    36                                                     // 
+   36    37                                                     // 
+   37    38                                                     // external bus load
+   38    39   R6=70                                             // loadid
+   39    40   R7=74                                             // loadid
+   40    41                                                     // 
+   41    42          R2=EXT_BUS[R6++]                           // load
+   42    43   R2=EXT_BUS[R7++]                                  // load
+   43    44          R1=EXT_BUS[R6]                             // load
+   44    45   R1=EXT_BUS[R7]                                    // load
+   45    46                                                     // 
+   46    47          R4=EXT_BUS[R6++]  pulse->p6                // load 
+   47    48   R4=EXT_BUS[R7++]  pulse->p7                       // load
+   48    49          R3=EXT_BUS[R6]    pulse->p6                // load
+   49    50   R3=EXT_BUS[R7]    pulse->p7                       // load
+   50    51                                                     // 
+   51    52   R6=66                                             // loadid
+   52    53   R7=67                                             // loadid
+   53    54                                                     // 
+   54    55          R1=EXT_BUS[100]                            // loadia
+   55    56   R1=EXT_BUS[30+R6]                                 // loadia  with offset
+   56    57          R2=EXT_BUS[30+R7]                          // loadia  with offset
+   57    58                                                     // 
+   58    59   R6=68                                             // loadid
+   59    60   R7=69                                             // loadid
+   60    61   R1=EXT_BUS[30,R6[11:0]]                           // loadia  with long add
+   61    62          R2=EXT_BUS[30,R7[11:0]]                    // loadia  with long add
+   62    63                                                     // 
+   63    64                                                     // 
+   64    65                                                     // 
+   65    66                                                     // internal store	
+   66    67   R2=90                                             // 
+   67    68   R6=20                                             // 
+   68    69   R7=24                                             // 
+   69    70   RAM[R6]   = 400                                   // storeid
+   70    71   RAM[R7]   = 400                                   // storeid
+   71    72   RAM[R6]   = R2                                    // store
+   72    73   RAM[R7]   = R2                                    // store
+   73    74   RAM[R6++] = R2                                    // store
+   74    75   RAM[R7++] = R2                                    // store
+   75    76                                                     // 
+   76    77   R6=30                                             // 
+   77    78   R7=34                                             // 
+   78    79   RAM[R6]   = R2 pulse->p6                          // store + pulse
+   79    80   RAM[R7]   = R2 pulse->p7                          // store + pulse
+   80    81   RAM[R6++] = R2 pulse->p6                          // store + pulse
+   81    82   RAM[R7++] = R2 pulse->p7                          // store + pulse
+   82    83                                                     // 
+   83    84   RAM[30]   = R2                                    // storeia 
+   84    85   RAM[30+R6]= R2                                    // storeia with offset
+   85    86   RAM[30+R7]= R2                                    // storeia with offset
+   86    87                                                     // 
+   87    88                                                     // 
+   88    89                                                     // external store	
+   89    90   R2=90                                             // 
+   90    91   R6=20                                             // 
+   91    92   R7=24                                             // 
+   92    93   EXT_BUS[R6]   = 400                               // storeid
+   93    94   EXT_BUS[R7]   = 400                               // storeid
+   94    95   EXT_BUS[R6]   = R2                                // store
+   95    96   EXT_BUS[R7]   = R2                                // store
+   96    97   EXT_BUS[R6++] = R2                                // store
+   97    98   EXT_BUS[R7++] = R2                                // store
+   98    99                                                     // 
+   99   100   R6=30                                             // 
+  100   101   R7=34                                             // 
+  101   102   EXT_BUS[R6]   = R2 pulse->p6                      // store + pulse
+  102   103   EXT_BUS[R7]   = R2 pulse->p7                      // store + pulse
+  103   104   EXT_BUS[R6++] = R2 pulse->p6                      // store + pulse
+  104   105   EXT_BUS[R7++] = R2 pulse->p7                      // store + pulse
+  105   106                                                     // 
+  106   107   EXT_BUS[30]   = R2                                // storeia 
+  107   108   EXT_BUS[30+R6]= R2                                // storeia with offset
+  108   109   EXT_BUS[30+R7]= R2                                // storeia with offset
+  109   110                                                     // 
+  110   111   R6=48                                             // 
+  111   112   R7=52                                             // 
+  112   113   EXT_BUS[30,R6[11:0]]= R2                          // storeia with long add
+  113   114   EXT_BUS[30,R7[11:0]]= R2                          // storeia with long add
+  114   115                                                     // 
+  115   116                                                     // 
+  116   117                                                     // R2=EXT_BUS[{12'habc,R7[11:0]}]  // loadia  with offset
+  117   118   R3=16'h8033                                       // 
+  118   119   R1=16'h007f                                       // 
+  119   120 gr_flag = R3 > R1                                   // 
+  120   120   if (!gr_flag){                                    // 
+  121   121      pulse->p2                                      // 
+  122   122   }                                                 // 
+  123   123   else {                                            // 
+  124   124      pulse->p3                                      // 
+  125   125   }                                                 // 
+  126   126                                                     // 
+  127   127                                                     // 
+  128   128                                                     // 
+  129   129                                                     // 
+  130   130                                                     // do something
+  131   131         R5 = 10                                     // 
+  132   132   gosub L_delay                                     // 
+  133   133   L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      // c14 tied to "0" 
+  134   134                                                     // 
+  135   135                                                     // 
+  136   136                                                     // //////////////////////////////////////////////
+  137   137                                                     // routines
+  138   138                                                     // //////////////////////////////////////////////
+  139   139                                                     // //////////////////////////////////////////////
+  140   140                                                     // 
+  141   141 L_ISR,  rti                                         // 
+  142   142                                                     // 
+  143   143 L_hardbreak_response,  goto L_boot                  // 
+  144   144                                                     // 
+  145   145                                                     // //////////////////////////////////////////////
+  146   146                                                     // ///////// L_delay ////////////////////////////
+  147   147                                                     // //////////////////////////////////////////////
+  148   148                                                     // 
+  149   149 L_delay, loop L_c L_c R5                            // 
+  150   150 L_c, nop                                            // 
+  151   151 return                                              // 
+  152   152                                                     // 
+  153   153                                                     // 
+  154   154                                                     // 

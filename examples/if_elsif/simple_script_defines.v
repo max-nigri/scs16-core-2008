@@ -1,0 +1,32 @@
+// General Definition
+`define APP_OUT0_ADDR                        2032
+`define APP_OUT1_ADDR                        2033
+`define APP_OUT2_ADDR                        2034
+`define APP_OUT3_ADDR                        2035
+`define APP_OUT4_ADDR                        2036
+`define APP_OUT5_ADDR                        2037
+`define APP_OUT6_ADDR                        2038
+`define APP_OUT7_ADDR                        2039
+//
+// Address Definition
+//
+`define ICHANNEL8_ADDR                       47
+`define ICHANNEL9_ADDR                       48
+`define ICHANNEL10_ADDR                      49
+`define ICHANNEL11_ADDR                      50
+`define AC_VPORT0_ADDR                       51
+`define AC_VPORT1_ADDR                       52
+`define TMR_AC_DISCO_CNT8_ADDR               352
+`define TMR_AC_DISCO_CNT9_ADDR               353
+`define TMR_AC_DISCO_CNT10_ADDR              354
+`define TMR_AC_DISCO_CNT11_ADDR              355
+`define TMR_MPS_CNT0_ADDR                    356
+`define TMR_RCV_OVLD_CNT10_ADDR              402
+`define TMR_RCV_OVLD_CNT11_ADDR              403
+`define PORT_OFF_DA_ADDR                     2001
+`define ADC_BUF0_DEFAULT                     16'h0000
+`define AC_VPORT_CALIB_MAX_DEFAULT           16'h0000
+`define AC_VPORT_CALIB_MIN_DEFAULT           16'h0000
+`define VMAIN_TH_LOW_DEFAULT                 16'h02e5
+`define VMAIN_TH_HIGH_DEFAULT                16'h03e7
+`define VMAIN_RPS_TH_DEFAULT                 16'h0318
