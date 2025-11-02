@@ -42,3 +42,60 @@ In short, the **SCS16 core** combines the **speed of an FSM** with the **adaptab
 ---
 
 **Keywords:** scs16, microcontroller-core, fsm, single-cycle, asic, fpga, network-processing, hardware-design, reconfigurable-logic, 16-bit, programmable-hardware
+
+
+## Directory Structure
+
+### `docs/`
+Start here.  
+- Begin with the **Executive Summary**, then the **Overview** PDFs.  
+- Next, review the presentations:
+  - `zorba_cores5`
+  - `scsu`
+  - `packet_filtering_use_case`
+- Finally, check out the **QRC (Quick Reference Card)** for a concise summary.
+
+---
+
+### `scs16_comp/`
+Contains the **compiler and translator**, written in **Perl**.
+
+Tools included:
+- **`scs16_asm.pl <customer_script>`**  
+  Takes a user script and generates the **microcode file** for the simulator, along with multiple debug and visualization outputs.  
+- **`scs16_line.pl`**  
+  Allows compilation of a single line directly from the shell prompt — convenient for quick tests.
+
+---
+
+### `scripts/`
+Holds **user-level C-like code examples** using the `.scs` file extension.  
+Most should compile successfully, though minor dependency issues may occur.
+
+---
+
+### `verilog/`
+Contains all **HDL source files** (Verilog) and **testbench collateral**.  
+- The reference simulator is **ModelSim**.  
+- `.do` simulation scripts are provided and may require small adjustments depending on your environment.
+
+---
+
+### `examples/`
+Includes several **application-specific use cases**.  
+Navigate into any subfolder and compile the script — it will create an `out/` directory with the generated **microcode** and related **simulation collateral**.
+
+---
+
+### `regressions/`
+Contains selected **test cases** and **use scenarios** that were used during the core’s original development and verification process.
+
+
+
+
+
+
+
+
+
+
