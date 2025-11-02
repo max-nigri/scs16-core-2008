@@ -1,5 +1,44 @@
-# scs16-core-2008
-scs16 is a micro controller core, with 16b data path and single cycle instructions, development started at 2003, I'm making the 2008 version public. this core is very efficient replacing FSM hence making flows programmable instead of hardcoded
+# SCS16 Core (2008 Release)
 
-in early 2000, communication standarts were popular and evolving, and many chip companies designed chips to cover functionalities needed in the networks stack.
-back then, the typical ASIC clock speed was few hundreds of Mhz and at network speed of 100Mbps, one may have less that 1000 clocks cycles to examine one packet of data, traditionally this examination is done with an FSM, that are naturaly "fixed", and can not support changes in the flow after peoduction, this is exactly where the SCS16 technology shines, one use this type of core in place of the FSM and use simple languuge' C-like' to express the flow, hence the flow remain flexible and can be changed after production. 
+## Overview
+**SCS16** is a microcontroller core featuring a **16-bit datapath** and **single-cycle instruction execution**.  
+Development of the SCS16 architecture began in **2003**, and this repository makes the **2008 version** publicly available for the first time.
+
+The core was designed to be **highly efficient**, serving as a **programmable alternative to traditional finite state machines (FSMs)** — allowing hardware control flows to be expressed in code rather than hardwired logic.
+
+---
+
+## Historical Context
+In the early 2000s, **communication standards** were rapidly evolving, and semiconductor companies were developing ASICs to handle various layers of the **network stack**.
+
+At that time:
+- Typical ASIC clock speeds were only a few hundred MHz.  
+- At network rates of **100 Mbps**, engineers had fewer than **1000 clock cycles** to inspect and process each data packet.  
+- Traditionally, such control logic was implemented using **FSMs**, which are inherently **fixed** — once fabricated, they cannot be modified to support changes in protocol or flow.
+
+---
+
+## Motivation
+This limitation inspired the creation of **SCS16**, a **single-cycle programmable controller** designed to replace FSMs in communication and data-path designs.
+
+Instead of hardcoding behavior into logic states, the SCS16 allows engineers to:
+- Express control flows in a simple, **C-like language**.  
+- **Reprogram** and **update** flow behavior even after production.  
+- Maintain **FSM-level performance** while achieving software-like **flexibility**.
+
+---
+
+## Key Advantages
+- ⚡ **Single-cycle performance** — as fast as dedicated FSM logic.  
+- 🧠 **Programmable flexibility** — flow logic can be modified post-silicon.  
+- 🧩 **Compact design** — suitable for integration into ASICs or FPGAs.  
+- 🔁 **Ideal for network processors**, communication controllers, and hardware-based protocol engines.
+
+---
+
+## Summary
+In short, the **SCS16 core** combines the **speed of an FSM** with the **adaptability of software**, bridging the gap between hardwired control and reconfigurable intelligence.
+
+---
+
+**Keywords:** scs16, microcontroller-core, fsm, single-cycle, asic, fpga, network-processing, hardware-design, reconfigurable-logic, 16-bit, programmable-hardware
