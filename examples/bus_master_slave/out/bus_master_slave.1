@@ -1,0 +1,49 @@
+Pre-Processing flow control ......
+	searching for if ( Rx (==|!=|>|<>) ) ... expression, inserting alui and translating to branch
+	searching for if ( cx ) ... expression and translating to branch
+	searching wait cx ... expression and translating to branch with label
+    0     1                                                     // scs compiler creates an "out" directory at the invokation
+    1     2                                                     // directory, and proceeds with the compilation from that directory
+    2     3                                                     // so if one wants to use relative path for the include files
+    3     4                                                     // one must use the ../ notation 
+    4     5                                                     // 
+    5     6 `include ../simple_script_defines.v                 // `include ../simple_script_defines.v
+    6     7                                                     // 
+    7     8 nop                                                 // 
+    8     9  goto L_boot                                        // goto boot sequence
+    9    10  goto L_ISR                                         // goto ISR
+   10    11  goto L_hardbreak_response                          // prepare 
+   11    12                                                     // 
+   12    13                                                     // 
+   13    14 L_boot, R0=16'h0fff                                 // L_boot, begining of some boot sequence
+   14    15   RAM[`APP_OUT0_ADDR]=R0                            // init app out regs
+   15    16                                                     // do something
+   16    17                                                     // 
+   17    18   R6=20                                             // 
+   18    19         EXT_BUS[R6] = R6                            // external bus write
+   19    20   nop                                               // 
+   20    21         R5 = EXT_BUS[R6]                            // external bus read 
+   21    22   gosub L_delay                                     // 
+   22    23   L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      // c14 tied to "0" 
+   23    24                                                     // 
+   24    25                                                     // 
+   25    26                                                     // //////////////////////////////////////////////
+   26    27                                                     // routines
+   27    28                                                     // //////////////////////////////////////////////
+   28    29                                                     // //////////////////////////////////////////////
+   29    30                                                     // 
+   30    31 L_ISR,  rti                                         // 
+   31    32                                                     // 
+   32    33 L_hardbreak_response,  goto L_boot                  // 
+   33    34                                                     // 
+   34    35                                                     // 
+   35    36                                                     // //////////////////////////////////////////////
+   36    37                                                     // ///////// L_delay ////////////////////////////
+   37    38                                                     // //////////////////////////////////////////////
+   38    39                                                     // 
+   39    40 L_delay, loop L_c L_c R5                            // 
+   40    41 L_c, nop                                            // 
+   41    42 return                                              // 
+   42    43                                                     // 
+   43    44                                                     // 
+   44    45                                                     // 

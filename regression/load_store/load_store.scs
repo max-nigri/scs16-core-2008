@@ -1,0 +1,154 @@
+// scs compiler creates an "out" directory at the invokation
+// directory, and proceeds with the compilation from that directory
+// so if one wants to use relative path for the include files
+// one must use the ../ notation 
+
+`include ../simple_script_defines.v
+
+nop                        // mandatory, start with nop.
+goto L_boot  		   // goto boot sequence, jump over the interrupt vector
+goto L_ISR		   // goto ISR, pc=2 interrupt destination
+goto L_hardbreak_response  // goto Hardbreak, pc=3 hardbreak destination
+
+
+L_boot, R0=16'h0fff 		   	// L_boot, begining of some boot sequence
+	// do something
+	// internal load
+	R6=64			// loadid
+	R7=65 			// loadid
+
+       	R1=RAM[R6]    		// load
+	R1=RAM[R7] 		// load
+       	R2=RAM[R6++]  		// load
+	R2=RAM[R7++]		// load
+ 
+       	R3=RAM[R6]    pulse->p6	// load
+	R3=RAM[R7]    pulse->p7	// load
+       	R4=RAM[R6++]  pulse->p6	// load 
+	R4=RAM[R7++]  pulse->p7	// load
+
+	R6=66			// loadid
+	R7=67 			// loadid
+
+       	R1=RAM[100]   		// loadia
+	R1=RAM[30+R6]		// loadia  with offset
+       	R2=RAM[30+R7]  		// loadia  with offset
+
+
+	// external bus load
+	R6=70			// loadid
+	R7=74 			// loadid
+
+       	R2=EXT_BUS[R6++]  		// load
+	R2=EXT_BUS[R7++]		// load
+       	R1=EXT_BUS[R6]    		// load
+	R1=EXT_BUS[R7] 		// load
+ 
+       	R4=EXT_BUS[R6++]  pulse->p6	// load 
+	R4=EXT_BUS[R7++]  pulse->p7	// load
+       	R3=EXT_BUS[R6]    pulse->p6	// load
+	R3=EXT_BUS[R7]    pulse->p7	// load
+
+	R6=66			// loadid
+	R7=67 			// loadid
+
+       	R1=EXT_BUS[100]   		// loadia
+	R1=EXT_BUS[30+R6]		// loadia  with offset
+       	R2=EXT_BUS[30+R7]  		// loadia  with offset
+
+	R6=68			// loadid
+	R7=69 			// loadid
+	R1=EXT_BUS[30,R6[11:0]]		// loadia  with long add
+       	R2=EXT_BUS[30,R7[11:0]]  	// loadia  with long add
+
+
+
+	// internal store	
+	R2=90
+	R6=20
+	R7=24
+	RAM[R6]   = 400		// storeid
+	RAM[R7]   = 400		// storeid
+	RAM[R6]   = R2		// store
+	RAM[R7]   = R2		// store
+	RAM[R6++] = R2		// store
+	RAM[R7++] = R2		// store
+
+	R6=30
+	R7=34
+	RAM[R6]   = R2 pulse->p6	// store + pulse
+	RAM[R7]   = R2 pulse->p7	// store + pulse
+	RAM[R6++] = R2 pulse->p6	// store + pulse
+	RAM[R7++] = R2 pulse->p7	// store + pulse
+
+	RAM[30]   = R2		// storeia 
+	RAM[30+R6]= R2		// storeia with offset
+	RAM[30+R7]= R2		// storeia with offset
+
+
+	// external store	
+	R2=90
+	R6=20
+	R7=24
+	EXT_BUS[R6]   = 400		// storeid
+	EXT_BUS[R7]   = 400		// storeid
+	EXT_BUS[R6]   = R2		// store
+	EXT_BUS[R7]   = R2		// store
+	EXT_BUS[R6++] = R2		// store
+	EXT_BUS[R7++] = R2		// store
+
+	R6=30
+	R7=34
+	EXT_BUS[R6]   = R2 pulse->p6	// store + pulse
+	EXT_BUS[R7]   = R2 pulse->p7	// store + pulse
+	EXT_BUS[R6++] = R2 pulse->p6	// store + pulse
+	EXT_BUS[R7++] = R2 pulse->p7	// store + pulse
+
+	EXT_BUS[30]   = R2		// storeia 
+	EXT_BUS[30+R6]= R2		// storeia with offset
+	EXT_BUS[30+R7]= R2		// storeia with offset
+
+	R6=48
+	R7=52
+	EXT_BUS[30,R6[11:0]]= R2		// storeia with long add
+	EXT_BUS[30,R7[11:0]]= R2		// storeia with long add
+
+	// some compare debug 
+	// compare implementation is signed
+	R3=16'h8033
+	R1=16'h007f
+	if (R3 > R1) {
+	   pulse->p2	// not taken
+	}
+	else {
+	   pulse->p3	// taken 
+	}
+	    
+
+	
+
+	// do something
+        R5 = 10
+	gosub L_delay
+	wait c14            // c14 tied to "0" 
+
+
+////////////////////////////////////////////////
+// routines
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+
+L_ISR,  rti
+
+L_hardbreak_response, goto L_boot 
+
+////////////////////////////////////////////////
+/////////// L_delay ////////////////////////////
+////////////////////////////////////////////////
+
+L_delay, loop L_c L_c R5
+L_c, nop
+return
+
+
+

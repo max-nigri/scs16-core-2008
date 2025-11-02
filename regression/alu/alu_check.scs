@@ -1,0 +1,59 @@
+/////////////////////////////////////////////////////////////////////// 
+// File:  		alu_check 
+// Location:		 
+// Created by:		Nadav Feldman                          
+// Date Creation:  	01.12.03 
+// Version:		1.0                                                  
+// Modified:		 
+// 
+// Project: 		SCS16 
+//            
+// Purpose:		This progrem is made to check the alu a genral test, its checking all the opertions of the alu 
+// 
+// Description:          
+//			 
+// How to use it:	                                                  
+// 
+// ToDo:                                                            
+// 
+/////////////////////////////////////////////////////////////////////// 
+//  "**GOLDEN**" 
+//  ------------ 
+nop                                                 
+R1=12                                              //  
+R2=12                                               
+R3=R1+R2                                           // R3=24 
+R4=32000                                            
+R1=R4-R1                                           // R1=31988 
+R5=R3+R2                                           // R5=36 h24 
+R6=10                                               
+R4=-100                                             
+R7=R6-R4                                           // R7=110 
+R7=R2+R4                                           // R7=-88 
+nop                                                 
+R5=R4|R1                                           // 
+nop                                                 
+R5=R4&R1                                            
+nop                                                 
+R5=R4^R1                                            
+R7=1                                               // 
+R1=4                                                
+R4 =R7 << R1                                       // R4=16 
+R1=3                                                
+R4 =R4 >> R1                                       // R4=2 
+R5=3                                               // 
+R6=2                                                
+gr_flag =R5 > R6                                    
+gr_flag =R6 > R5                                    
+R5=-3                                               
+R6=32000                                            
+gr_flag =R5 > R6                                   // LS=1 
+gr_flag =R6 > R5                                   // GR=1 LS=0  
+R5=-3444                                            
+R6=-32000                                           
+gr_flag =R5 < R6                                   // GR=1 
+gr_flag =R6 < R5                                   // GR=0 LS=1 
+nop                                                 
+wait c0
+
+ 

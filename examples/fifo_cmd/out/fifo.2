@@ -1,0 +1,603 @@
+Translating if, else, elsif construct to branch with lables
+here ==============
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  1, level=0          nop
+pc=  1, level=0          
+pc=  1, level=0          
+pc=  2, level=0          `define BFA 0
+pc=  3, level=0          `define FWP 8
+pc=  4, level=0          `define FRP 9
+pc=  5, level=0          `define FMN 10
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  6, level=0          R6=16
+pc=  7, level=0          RAM[R6++]=9
+pc=  8, level=0          RAM[R6++]=9
+pc=  9, level=0          RAM[R6++]=16'b0100011110000000
+pc=  9, level=0          
+pc= 10, level=0          R5=20
+pc= 10, level=0          
+pc= 10, level=0          
+pc= 10, level=0          
+pc= 11, level=0          loop L_fill_fifo_start L_fill_fifo_end R5
+pc= 11, level=0          
+pc= 12, level=0               R6=17
+pc= 13, level=0               R1=RAM[R6++]
+pc= 14, level=0               R0=RAM[R6++]
+pc= 14, level=0          
+pc= 15, level=01         L_fill_fifo_start,  if (!R0[15]){
+pc= 16, level=01                  nop
+pc= 16, level=0                    }
+pc= 16, level=02                   else{
+pc= 17, level=02                 R7=R1+`BFA
+pc= 18, level=02                 RAM[R7]=R4
+pc= 19, level=02                 R4=R4+1
+pc= 20, level=02         L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)
+pc= 20, level=0                }
+pc= 20, level=0          
+pc= 21, level=0          RAM[17]=R1
+pc= 22, level=0          RAM[18]=R0
+pc= 22, level=0          
+pc= 22, level=0          
+pc= 23, level=0                R1=RAM[16]
+pc= 23, level=0          
+pc= 23, level=0          
+pc= 23, level=0          
+pc= 24, level=0          loop L_emp_fifo_start L_emp_fifo_end R5
+pc= 25, level=01         L_emp_fifo_start,       if (!R0[14]){
+pc= 26, level=01                  nop
+pc= 26, level=0                }
+pc= 26, level=02               else{
+pc= 27, level=02                 R7=R1+`BFA
+pc= 28, level=02                 R4=RAM[R7]
+pc= 29, level=02         L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)
+pc= 29, level=0                }
+pc= 29, level=0          
+pc= 30, level=0          RAM[16]=R1
+pc= 31, level=0          RAM[18]=R0
+pc= 31, level=0          
+pc= 32, level=0          L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa
+pc= 33, level=0          nop
+pc= 33, level=0          
+pc= 33, level=0          
+pc= 33, level=0          
+pc= 33, level=0          
+
+The levels are array is :
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 01 01 0 02 02 02 02 02 0 0 0 0 0 0 0 0 0 0 0 01 01 0 02 02 02 02 0 0 0 0 0 0 0 0 0 0 0
+
+>>>>>>>>>>>>>>>>   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 01 01 0 02 02 02 02 0 0 0 0 0 0 0 0 0 0 0
+ 58, 66
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 01 01 0 02 02 02 02 0 0 0 0 0 0 0 0 0 0 0 58 66
+########### from translate_seq_type_2label  : if_then_else
+# L_fill_fifo_start,  if (!R0[15]){
+#          nop
+#           }
+#           else{
+#         R7=R1+`BFA
+#         RAM[R7]=R4
+#         R4=R4+1
+# L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)
+#       }
+Successful translation of if_then_else 58 - 66
+	L_fill_fifo_start,  if (!R0[15]){                 L_fill_fifo_start,  branch (!R0[15]) L_branch_aab 
+	         nop                                               nop                                      
+	          }                                                 goto L_branch_aac                       
+	          else{                                                                                     
+	        R7=R1+`BFA                                        L_branch_aab,R7=R1+`BFA                   
+	        RAM[R7]=R4                                        RAM[R7]=R4                                
+	        R4=R4+1                                           R4=R4+1                                   
+	L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        
+	      }                                                 L_branch_aac                                
+>>>>>>>>>>>>>>>>   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 77, 84
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 84
+########### from translate_seq_type_2label  : if_then_else
+# L_emp_fifo_start,       if (!R0[14]){
+#          nop
+#       }
+#       else{
+#         R7=R1+`BFA
+#         R4=RAM[R7]
+# L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)
+#       }
+Successful translation of if_then_else 77 - 84
+	L_emp_fifo_start,       if (!R0[14]){             L_emp_fifo_start,       branch (!R0[14]) L_branch_aad
+	         nop                                               nop                                      
+	      }                                                 goto L_branch_aae                           
+	      else{                                                                                         
+	        R7=R1+`BFA                                        L_branch_aad,R7=R1+`BFA                   
+	        R4=RAM[R7]                                        R4=RAM[R7]                                
+	L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       
+	      }                                                 L_branch_aae                                
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+
+
+
+From parse flow control
+	After finding and translating .....
+
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          nop                                               nop                                               
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          `define BFA 0                                     `define BFA 0                                     
+level=0          `define FWP 8                                     `define FWP 8                                     
+level=0          `define FRP 9                                     `define FRP 9                                     
+level=0          `define FMN 10                                    `define FMN 10                                    
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          R6=16                                             R6=16                                             
+level=0          RAM[R6++]=9                                       RAM[R6++]=9                                       
+level=0          RAM[R6++]=9                                       RAM[R6++]=9                                       
+level=0          RAM[R6++]=16'b0100011110000000                    RAM[R6++]=16'b0100011110000000                    
+level=0                                                                                                              
+level=0          R5=20                                             R5=20                                             
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          loop L_fill_fifo_start L_fill_fifo_end R5         loop L_fill_fifo_start L_fill_fifo_end R5         
+level=0                                                                                                              
+level=0               R6=17                                             R6=17                                        
+level=0               R1=RAM[R6++]                                      R1=RAM[R6++]                                 
+level=0               R0=RAM[R6++]                                      R0=RAM[R6++]                                 
+level=0                                                                                                              
+level=01         L_fill_fifo_start,  branch (!R0[15]) L_branch_aab L_fill_fifo_start,  if (!R0[15]){                 
+level=01                  nop                                               nop                                      
+level=0                    goto L_branch_aac                                 }                                       
+level=02                                                                     else{                                   
+level=02                 L_branch_aab,R7=R1+`BFA                           R7=R1+`BFA                                
+level=02                 RAM[R7]=R4                                        RAM[R7]=R4                                
+level=02                 R4=R4+1                                           R4=R4+1                                   
+level=02         L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        
+level=0                L_branch_aac                                      }                                           
+level=0                                                                                                              
+level=0          RAM[17]=R1                                        RAM[17]=R1                                        
+level=0          RAM[18]=R0                                        RAM[18]=R0                                        
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                R1=RAM[16]                                        R1=RAM[16]                                  
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          loop L_emp_fifo_start L_emp_fifo_end R5           loop L_emp_fifo_start L_emp_fifo_end R5           
+level=01         L_emp_fifo_start,       branch (!R0[14]) L_branch_aadL_emp_fifo_start,       if (!R0[14]){             
+level=01                  nop                                               nop                                      
+level=0                goto L_branch_aae                                 }                                           
+level=02                                                                 else{                                       
+level=02                 L_branch_aad,R7=R1+`BFA                           R7=R1+`BFA                                
+level=02                 R4=RAM[R7]                                        R4=RAM[R7]                                
+level=02         L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       
+level=0                L_branch_aae                                      }                                           
+level=0                                                                                                              
+level=0          RAM[16]=R1                                        RAM[16]=R1                                        
+level=0          RAM[18]=R0                                        RAM[18]=R0                                        
+level=0                                                                                                              
+level=0          L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      
+level=0          nop                                               nop                                               
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+
+
+
+AFTER moving a label with an empty line to the next code line
+
+
+
+
+
+      before                                             after
+
+
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+nop                                               | |nop                                               
+                                                  | |                                                  
+                                                  | |                                                  
+`define BFA 0                                     | |`define BFA 0                                     
+`define FWP 8                                     | |`define FWP 8                                     
+`define FRP 9                                     | |`define FRP 9                                     
+`define FMN 10                                    | |`define FMN 10                                    
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+R6=16                                             | |R6=16                                             
+RAM[R6++]=9                                       | |RAM[R6++]=9                                       
+RAM[R6++]=9                                       | |RAM[R6++]=9                                       
+RAM[R6++]=16'b0100011110000000                    | |RAM[R6++]=16'b0100011110000000                    
+                                                  | |                                                  
+R5=20                                             | |R5=20                                             
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+loop L_fill_fifo_start L_fill_fifo_end R5         | |loop L_fill_fifo_start L_fill_fifo_end R5         
+                                                  | |                                                  
+     R6=17                                        | |     R6=17                                        
+     R1=RAM[R6++]                                 | |     R1=RAM[R6++]                                 
+     R0=RAM[R6++]                                 | |     R0=RAM[R6++]                                 
+                                                  | |                                                  
+L_fill_fifo_start,  branch (!R0[15]) L_branch_aab | |L_fill_fifo_start,  branch (!R0[15]) L_branch_aab 
+         nop                                      | |         nop                                      
+          goto L_branch_aac                       | |          goto L_branch_aac                       
+                                                  | |                                                  
+        L_branch_aab,R7=R1+`BFA                   | |        L_branch_aab,R7=R1+`BFA                   
+        RAM[R7]=R4                                | |        RAM[R7]=R4                                
+        R4=R4+1                                   | |        R4=R4+1                                   
+L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        | |L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        
+      L_branch_aac                                | |                                                  
+                                                  | |                                                  
+RAM[17]=R1                                        | |L_branch_aac,RAM[17]=R1                           
+RAM[18]=R0                                        | |RAM[18]=R0                                        
+                                                  | |                                                  
+                                                  | |                                                  
+      R1=RAM[16]                                  | |      R1=RAM[16]                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+loop L_emp_fifo_start L_emp_fifo_end R5           | |loop L_emp_fifo_start L_emp_fifo_end R5           
+L_emp_fifo_start,       branch (!R0[14]) L_branch_aad| |L_emp_fifo_start,       branch (!R0[14]) L_branch_aad
+         nop                                      | |         nop                                      
+      goto L_branch_aae                           | |      goto L_branch_aae                           
+                                                  | |                                                  
+        L_branch_aad,R7=R1+`BFA                   | |        L_branch_aad,R7=R1+`BFA                   
+        R4=RAM[R7]                                | |        R4=RAM[R7]                                
+L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       | |L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       
+      L_branch_aae                                | |                                                  
+                                                  | |                                                  
+RAM[16]=R1                                        | |L_branch_aae,RAM[16]=R1                           
+RAM[18]=R0                                        | |RAM[18]=R0                                        
+                                                  | |                                                  
+L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      | |L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      
+nop                                               | |nop                                               
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+
+
+
+AFTER reducing two or more lables in the same line to one
+
+
+
+
+
+      before                                             after
+
+
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+nop                                               nop                                               
+                                                                                                    
+                                                                                                    
+`define BFA 0                                     `define BFA 0                                     
+`define FWP 8                                     `define FWP 8                                     
+`define FRP 9                                     `define FRP 9                                     
+`define FMN 10                                    `define FMN 10                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R6=16                                             R6=16                                             
+RAM[R6++]=9                                       RAM[R6++]=9                                       
+RAM[R6++]=9                                       RAM[R6++]=9                                       
+RAM[R6++]=16'b0100011110000000                    RAM[R6++]=16'b0100011110000000                    
+                                                                                                    
+R5=20                                             R5=20                                             
+                                                                                                    
+                                                                                                    
+                                                                                                    
+loop L_fill_fifo_start L_fill_fifo_end R5         loop L_fill_fifo_start L_fill_fifo_end R5         
+                                                                                                    
+     R6=17                                             R6=17                                        
+     R1=RAM[R6++]                                      R1=RAM[R6++]                                 
+     R0=RAM[R6++]                                      R0=RAM[R6++]                                 
+                                                                                                    
+L_fill_fifo_start,  branch (!R0[15]) L_branch_aab L_fill_fifo_start,  branch (!R0[15]) L_branch_aab 
+         nop                                               nop                                      
+          goto L_branch_aac                                 goto L_branch_aac                       
+                                                                                                    
+        L_branch_aab,R7=R1+`BFA                           L_branch_aab,R7=R1+`BFA                   
+        RAM[R7]=R4                                        RAM[R7]=R4                                
+        R4=R4+1                                           R4=R4+1                                   
+L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        
+                                                                                                    
+                                                                                                    
+L_branch_aac,RAM[17]=R1                           L_branch_aac,RAM[17]=R1                           
+RAM[18]=R0                                        RAM[18]=R0                                        
+                                                                                                    
+                                                                                                    
+      R1=RAM[16]                                        R1=RAM[16]                                  
+                                                                                                    
+                                                                                                    
+                                                                                                    
+loop L_emp_fifo_start L_emp_fifo_end R5           loop L_emp_fifo_start L_emp_fifo_end R5           
+L_emp_fifo_start,       branch (!R0[14]) L_branch_aadL_emp_fifo_start,       branch (!R0[14]) L_branch_aad
+         nop                                               nop                                      
+      goto L_branch_aae                                 goto L_branch_aae                           
+                                                                                                    
+        L_branch_aad,R7=R1+`BFA                           L_branch_aad,R7=R1+`BFA                   
+        R4=RAM[R7]                                        R4=RAM[R7]                                
+L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       
+                                                                                                    
+                                                                                                    
+L_branch_aae,RAM[16]=R1                           L_branch_aae,RAM[16]=R1                           
+RAM[18]=R0                                        RAM[18]=R0                                        
+                                                                                                    
+L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      
+nop                                               nop                                               
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+
+
+
+
+From parse flow control
+	After label reduction .....
+
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          nop                                               nop                                               
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          `define BFA 0                                     `define BFA 0                                     
+level=0          `define FWP 8                                     `define FWP 8                                     
+level=0          `define FRP 9                                     `define FRP 9                                     
+level=0          `define FMN 10                                    `define FMN 10                                    
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          R6=16                                             R6=16                                             
+level=0          RAM[R6++]=9                                       RAM[R6++]=9                                       
+level=0          RAM[R6++]=9                                       RAM[R6++]=9                                       
+level=0          RAM[R6++]=16'b0100011110000000                    RAM[R6++]=16'b0100011110000000                    
+level=0                                                                                                              
+level=0          R5=20                                             R5=20                                             
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          loop L_fill_fifo_start L_fill_fifo_end R5         loop L_fill_fifo_start L_fill_fifo_end R5         
+level=0                                                                                                              
+level=0               R6=17                                             R6=17                                        
+level=0               R1=RAM[R6++]                                      R1=RAM[R6++]                                 
+level=0               R0=RAM[R6++]                                      R0=RAM[R6++]                                 
+level=0                                                                                                              
+level=01         L_fill_fifo_start,  branch (!R0[15]) L_branch_aab L_fill_fifo_start,  if (!R0[15]){                 
+level=01                  nop                                               nop                                      
+level=0                    goto L_branch_aac                                 }                                       
+level=02                                                                     else{                                   
+level=02                 L_branch_aab,R7=R1+`BFA                           R7=R1+`BFA                                
+level=02                 RAM[R7]=R4                                        RAM[R7]=R4                                
+level=02                 R4=R4+1                                           R4=R4+1                                   
+level=02         L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        L_fill_fifo_end,    (R0,R1)=fifo_wr(R0,R1)        
+level=0                                                                  }                                           
+level=0                                                                                                              
+level=0          L_branch_aac,RAM[17]=R1                           RAM[17]=R1                                        
+level=0          RAM[18]=R0                                        RAM[18]=R0                                        
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                R1=RAM[16]                                        R1=RAM[16]                                  
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          loop L_emp_fifo_start L_emp_fifo_end R5           loop L_emp_fifo_start L_emp_fifo_end R5           
+level=01         L_emp_fifo_start,       branch (!R0[14]) L_branch_aadL_emp_fifo_start,       if (!R0[14]){             
+level=01                  nop                                               nop                                      
+level=0                goto L_branch_aae                                 }                                           
+level=02                                                                 else{                                       
+level=02                 L_branch_aad,R7=R1+`BFA                           R7=R1+`BFA                                
+level=02                 R4=RAM[R7]                                        R4=RAM[R7]                                
+level=02         L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       L_emp_fifo_end,      (R0,R1)=fifo_rd(R0,R1)       
+level=0                                                                  }                                           
+level=0                                                                                                              
+level=0          L_branch_aae,RAM[16]=R1                           RAM[16]=R1                                        
+level=0          RAM[18]=R0                                        RAM[18]=R0                                        
+level=0                                                                                                              
+level=0          L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      
+level=0          nop                                               nop                                               
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              

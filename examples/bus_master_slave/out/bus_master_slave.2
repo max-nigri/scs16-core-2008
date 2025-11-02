@@ -1,0 +1,305 @@
+Translating if, else, elsif construct to branch with lables
+here ==============
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  0, level=0          
+pc=  1, level=0          `include ../simple_script_defines.v
+pc=  1, level=0          
+pc=  2, level=0          nop
+pc=  3, level=0           goto L_boot
+pc=  4, level=0           goto L_ISR
+pc=  5, level=0           goto L_hardbreak_response
+pc=  5, level=0          
+pc=  5, level=0          
+pc=  6, level=0          L_boot, R0=16'h0fff
+pc=  7, level=0            RAM[`APP_OUT0_ADDR]=R0
+pc=  7, level=0          
+pc=  7, level=0          
+pc=  8, level=0            R6=20
+pc=  9, level=0                  EXT_BUS[R6] = R6
+pc= 10, level=0            nop
+pc= 11, level=0                  R5 = EXT_BUS[R6]
+pc= 12, level=0            gosub L_delay
+pc= 13, level=0            L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa
+pc= 13, level=0          
+pc= 13, level=0          
+pc= 13, level=0          
+pc= 13, level=0          
+pc= 13, level=0          
+pc= 13, level=0          
+pc= 13, level=0          
+pc= 14, level=0          L_ISR,  rti
+pc= 14, level=0          
+pc= 15, level=0          L_hardbreak_response,  goto L_boot
+pc= 15, level=0          
+pc= 15, level=0          
+pc= 15, level=0          
+pc= 15, level=0          
+pc= 15, level=0          
+pc= 15, level=0          
+pc= 16, level=0          L_delay, loop L_c L_c R5
+pc= 17, level=0          L_c, nop
+pc= 18, level=0          return
+pc= 18, level=0          
+pc= 18, level=0          
+pc= 18, level=0          
+
+The levels are array is :
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+The levels are array is (after find_sequence_in_levels):
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+
+
+
+From parse flow control
+	After finding and translating .....
+
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          `include ../simple_script_defines.v               `include ../simple_script_defines.v               
+level=0                                                                                                              
+level=0          nop                                               nop                                               
+level=0           goto L_boot                                       goto L_boot                                      
+level=0           goto L_ISR                                        goto L_ISR                                       
+level=0           goto L_hardbreak_response                         goto L_hardbreak_response                        
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_boot, R0=16'h0fff                               L_boot, R0=16'h0fff                               
+level=0            RAM[`APP_OUT0_ADDR]=R0                            RAM[`APP_OUT0_ADDR]=R0                          
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R6=20                                             R6=20                                           
+level=0                  EXT_BUS[R6] = R6                                  EXT_BUS[R6] = R6                          
+level=0            nop                                               nop                                             
+level=0                  R5 = EXT_BUS[R6]                                  R5 = EXT_BUS[R6]                          
+level=0            gosub L_delay                                     gosub L_delay                                   
+level=0            L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_ISR,  rti                                       L_ISR,  rti                                       
+level=0                                                                                                              
+level=0          L_hardbreak_response,  goto L_boot                L_hardbreak_response,  goto L_boot                
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_delay, loop L_c L_c R5                          L_delay, loop L_c L_c R5                          
+level=0          L_c, nop                                          L_c, nop                                          
+level=0          return                                            return                                            
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+
+
+
+AFTER moving a label with an empty line to the next code line
+
+
+
+
+
+      before                                             after
+
+
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+`include ../simple_script_defines.v               | |`include ../simple_script_defines.v               
+                                                  | |                                                  
+nop                                               | |nop                                               
+ goto L_boot                                      | | goto L_boot                                      
+ goto L_ISR                                       | | goto L_ISR                                       
+ goto L_hardbreak_response                        | | goto L_hardbreak_response                        
+                                                  | |                                                  
+                                                  | |                                                  
+L_boot, R0=16'h0fff                               | |L_boot, R0=16'h0fff                               
+  RAM[`APP_OUT0_ADDR]=R0                          | |  RAM[`APP_OUT0_ADDR]=R0                          
+                                                  | |                                                  
+                                                  | |                                                  
+  R6=20                                           | |  R6=20                                           
+        EXT_BUS[R6] = R6                          | |        EXT_BUS[R6] = R6                          
+  nop                                             | |  nop                                             
+        R5 = EXT_BUS[R6]                          | |        R5 = EXT_BUS[R6]                          
+  gosub L_delay                                   | |  gosub L_delay                                   
+  L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    | |  L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+L_ISR,  rti                                       | |L_ISR,  rti                                       
+                                                  | |                                                  
+L_hardbreak_response,  goto L_boot                | |L_hardbreak_response,  goto L_boot                
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+L_delay, loop L_c L_c R5                          | |L_delay, loop L_c L_c R5                          
+L_c, nop                                          | |L_c, nop                                          
+return                                            | |return                                            
+                                                  | |                                                  
+                                                  | |                                                  
+                                                  | |                                                  
+
+
+
+AFTER reducing two or more lables in the same line to one
+
+
+
+
+
+      before                                             after
+
+
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+`include ../simple_script_defines.v               `include ../simple_script_defines.v               
+                                                                                                    
+nop                                               nop                                               
+ goto L_boot                                       goto L_boot                                      
+ goto L_ISR                                        goto L_ISR                                       
+ goto L_hardbreak_response                         goto L_hardbreak_response                        
+                                                                                                    
+                                                                                                    
+L_boot, R0=16'h0fff                               L_boot, R0=16'h0fff                               
+  RAM[`APP_OUT0_ADDR]=R0                            RAM[`APP_OUT0_ADDR]=R0                          
+                                                                                                    
+                                                                                                    
+  R6=20                                             R6=20                                           
+        EXT_BUS[R6] = R6                                  EXT_BUS[R6] = R6                          
+  nop                                               nop                                             
+        R5 = EXT_BUS[R6]                                  R5 = EXT_BUS[R6]                          
+  gosub L_delay                                     gosub L_delay                                   
+  L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+L_ISR,  rti                                       L_ISR,  rti                                       
+                                                                                                    
+L_hardbreak_response,  goto L_boot                L_hardbreak_response,  goto L_boot                
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+L_delay, loop L_c L_c R5                          L_delay, loop L_c L_c R5                          
+L_c, nop                                          L_c, nop                                          
+return                                            return                                            
+                                                                                                    
+                                                                                                    
+                                                                                                    
+
+
+
+
+From parse flow control
+	After label reduction .....
+
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          `include ../simple_script_defines.v               `include ../simple_script_defines.v               
+level=0                                                                                                              
+level=0          nop                                               nop                                               
+level=0           goto L_boot                                       goto L_boot                                      
+level=0           goto L_ISR                                        goto L_ISR                                       
+level=0           goto L_hardbreak_response                         goto L_hardbreak_response                        
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_boot, R0=16'h0fff                               L_boot, R0=16'h0fff                               
+level=0            RAM[`APP_OUT0_ADDR]=R0                            RAM[`APP_OUT0_ADDR]=R0                          
+level=0                                                                                                              
+level=0                                                                                                              
+level=0            R6=20                                             R6=20                                           
+level=0                  EXT_BUS[R6] = R6                                  EXT_BUS[R6] = R6                          
+level=0            nop                                               nop                                             
+level=0                  R5 = EXT_BUS[R6]                                  R5 = EXT_BUS[R6]                          
+level=0            gosub L_delay                                     gosub L_delay                                   
+level=0            L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa      L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa    
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_ISR,  rti                                       L_ISR,  rti                                       
+level=0                                                                                                              
+level=0          L_hardbreak_response,  goto L_boot                L_hardbreak_response,  goto L_boot                
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              
+level=0          L_delay, loop L_c L_c R5                          L_delay, loop L_c L_c R5                          
+level=0          L_c, nop                                          L_c, nop                                          
+level=0          return                                            return                                            
+level=0                                                                                                              
+level=0                                                                                                              
+level=0                                                                                                              

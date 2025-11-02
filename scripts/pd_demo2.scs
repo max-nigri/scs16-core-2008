@@ -1,0 +1,608 @@
+`include ..\parameters_definition.v
+`define ISR_TO_ALL_MAILBOX  	11'h100
+
+
+nop
+goto L_boot  		   // goto boot sequence
+goto L_ISR		   // goto ISR
+goto L_hardbreak_response  // prepare 
+
+
+timer_0 = 20 dec @(c15)   //
+wait t0_done
+
+L_wait_HB, wait c14        // c14 tied to "0"
+
+L_hardbreak_response, device_3->4'bxx1x	// select GPR1 on s1
+	R5 = s1                    	// the index of the script
+	goto R5 
+	goto L_script1            	// launching script1
+	goto L_script2             	// launching script2
+	goto L_script2             	// launching script3
+	goto L_script2             	// launching script4
+	goto L_wait_HB			// return to wait_HB
+
+
+/////////////////////////////////////////////////////////////////////////////
+// script 1
+/////////////////////////////////////////////////////////////////////////////
+L_script1, nop
+	timer_0 = 200 dec @(c15)   	// c15 tied to "1" => timer_0 count clocks
+	timer_1 = 10  dec @(c15)   	// the same
+	R3 = 72                    	// the value for the first write
+	RAM[`APP_OUT3_ADDR]=R3        	// setting d2a value
+	pulse->p5   
+	wait t1_done               	// waiting for t1 to complete
+	gosub L_a2d_2_read
+
+	wait t0_done               	// wait for the long timer to complete	
+	goto L_wait_HB
+
+/////////////////////////////////////////////////////////////////////////////
+// script 2
+/////////////////////////////////////////////////////////////////////////////
+L_script2, nop
+	goto L_wait_HB
+
+/////////////////////////////////////////////////////////////////////////////
+// routines
+/////////////////////////////////////////////////////////////////////////////
+
+L_boot, R0=16'h0fff 		   	// L_boot, begining of some boot sequence
+	RAM[`APP_OUT0_ADDR]=R0                  	// init app out regs
+
+// also can be done with load from ram and write to APP
+// where data in ram was prepared by host
+	pulse-> p4 				// qualify the data
+// possibly check some config pin or reg and do something
+//	if (c5) {
+//		R0=16'h0203
+//		RAM[`APP_OUT4_ADDR]=R0            	// init app out regs
+//	}			
+
+	R0=`VMAIN_TH_LOW_DEFAULT 	// boot dmem
+	RAM[`VMAIN_TH_LOW_ADDR]=R0
+	R0=`VMAIN_TH_HIGH_DEFAULT
+	RAM[`VMAIN_TH_HIGH_ADDR]=R0
+	R0=`VMAIN_RPS_TH_DEFAULT
+	RAM[`VMAIN_RPS_TH_ADDR]=R0
+	R0=`TMR_OVLD_DEFAULT
+	RAM[`TMR_OVLD_ADDR]=R0
+	R0=`TMR_AC_DISCO_DEFAULT
+	RAM[`TMR_AC_DISCO_ADDR]=R0
+	R0=`TMR_MPS_DEFAULT
+	RAM[`TMR_MPS_ADDR]=R0
+	R0=`TMR_DC_DISCO_DEFAULT
+	RAM[`TMR_DC_DISCO_ADDR]=R0
+	R0=`TMR_RCV_OVLD_DEFAULT
+	RAM[`TMR_RCV_OVLD_ADDR]=R0
+	R0=`TMR_RCV_DISCO_DEFAULT	
+	RAM[`TMR_RCV_DISCO_ADDR]=R0
+	R0=`TMR_VMAIN_DEFAULT
+	RAM[`TMR_VMAIN_ADDR]=R0
+	R0=`TMR_VMAIN_RPS_DEFAULT
+	RAM[`TMR_VMAIN_RPS_ADDR]=R0
+	R0=`ICUT0_DEFAULT
+	RAM[`ICUT0_ADDR]=R0
+	R0=`ICUT1_DEFAULT
+	RAM[`ICUT1_ADDR]=R0
+	R0=`ICUT2_DEFAULT
+	RAM[`ICUT2_ADDR]=R0
+	R0=`ICUT3_DEFAULT
+	RAM[`ICUT3_ADDR]=R0
+	R0=`ICUT4_DEFAULT
+	RAM[`ICUT4_ADDR]=R0
+	R0=`ICUT5_DEFAULT
+	RAM[`ICUT5_ADDR]=R0
+	R0=`ICUT6_DEFAULT
+	RAM[`ICUT6_ADDR]=R0
+	R0=`ICUT7_DEFAULT
+	RAM[`ICUT7_ADDR]=R0
+	R0=`ICUT8_DEFAULT
+	RAM[`ICUT8_ADDR]=R0
+	R0=`ICUT9_DEFAULT
+	RAM[`ICUT9_ADDR]=R0
+	R0=`ICUT10_DEFAULT
+	RAM[`ICUT10_ADDR]=R0
+	R0=`ICUT11_DEFAULT
+	RAM[`ICUT11_ADDR]=R0
+
+// do something
+	// power on port
+	R6=`PORT0_STATUS1_ADDR
+	loop L_port_on L_port_on 12 
+	L_port_on, RAM[R6++]=16'h1	
+	R5=16'h0000
+	RAM[`PORT_OFF_DA_ADDR]=R5
+	RAM[`APP_OUT0_ADDR]=R5 // write R0 to port_off_d
+	goto L_wait_HB  // end boot goto wait_HB
+
+/////////////////////////////////////////////////////////////////////////////
+
+L_ISR, R7 = 32 // ISR start code. start add of sample buffer
+	R0 = 4
+	R1 = 20	
+	gosub L_sub_mult_8x8
+	timer_0 = 20 dec @(c15)   // c15 tied to "1", so timer count clocks
+	wait t0_done
+
+	loop L_get_samples L_get_samples 32
+	pulse->p3 
+        R1=s1 pulse->p3 
+	L_get_samples, RAM[R7++]=R1 R1=s1 pulse->p3 	// read a2d buff
+		
+	// do the analysis
+	//------------------------------------------------
+	// call vmain rtp 
+	//------------------------------------------------
+	goto L_proc_vmain_rtp  // goto vmain procedure
+	L_bproc_vmain_rtp, goto L_proc_ovld_rtp // back from vmain proc and go to ovld proc
+	L_bproc_ovld_rtp, goto L_proc_dcdisco_rtp   // back from ovld proc, goto dcdisco proc
+	L_bproc_dcdisco_rtp, goto L_proc_acdisco_rtp // back from dcdisco goto acdisco
+	L_bproc_acdisco_rtp, goto L_proc_rcv_cnt_rtp // nback from acdisco , goto rcv cnt
+	L_bproc_rcv_cnt_rtp , R0=0
+	// put result in predefined add for other processes to check
+	RAM[`ISR_TO_ALL_MAILBOX] = R0   // put result in mailbox
+	rti
+ 
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// ocp sub-routines
+/////////////////////////////////////////////////////////////////////////////
+
+L_ocp_write, RAM[R7++] = R3 pulse->p3   // issue a store command to mem space outside the RAM
+wait c2 // wait for completion of the ocp slave
+return
+
+
+/////////////////////////////////////////////////////////////////////////////
+L_a2d_2_read, pulse-> p7  // p7 is start cmd for a2d_2
+device_3->4'bxxx1	// selecting a2d_2 on s0
+wait_load c7 R2= s0     // wait for the a2d result
+return                  // return value at R2
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+////////////// L_get_data_c0c1 /////////////////
+////////////////////////////////////////////////
+L_get_data_c0c1, loop L_b L_b R5
+pulse->p0 // for the external device to generate the next input
+R2=s0 pulse->p0
+L_b, wait_store c0 RAM[R7++]=R2=s0 pulse->p0 breakif c1
+RAM[R7++]=R2 // writing the last element
+return
+////////////////////////////////////////////////
+////////////// L_get_data_c0c0 /////////////////
+////////////////////////////////////////////////
+L_get_data_c0c0, loop L_d L_d R5
+pulse->p0 // for the external device to generate the next input
+R2=s0 pulse->p0
+L_d, wait_store c0 RAM[R7++]=R2=s0 pulse->p0 breakif !c0
+RAM[R7++]=R2 // writing the last element
+return
+////////////////////////////////////////////////
+//////////// L_send_data_c0c0 //////////////////
+////////////////////////////////////////////////
+L_send_data_c0c0, loop L_s L_s R5
+L_s, wait_load c0 R0=RAM[R7++]  pulse->p0 breakif !c0
+// RAM[R7++]=R2 // writing the last element
+return
+////////////////////////////////////////////////
+//////////// L_send_data_c0c1 //////////////////
+////////////////////////////////////////////////
+L_send_data_c0c1, loop L_s L_s R5
+L_s, wait_load c0 R0=RAM[R7++]  pulse->p0 breakif c1
+// RAM[R7++]=R2 // writing the last element
+return
+////////////////////////////////////////////////
+/////////// L_delay ////////////////////////////
+/////////////////////////RAM[`PORT0_STATUS1_ADDR///////////////////////
+L_delay, loop L_c L_c R5
+L_c, nop
+return
+////////////////////////////////////////////////
+///////// L_sub_synch //////////////////////////
+////////////////////////////////////////////////
+L_sub_synch, if (c0) L_sub_synch // waiting for c0 to fall
+return
+
+L_hard_break_code, goto L_script2 // indirect example
+nop
+
+////////////////////////////////////////////////
+/////////// L_sub_mult_8x8  ////////////////////
+////////////////////////////////////////////////
+// operands for multiplication are R0 R1 each 8 bits width unsigned
+// result will be in R2
+
+L_sub_mult_8x8, push R0 R1 // L_sub_mult_8x8
+R2=0
+loop L_sub_mult_a L_sub_mult_b 8
+L_sub_mult_a, if (R0[0]) {
+	R2=R2+R1
+}
+R1=R1<<1
+L_sub_mult_b, R0=R0>>1
+pop R0 R1
+return
+
+////////////////////////////////////////////////
+/////////// L_sub_inc  /////////////////////////
+///////////////////////////// if vmain < low_th inc R1		/////////////////////
+L_sub_inc, push R6
+	R6 = 16'hfffe
+      if (R1==R6) {
+		R1=R6+1        			// if not R1=FFFF	
+	}
+      else {
+	R1=R1+1 		// check if R1 is less then FFFE if yes inc
+	pop R6
+	}
+return	
+
+////////////////////////////////////////////////
+/////////// L_sub_dec  /////////////////////////
+////////////////////////////////////////////////
+L_sub_dec, if (R1>0) {
+	R1=R1-1  			// check if R1 is >0 if yes dec
+}
+      else {
+	R1=0    			// if not R1=0
+}	
+return	
+
+////////////////////////////////////////////////
+////////////// L_set_bit_x  ///////////////// ////////////////////////////////////////////////
+// this routine gets the arguments via R5, R6 // do the following R4[R6]= 1, where the other bits of R4 
+// are unchanged // it use R1 as temp reg. use push if neccecery
+
+L_sub_set_bit, push R1
+R1= 16'h1       // the R5[R6]= 1
+R1 = R1 << R6     // positive mask 
+R5 = R5 | R1      // setting the R6 bit
+pop R1
+return
+
+
+
+////////////////////////////////////////////////
+////////////// L_reset_bit_x  ///////////////// ////////////////////////////////////////////////
+// this routine gets the arguments via R5, R6 // do the following R4[R6]= 0, where the other bits of R4 
+// are unchanged // it use R1 and R2 as temp reg. use push if neccecery
+
+L_sub_reset_bit, push R1
+push R2
+R1= 16'h1       // the R5[R6]= 0
+R1 = R5 << R6     // positive mask 
+R2= 16'hffff
+R2= R1 ^ R2       // inverted mask
+R5= R5 & R2       // clearing the R6 bit
+pop R1
+pop R2
+return
+
+////////////////////////////////////////////////
+/////////// L_off_all_ports ////////////////////
+////////////////////////////////////////////////
+L_off_all_ports, R0 = 1
+		loop L_poff_start L_poff_end 12 // start loop for all ports
+		L_poff_start,   RAM[`APP_OUT0_ADDR]=R0 // write R0 to port_off_d
+				RAM[`PORT_OFF_DA_ADDR]=R0
+				push loop_state
+				loop L_w L_w 100
+				L_w , nop
+				pop loop_state
+				R0 = R0 << 1   
+		L_poff_end, 	R0[0:0]=1							
+return	
+
+
+
+
+////////////////////////////////////////////////
+/////////// L_proce_vmain_rtp ////////////////////
+////////////////////////////////////////////////
+L_proc_vmain_rtp,R0=RAM[`VMAIN_ADDR]       		//readmem vmain / adc buf
+	R2=RAM[`VMAIN_TH_HIGH_ADDR]  		// readmem vmain high th
+	R4=RAM[`VMAIN_TH_LOW_ADDR] 		//readmem vmain low th	
+	R1=RAM[`TMR_VMAIN_CNT_ADDR]  		// readmem vmain cnt                            	
+
+	if  (R0>R4) {
+		if (R0<R2) {
+			push sub_return         // vmain < high th and vmain > low th
+			gosub L_sub_dec         // gosub dec , vamin is good
+			pop sub_return	
+			}				
+		}
+	else {
+		push sub_return
+		gosub L_sub_inc       // gosub inc , vmain < low th 
+		pop sub_return	
+		}
+			
+	R2=RAM[`TMR_VMAIN_ADDR]                	// load vmain tmr th
+
+	if (R1>R2) {	
+		R7 = RAM[`SYS_STATUS_ADDR] 
+		push sub_return
+		gosub L_off_all_ports
+		pop sub_return
+		R7[0:0]=1       // write to system status reg bit 0                
+		RAM[`SYS_STATUS_ADDR]=R7
+		R1=0          // clear vmain counter
+		}
+	RAM[`TMR_VMAIN_CNT_ADDR]=R1		// save the R1 to  vmain cnt	
+
+
+	// rps
+	R2=RAM[`VMAIN_RPS_TH_ADDR]  		// readmem vmain high th
+	R1=RAM[`TMR_VMAIN_RPS_CNT_ADDR]  		// readmem vmain cnt                            	
+
+	if  (R0>R4) {
+		if (R0<R2) {
+			push sub_return         // vmain < high th and vmain > low th
+			gosub L_sub_inc         // gosub inc , 
+			pop sub_return	
+			}				
+		}
+	else {
+		push sub_return
+		gosub L_sub_dec       // gosub dec , vmain < low th 
+		pop sub_return	
+		}
+			
+	R2=RAM[`TMR_VMAIN_RPS_ADDR]                	// load vmain tmr th
+
+	if (R1>R2) {	
+		R7 = RAM[`SYS_STATUS_ADDR] 
+		push sub_return
+		gosub L_off_all_ports
+		pop sub_return
+		R7[1:1]=1       // write to system status reg bit 0                
+		RAM[`SYS_STATUS_ADDR]=R7
+		R1=0          // clear vmain counter
+		}
+	RAM[`TMR_VMAIN_RPS_CNT_ADDR]=R1		// save the R1 to  vmain cnt	
+	goto L_bproc_vmain_rtp                  // end of vmain rtp
+
+
+////////////////////////////////////////////////////
+//// ovld rtp
+////////////////////////////////////////////////////
+L_proc_ovld_rtp, R6=0	
+	L_ovld_rtp_start,R7=RAM[`PORT0_STATUS1_ADDR+R6]				
+		if (R7[0]) {
+			R2=RAM[`ICHANNEL0_ADDR+R6] // readmem Ichannel N
+			R2[12:12]=0 // clear the dc disco flag
+			R3=RAM[`ICUT0_ADDR+R6]     // readmem icut N
+			R1=RAM[`TMR_OVLD_CNT0_ADDR+R6] // readmem tovld
+			if (R2>R3){
+				R5=16'hfff0
+				if (R1==R5){
+					R1=16'hffff
+					}
+				else {
+					R1=R1+16
+					}
+			}
+			else {
+				push sub_return
+				gosub L_sub_dec // call dec
+				pop sub_return
+			     }
+			}
+		else {
+			R1=0
+			RAM[`TMR_OVLD_CNT0_ADDR+R6]=R1 // if port off TMR=0	
+			}
+		R5=RAM[`TMR_OVLD_ADDR]
+		if (R1>R5){
+			R7[0:0] = 0 // port off
+			R5=RAM[`PORT_OFF_DA_ADDR] // read port_off_da
+			push sub_return
+			gosub L_sub_set_bit
+			pop sub_return
+			RAM[`APP_OUT0_ADDR]=R5 // write R0 to port_off_d
+			RAM[`PORT_OFF_DA_ADDR]=R5
+			R5 = 16'h0420 // update ovld[5] , rcv[11] 
+			R7=R7 | R5
+			R1=0        // clr ovld cnt
+			}
+		RAM[`PORT0_STATUS1_ADDR+R6]=R7
+		RAM[`TMR_OVLD_CNT0_ADDR+R6]=R1 // save ovld cnt
+		R6=R6+1
+		if (R6<12) {
+			goto L_ovld_rtp_start // back to the loop					
+			}
+		goto L_bproc_ovld_rtp // end of ovld proce
+		
+////////////////////////////////////////////////////
+//// dcdisco rtp
+////////////////////////////////////////////////////
+L_proc_dcdisco_rtp , R6=0
+	R3=RAM[`TMR_MPS_ADDR]     // read TMPS TH
+	R4=RAM[`TMR_DC_DISCO_ADDR]     // read DC_DISCO TMR  TH	
+	L_dcdisco_rtp_start, R2=RAM[`ICHANNEL0_ADDR+R6] 
+		R7=RAM[`PORT0_STATUS1_ADDR+R6]
+		R1=RAM[`TMR_MPS_CNT0_ADDR+R6] // read TMPS cnt
+		if (!R2[12]){
+			if (R7[0]){
+ 				push sub_return
+				gosub L_sub_inc // if port is on inc TMPS
+				pop sub_return
+				}
+			}
+		else {
+			R1=0  // if dc_disco then clear TMPS
+			}
+		R0=RAM[`PORT0_STATUS2_ADDR+R6] // read port status 2
+		if (R1>R3) {
+			R0[0:0]=1 // write TMPS on to the port status
+			}
+		else {
+			R0[0:0]=0 // write TMPS on to the port status
+			}
+		RAM[`PORT0_STATUS2_ADDR+R6]=R0 // save port status2
+		RAM[`TMR_MPS_CNT0_ADDR+R6]=R1 // save TMPS TMR 
+		R1=RAM[`TMR_DC_DISCO_CNT0_ADDR+R6] // read DC_DISCO cnt		
+		if (R0[0]){
+			R1=0 // TMPS is on clear DC_CNT
+			}		
+		elsif (R7[0]){
+			push sub_return
+			gosub L_sub_inc // inc DC_DISCO TMR
+			pop sub_return	
+			}
+		else {
+			R1=0 // PORT IS OFF CLEAR TMR
+			}
+		
+		if (R1>R4){
+			R7[0:0] = 0 // port 0ff
+			R5=RAM[`PORT_OFF_DA_ADDR] // read port_off_da
+			push sub_return
+			gosub L_sub_set_bit
+			pop sub_return
+			RAM[`APP_OUT0_ADDR]=R5 // write R0 to port_off_d
+			RAM[`PORT_OFF_DA_ADDR]=R5
+			R5= 16'h1080 // port off[0] , dcdisco[4] , discorcv[12]
+			R7 = R7 | R5
+			R1=0        // clr ovld cnt	
+			}
+		RAM[`TMR_DC_DISCO_CNT0_ADDR+R6]=R1 // save dc disco tmr
+		RAM[`PORT0_STATUS1_ADDR+R6]=R7
+		R6=R6+1
+		if (R6<12) {
+			goto L_dcdisco_rtp_start
+			}
+		goto L_bproc_dcdisco_rtp // back to ISR
+
+
+/////////////////////////////////////////////////////////////////////////////
+///// AC DISCO
+/////////////////////////////////////////////////////////////////////////////
+L_proc_acdisco_rtp, R0=RAM[`AC_VPORT_CALIB0_ADDR] // read the first ac calib
+		// clear and set the max/min
+		if (R0[12]){
+			R6=`AC_VPORT_CALIB_MAX_ADDR // re
+			loop L_clr_ac_vport_max L_clr_ac_vport_max 13
+			L_clr_ac_vport_max, RAM[R6++]=0
+			R6=`AC_VPORT_CALIB_MIN_ADDR
+			loop L_clr_ac_vport_min L_clr_ac_vport_min 13
+			L_clr_ac_vport_min, RAM[R6++]=16'hffff
+			}
+		// find max , min
+		R0=RAM[`AC_VPORT_CALIB0_ADDR]
+		R1=RAM[`AC_VPORT_CALIB_MAX_ADDR]
+		R2=RAM[`AC_VPORT_CALIB_MIN_ADDR]
+		if (R0>R1){
+			RAM[`AC_VPORT_CALIB_MAX_ADDR]=R0 // save thenew MAX AC
+			}	
+		if (R0<R2){
+			RAM[`AC_VPORT_CALIB_MIN_ADDR]=R0 // save new min AC
+			}
+		R0=RAM[`AC_VPORT_CALIB1_ADDR]
+		if (R0>R1){
+			RAM[`AC_VPORT_CALIB_MAX_ADDR]=R0 // save thenew MAX AC
+			}	
+		if (R0<R2){
+			RAM[`AC_VPORT_CALIB_MIN_ADDR]=R0 // save new min AC
+			}
+		R6=0
+		loop L_find_max_min0 L_find_max_min1 12
+			L_find_max_min0 , R0=RAM[`AC_VPORT0_ADDR+R6] 
+					R1=RAM[`AC_VPORT_CALIB_MAX_ADDR+R6]
+					R2=RAM[`AC_VPORT_CALIB_MIN_ADDR+R6]
+					if (R0>R1){
+					RAM[`AC_VPORT_CALIB_MAX_ADDR+R6]=R0
+						}
+					if (R2<R0){
+						RAM[`AC_VPORT_CALIB_MIN_ADDR+R6]=R0
+						}
+			L_find_max_min1, R6=R6+1
+
+		// calc the amp
+		if (R0[13]){
+			R1=RAM[`AC_VPORT_CALIB_MAX_ADDR]
+			R2=RAM[`AC_VPORT_CALIB_MIN_ADDR]
+			R3=R1-R2
+			RAM[`AC_AMP_CALIB_ADDR]=R3
+			R5=RAM[`TMR_AC_DISCO_ADDR] // read ac tmr th
+			R6=0
+			loop L_ac_clac_amp0 L_ac_clac_amp0 12
+			L_ac_clac_amp0 , R1=RAM[`AC_VPORT0_MAX_ADDR+R6] // read vport max
+			R2=RAM[`AC_VPORT0_MIN_ADDR+R6] // read vport min
+			R4= R1-R2   // ACMAX-ACMIN
+			RAM[`AC_AMP0_ADDR+R6]=R4 // save amp
+			R1=RAM[`TMR_AC_DISCO_CNT0_ADDR+R6] // read ac counter
+			if (R4>R3){
+				push sub_return
+				gosub L_sub_inc // inc ac counter
+				pop sub_return
+				}
+			else {
+				push sub_return
+				gosub L_sub_dec // dec ac counter
+				pop sub_return
+				}
+			if (R1>R5){
+				R7=RAM[`PORT0_STATUS1_ADDR+R6] // read port status
+				R7[0:0]=0 // power off port
+				R5=RAM[`PORT_OFF_DA_ADDR] // read port_off_da
+				push sub_return
+				gosub L_sub_set_bit
+				pop sub_return
+				RAM[`APP_OUT0_ADDR]=R5 // write R0 to port_off_d
+				RAM[`PORT_OFF_DA_ADDR]=R5
+				R2= 16'h0104 // update status . disco rcv , ac disco
+				R7=R7 | R2   
+				RAM[`PORT0_STATUS1_ADDR+R6]=R7 // save port status
+				}
+			}
+			L_ac_clac_amp1 , R6=R6+1 // inc R6
+			goto L_bproc_acdisco_rtp
+
+
+L_proc_rcv_cnt_rtp,R6=0
+	R3=RAM[`TMR_RCV_OVLD_ADDR] // load ovld cnt th
+	R4=RAM[`TMR_RCV_DISCO_ADDR] // load disco th
+		L_rcv_cnt_rtp0 , R5=RAM[`PORT0_STATUS1_ADDR+R6]
+		R1=RAM[`TMR_RCV_OVLD_CNT0_ADDR+R6] // readmem ovld rcv cnt		
+		if (R5[11]) {
+			push sub_return
+			gosub L_sub_inc // inc ovld rcv cnt
+			pop sub_return
+			}
+		if (R1>R3){
+			R1=0
+			R5[11:11]=0           // clear ovld rcv status
+			}
+		RAM[`TMR_RCV_OVLD_CNT0_ADDR+R6]=R1 // clear ovld rcv cnt
+		R1=RAM[`TMR_RCV_DISCO_CNT0_ADDR+R6] // readmem ovld rcv cnt		
+		if (R5[12]) {
+			push sub_return
+			gosub L_sub_inc // inc ovld rcv cnt
+			pop sub_return
+			}
+		if (R1>R4){
+			R1=0
+			R5[12:12]=0           // clear ovld rcv status
+			}	
+		RAM[`TMR_RCV_DISCO_CNT0_ADDR+R6]=R1 // clear ovld rcv cnt		
+		RAM[`PORT0_STATUS1_ADDR+R6]=R5 // save port status
+		R6=R6+1
+		if (R6<12){
+			goto L_rcv_cnt_rtp0
+			}		
+	goto L_bproc_rcv_cnt_rtp
+
+nop
+/////////////////////////////////////////////////////////////////////////////

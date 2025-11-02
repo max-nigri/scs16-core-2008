@@ -1,0 +1,417 @@
+Compiling lines .... Statement clasification and translation
+
+###### Line no:   22 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	0 00000000000000000000000000000000// (    0) 00000000 NOP          nop                                 // 
+	0 00000000  // (    0) NOP          nop                                 // 
+
+###### Line no:   44 #### line is : R6=16
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=16
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010000
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	1 00111000000100110000000000010000// (    1) 38130010 LOADID       R6=16                               // 
+	1 38130010  // (    1) LOADID       R6=16                               // 
+
+###### Line no:   45 #### line is : RAM[R6++]=9
+	Scanning for best match command .....
+	Matching command is : STOREID
+	Probably STOREID command : RAM[R6++]=9
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00001001
+	r6r7                 => 1
+	add_data             => 1
+	ext_bus              => 0
+	imd2                 => 0000000
+	inc_add              => 1
+	Array name is G_STOREID_Command_Format, num of fields 10
+	2 01111000000101000000011100001001// (    2) 78140709 STOREID      RAM[R6++]=9                         // RAM[16] is the rd pointer
+	2 78140709  // (    2) STOREID      RAM[R6++]=9                         // RAM[16] is the rd pointer
+
+###### Line no:   46 #### line is : RAM[R6++]=9
+	Scanning for best match command .....
+	Matching command is : STOREID
+	Probably STOREID command : RAM[R6++]=9
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00001001
+	r6r7                 => 1
+	add_data             => 1
+	ext_bus              => 0
+	imd2                 => 0000000
+	inc_add              => 1
+	Array name is G_STOREID_Command_Format, num of fields 10
+	3 01111000000101000000011100001001// (    3) 78140709 STOREID      RAM[R6++]=9                         // RAM[17] is the wr pointer
+	3 78140709  // (    3) STOREID      RAM[R6++]=9                         // RAM[17] is the wr pointer
+
+###### Line no:   47 #### line is : RAM[R6++]=16'b0100011110000000
+	Scanning for best match command .....
+	Matching command is : STOREID
+	Probably STOREID command : RAM[R6++]=16'b0100011110000000
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 10000000
+	r6r7                 => 1
+	add_data             => 1
+	ext_bus              => 0
+	imd2                 => 1000111
+	inc_add              => 1
+	Array name is G_STOREID_Command_Format, num of fields 10
+	4 01111000000101100011111110000000// (    4) 78163f80 STOREID      RAM[R6++]=16'b0100011110000000      // full=0 empty=1 size=16  len=0
+	4 78163f80  // (    4) STOREID      RAM[R6++]=16'b0100011110000000      // full=0 empty=1 size=16  len=0
+
+###### Line no:   49 #### line is : R5=20
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R5=20
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010100
+	Dest_reg             => 1010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	5 00111000000100101000000000010100// (    5) 38128014 LOADID       R5=20                               // 
+	5 38128014  // (    5) LOADID       R5=20                               // 
+
+###### Line no:   53 #### line is : loop 4 10 R5
+	Scanning for best match command .....
+	Matching command is : LOOP
+	Probably LOOP command : loop 4 10 R5
+	Successfull command parsing.....
+	end_offset           => 01010
+	start_offset         => 100
+	ra_sel               => 101
+	Imd                  => 0000000000
+	Array name is G_LOOP_Command_Format, num of fields 6
+	6 01001000000101100010100000000000// (    6) 48162800 LOOP         loop 4 10 R5                        // fifo fill loop invokation
+	6 48162800  // (    6) LOOP         loop 4 10 R5                        // fifo fill loop invokation
+
+###### Line no:   55 #### line is : R6=17
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R6=17
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010001
+	Dest_reg             => 1100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	7 00111000000100110000000000010001// (    7) 38130011 LOADID       R6=17                               // 
+	7 38130011  // (    7) LOADID       R6=17                               // 
+
+###### Line no:   56 #### line is : R1=RAM[R6++]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R1=RAM[R6++]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0010
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	8 00011000000111001000000100001111// (    8) 181c810f LOAD         R1=RAM[R6++]                        // loading the wr pointer to R1
+	8 181c810f  // (    8) LOAD         R1=RAM[R6++]                        // loading the wr pointer to R1
+
+###### Line no:   57 #### line is : R0=RAM[R6++]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R0=RAM[R6++]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 0000
+	r6r7                 => 1
+	ext_bus              => 0
+	inc_add              => 1
+	Array name is G_LOAD_Command_Format, num of fields 10
+	9 00011000000111000000000100001111// (    9) 181c010f LOAD         R0=RAM[R6++]                        // loading the control to R0
+	9 181c010f  // (    9) LOAD         R0=RAM[R6++]                        // loading the control to R0
+
+###### Line no:   59 #### line is : branch (!R0[15]) 13
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!R0[15]) 13
+	Successfull command parsing.....
+	Imd1                 => 000
+	int_ext              => 1
+	flag_bit             => 1111
+	polarity             => 1
+	ra_sel               => 000
+	reg_flag             => 1
+	Imd                  => 00000001101
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	10 10000000000000111111100000001101// (   10) 8003f80d BRANCH       branch (!R0[15]) 13                 // checking the full
+	10 8003f80d  // (   10) BRANCH       branch (!R0[15]) 13                 // checking the full
+
+###### Line no:   60 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	11 00000000000000000000000000000000// (   11) 00000000 NOP          nop                                 // full!!, do something			
+	11 00000000  // (   11) NOP          nop                                 // full!!, do something			
+
+###### Line no:   61 #### line is : goto 17
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 17
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000010001
+	Array name is G_JUMP_Command_Format, num of fields 8
+	12 01101000000000000000000000010001// (   12) 68000011 JUMP         goto 17                             // 
+	12 68000011  // (   12) JUMP         goto 17                             // 
+
+###### Line no:   63 #### line is : R7=R1+0
+	Scanning for best match command .....
+	Matching command is : ALUI
+	Probably ALUI command : R7=R1+0
+	Successfull command parsing.....
+	is_neg               => 0
+	dest_reg             => 111
+	rb_sel               => 001
+	swap                 => 0
+	operation            => 100
+	Imd                  => 00000000
+	Array name is G_ALUI_Command_Format, num of fields 9
+	13 10001000000000111001100000000000// (   13) 88039800 ALUI         R7=R1+`BFA                          // calc abs wr ptr
+	13 88039800  // (   13) ALUI         R7=R1+`BFA                          // calc abs wr ptr
+
+###### Line no:   64 #### line is : RAM[R7]=R4
+	Scanning for best match command .....
+	Matching command is : STORE
+	Probably STORE command : RAM[R7]=R4
+	Successfull command parsing.....
+	pulse_bus            => 
+	source_reg           => 1000
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_STORE_Command_Format, num of fields 11
+	14 00100000000110000100011000001111// (   14) 2018460f STORE        RAM[R7]=R4                          // wr the data
+	14 2018460f  // (   14) STORE        RAM[R7]=R4                          // wr the data
+
+###### Line no:   65 #### line is : R4=R4+1
+	Scanning for best match command .....
+	Matching command is : ALUI
+	Probably ALUI command : R4=R4+1
+	Successfull command parsing.....
+	is_neg               => 0
+	dest_reg             => 100
+	rb_sel               => 100
+	swap                 => 0
+	operation            => 100
+	Imd                  => 00000001
+	Array name is G_ALUI_Command_Format, num of fields 9
+	15 10001000000000100100100000000001// (   15) 88024801 ALUI         R4=R4+1                             // inc the data
+	15 88024801  // (   15) ALUI         R4=R4+1                             // inc the data
+
+###### Line no:   66 #### line is : (R0,R1)=fifo_wr(R0,R1)
+	Scanning for best match command .....
+	Matching command is : FIFO
+	Successfull command parsing.....
+	rd_wr                => 1
+	Array name is G_FIFO_Command_Format, num of fields 4
+	16 10101000000100000000000000000000// (   16) a8100000 FIFO         (R0,R1)=fifo_wr(R0,R1)              // update control	
+	16 a8100000  // (   16) FIFO         (R0,R1)=fifo_wr(R0,R1)              // update control	
+
+###### Line no:   69 #### line is : RAM[17]=R1
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[17]=R1
+address_mode imd, imd = 17, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00010001
+	source_reg           => 0010
+	ext_bus              => 0
+	imd2                 => 0000
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	17 01111000000000000001011000010001// (   17) 78001611 STOREIA      RAM[17]=R1                          // saving back the wr pointer to RAM[17]
+	17 78001611  // (   17) STOREIA      RAM[17]=R1                          // saving back the wr pointer to RAM[17]
+
+###### Line no:   70 #### line is : RAM[18]=R0
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[18]=R0
+address_mode imd, imd = 18, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00010010
+	source_reg           => 0000
+	ext_bus              => 0
+	imd2                 => 0000
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	18 01111000000000000000011000010010// (   18) 78000612 STOREIA      RAM[18]=R0                          // saving back the control record to RAM[18]
+	18 78000612  // (   18) STOREIA      RAM[18]=R0                          // saving back the control record to RAM[18]
+
+###### Line no:   73 #### line is : R1=RAM[16]
+	Scanning for best match command .....
+	Matching command is : LOADIA
+	Probably LOADIA command : R1=RAM[16]
+address_mode imd, imd = 16, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd3                 => 0
+	imd1                 => 00010000
+	Dest_reg             => 0010
+	ext_bus              => 0
+	imd2                 => 000
+	Array name is G_LOADIA_Command_Format, num of fields 12
+	19 00111000000000001011000000010000// (   19) 3800b010 LOADIA       R1=RAM[16]                          // loading the rd pointer to R1 
+	19 3800b010  // (   19) LOADIA       R1=RAM[16]                          // loading the rd pointer to R1 
+
+###### Line no:   77 #### line is : loop 1 6 R5
+	Scanning for best match command .....
+	Matching command is : LOOP
+	Probably LOOP command : loop 1 6 R5
+	Successfull command parsing.....
+	end_offset           => 00110
+	start_offset         => 001
+	ra_sel               => 101
+	Imd                  => 0000000000
+	Array name is G_LOOP_Command_Format, num of fields 6
+	20 01001000000101001001100000000000// (   20) 48149800 LOOP         loop 1 6 R5                         // 
+	20 48149800  // (   20) LOOP         loop 1 6 R5                         // 
+
+###### Line no:   78 #### line is : branch (!R0[14]) 24
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!R0[14]) 24
+	Successfull command parsing.....
+	Imd1                 => 000
+	int_ext              => 1
+	flag_bit             => 1110
+	polarity             => 1
+	ra_sel               => 000
+	reg_flag             => 1
+	Imd                  => 00000011000
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	21 10000000000000111111000000011000// (   21) 8003f018 BRANCH       branch (!R0[14]) 24                 // checking the empty
+	21 8003f018  // (   21) BRANCH       branch (!R0[14]) 24                 // checking the empty
+
+###### Line no:   79 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	22 00000000000000000000000000000000// (   22) 00000000 NOP          nop                                 // empty!!, do something
+	22 00000000  // (   22) NOP          nop                                 // empty!!, do something
+
+###### Line no:   80 #### line is : goto 27
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 27
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000011011
+	Array name is G_JUMP_Command_Format, num of fields 8
+	23 01101000000000000000000000011011// (   23) 6800001b JUMP         goto 27                             // 
+	23 6800001b  // (   23) JUMP         goto 27                             // 
+
+###### Line no:   82 #### line is : R7=R1+0
+	Scanning for best match command .....
+	Matching command is : ALUI
+	Probably ALUI command : R7=R1+0
+	Successfull command parsing.....
+	is_neg               => 0
+	dest_reg             => 111
+	rb_sel               => 001
+	swap                 => 0
+	operation            => 100
+	Imd                  => 00000000
+	Array name is G_ALUI_Command_Format, num of fields 9
+	24 10001000000000111001100000000000// (   24) 88039800 ALUI         R7=R1+`BFA                          // calc the abs rd ptr
+	24 88039800  // (   24) ALUI         R7=R1+`BFA                          // calc the abs rd ptr
+
+###### Line no:   83 #### line is : R4=RAM[R7]
+	Scanning for best match command .....
+	Matching command is : LOAD
+	Probably LOAD command : R4=RAM[R7]
+	Successfull command parsing.....
+	pulse_bus            => 
+	Dest_reg             => 1000
+	r6r7                 => 0
+	ext_bus              => 0
+	inc_add              => 0
+	Array name is G_LOAD_Command_Format, num of fields 10
+	25 00011000000110100000000000001111// (   25) 181a000f LOAD         R4=RAM[R7]                          // rd the data		
+	25 181a000f  // (   25) LOAD         R4=RAM[R7]                          // rd the data		
+
+###### Line no:   84 #### line is : (R0,R1)=fifo_rd(R0,R1)
+	Scanning for best match command .....
+	Matching command is : FIFO
+	Successfull command parsing.....
+	rd_wr                => 0
+	Array name is G_FIFO_Command_Format, num of fields 4
+	26 10101000000000000000000000000000// (   26) a8000000 FIFO         (R0,R1)=fifo_rd(R0,R1)              // update control
+	26 a8000000  // (   26) FIFO         (R0,R1)=fifo_rd(R0,R1)              // update control
+
+###### Line no:   87 #### line is : RAM[16]=R1
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[16]=R1
+address_mode imd, imd = 16, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00010000
+	source_reg           => 0010
+	ext_bus              => 0
+	imd2                 => 0000
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	27 01111000000000000001011000010000// (   27) 78001610 STOREIA      RAM[16]=R1                          // saving back the rd pointer to RAM[16]
+	27 78001610  // (   27) STOREIA      RAM[16]=R1                          // saving back the rd pointer to RAM[16]
+
+###### Line no:   88 #### line is : RAM[18]=R0
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[18]=R0
+address_mode imd, imd = 18, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 00010010
+	source_reg           => 0000
+	ext_bus              => 0
+	imd2                 => 0000
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	28 01111000000000000000011000010010// (   28) 78000612 STOREIA      RAM[18]=R0                          // saving back the control record to RAM[18]
+	28 78000612  // (   28) STOREIA      RAM[18]=R0                          // saving back the control record to RAM[18]
+
+###### Line no:   90 #### line is : branch !c14 29
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch !c14 29
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1110
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000011101
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	29 10000000000111001111000000011101// (   29) 801cf01d BRANCH       branch !c14 29                      // stop
+	29 801cf01d  // (   29) BRANCH       branch !c14 29                      // stop
+
+###### Line no:   91 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	30 00000000000000000000000000000000// (   30) 00000000 NOP          nop                                 // 
+	30 00000000  // (   30) NOP          nop                                 // 

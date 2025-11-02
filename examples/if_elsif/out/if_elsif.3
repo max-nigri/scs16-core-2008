@@ -1,0 +1,467 @@
+First pass: assigning pc to non empty code lines (line2pc array)
+    0 0     0 
+    1 0     0 
+    2 0     0 
+    3 0     0 
+    4 0     0 
+    5 0     0 `include ../simple_script_defines.v
+    6 0     0 
+    7 1     0 nop
+    8 1     1 goto L_boot
+    9 1     2 goto L_ISR
+   10 1     3 goto L_hardbreak_response
+   11 0     4 
+   12 0     4 
+   13 1     4 L_boot, R0=16'h0fff
+   14 0     5 
+   15 1     5 RAM[`APP_OUT0_ADDR]=R0
+   16 0     6 
+   17 0     6 
+   18 1     6 R5=5
+   19 0     7 
+   20 1     7 branch (!R5[2]) L_branch_aah
+   21 1     8 R1=1
+   22 0     9 
+   23 1     9 L_branch_aah,        branch (R5[2]) L_branch_aaj
+   24 1    10 R1=2
+   25 0    11 
+   26 1    11 L_branch_aaj,        R1=30
+   27 0    12 
+   28 1    12 branch (!c0) L_branch_aal
+   29 1    13 R1=1
+   30 0    14 
+   31 1    14 L_branch_aal,        branch (!c8) L_branch_aan
+   32 1    15 R1=2
+   33 0    16 
+   34 0    16 
+   35 1    16 L_branch_aan,        R1=40
+   36 0    17 
+   37 1    17 branch (!c0) L_branch_aab
+   38 1    18 R1=7
+   39 1    19 goto L_branch_aac
+   40 0    20 
+   41 1    20 L_branch_aab,R1=8
+   42 0    21 
+   43 0    21 
+   44 1    21 L_branch_aac,        branch (!c8) L_branch_aad
+   45 1    22 R1=9
+   46 1    23 goto L_branch_aae
+   47 0    24 
+   48 1    24 L_branch_aad,R1=10
+   49 0    25 
+   50 0    25 
+   51 0    25 
+   52 1    25 L_branch_aae,        branch (!c0) L_branch_abd
+   53 1    26 branch (!c1) L_branch_aar
+   54 1    27 branch (!c2) L_branch_aap
+   55 1    28 R1=11
+   56 0    29 
+   57 1    29 L_branch_aap,              R1=12
+   58 0    30 
+   59 1    30 L_branch_aar,           R1=13
+   60 1    31 goto L_branch_abe
+   61 0    32 
+   62 1    32 L_branch_abd,R1=14
+   63 0    33 
+   64 0    33 
+   65 0    33 
+   66 1    33 L_branch_abe,        branch (!c6) L_branch_aav
+   67 1    34 R1=20
+   68 1    35 goto L_branch_aaw
+   69 1    36 L_branch_aav, branch (!c7) L_branch_aax
+   70 1    37 R1=21
+   71 1    38 goto L_branch_aaw
+   72 1    39 L_branch_aax, branch (!c8) L_branch_aay
+   73 1    40 R1=22
+   74 1    41 goto L_branch_aaw
+   75 1    42 L_branch_aay, branch (!c9) L_branch_aaz
+   76 1    43 R1=23
+   77 1    44 goto L_branch_aaw
+   78 0    45 
+   79 1    45 L_branch_aaz,R1=24
+   80 0    46 
+   81 0    46 
+   82 0    46 
+   83 1    46 L_branch_aaw,        R2=40
+   84 1    47 gr_flag = R2>40
+   85 1    48 branch (!gr_flag) L_branch_aaf
+   86 1    49 R1=30
+   87 1    50 goto L_branch_aag
+   88 0    51 
+   89 1    51 L_branch_aaf,R1=31
+   90 0    52 
+   91 0    52 
+   92 1    52 L_branch_aag,        R2=40
+   93 1    53 gr_flag = R2>40
+   94 1    54 branch (!gr_flag) L_branch_aat
+   95 1    55 R1=30
+   96 0    56 
+   97 0    56 
+   98 0    56 
+   99 0    56 
+  100 0    56 
+  101 0    56 
+  102 0    56 
+  103 1    56 L_branch_aat,        R2=40
+  104 1    57 gr_flag = R2>40
+  105 1    58 branch (!eq_flag) L_branch_aba
+  106 1    59 R1=30
+  107 1    60 goto L_branch_abb
+  108 1    61 L_branch_aba, branch (!ls_flag) L_branch_abc
+  109 1    62 R1=31
+  110 1    63 goto L_branch_abb
+  111 1    64 L_branch_abc, branch (!gr_flag) L_branch_abb
+  112 1    65 R1=31
+  113 0    66 
+  114 0    66 
+  115 0    66 
+  116 1    66 L_branch_abb,        R2=50
+  117 1    67 branch (R2[0]) L_simple_branch
+  118 1    68 R2=60
+  119 1    69 L_simple_branch, R2=70
+  120 0    70 
+  121 1    70 L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa
+  122 0    71 
+  123 0    71 
+  124 0    71 
+  125 0    71 
+  126 0    71 
+  127 0    71 
+  128 0    71 
+  129 1    71 L_ISR,  rti
+  130 0    72 
+  131 1    72 L_hardbreak_response,  goto L_boot
+  132 0    73 
+  133 0    73 
+  134 0    73 
+  135 0    73 
+  136 0    73 
+  137 1    73 L_delay, loop L_c L_c R5
+  138 1    74 L_c, nop
+  139 1    75 return
+  140 0    76 
+  141 0    76 
+  142 0    76 
+Second pass: eliminating start of line labels and filling label2pc hash
+Third pass: evaluating labels of loop statements
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - `include ../simple_script_defines.v
+0 - 
+1 - nop
+1 - goto L_boot
+1 - goto L_ISR
+1 - goto L_hardbreak_response
+0 - 
+0 - 
+1 - R0=16'h0fff
+0 - 
+1 - RAM[`APP_OUT0_ADDR]=R0
+0 - 
+0 - 
+1 - R5=5
+0 - 
+1 - branch (!R5[2]) L_branch_aah
+1 - R1=1
+0 - 
+1 - branch (R5[2]) L_branch_aaj
+1 - R1=2
+0 - 
+1 - R1=30
+0 - 
+1 - branch (!c0) L_branch_aal
+1 - R1=1
+0 - 
+1 - branch (!c8) L_branch_aan
+1 - R1=2
+0 - 
+0 - 
+1 - R1=40
+0 - 
+1 - branch (!c0) L_branch_aab
+1 - R1=7
+1 - goto L_branch_aac
+0 - 
+1 - R1=8
+0 - 
+0 - 
+1 - branch (!c8) L_branch_aad
+1 - R1=9
+1 - goto L_branch_aae
+0 - 
+1 - R1=10
+0 - 
+0 - 
+0 - 
+1 - branch (!c0) L_branch_abd
+1 - branch (!c1) L_branch_aar
+1 - branch (!c2) L_branch_aap
+1 - R1=11
+0 - 
+1 - R1=12
+0 - 
+1 - R1=13
+1 - goto L_branch_abe
+0 - 
+1 - R1=14
+0 - 
+0 - 
+0 - 
+1 - branch (!c6) L_branch_aav
+1 - R1=20
+1 - goto L_branch_aaw
+1 - branch (!c7) L_branch_aax
+1 - R1=21
+1 - goto L_branch_aaw
+1 - branch (!c8) L_branch_aay
+1 - R1=22
+1 - goto L_branch_aaw
+1 - branch (!c9) L_branch_aaz
+1 - R1=23
+1 - goto L_branch_aaw
+0 - 
+1 - R1=24
+0 - 
+0 - 
+0 - 
+1 - R2=40
+1 - gr_flag = R2>40
+1 - branch (!gr_flag) L_branch_aaf
+1 - R1=30
+1 - goto L_branch_aag
+0 - 
+1 - R1=31
+0 - 
+0 - 
+1 - R2=40
+1 - gr_flag = R2>40
+1 - branch (!gr_flag) L_branch_aat
+1 - R1=30
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+1 - R2=40
+1 - gr_flag = R2>40
+1 - branch (!eq_flag) L_branch_aba
+1 - R1=30
+1 - goto L_branch_abb
+1 - branch (!ls_flag) L_branch_abc
+1 - R1=31
+1 - goto L_branch_abb
+1 - branch (!gr_flag) L_branch_abb
+1 - R1=31
+0 - 
+0 - 
+0 - 
+1 - R2=50
+1 - branch (R2[0]) L_simple_branch
+1 - R2=60
+1 - R2=70
+0 - 
+1 - branch !c14 L_wait_dfhfdaaa
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+1 - rti
+0 - 
+1 - goto L_boot
+0 - 
+0 - 
+0 - 
+0 - 
+0 - 
+1 - loop 1 1 R5
+1 - nop
+1 - return
+0 - 
+0 - 
+0 - 
+Forth pass: evaluating command arguments labels
+===== found label L_boot at pc  4
+===== found label L_ISR at pc  71
+===== found label L_hardbreak_response at pc  72
+===== found label L_branch_aah at pc  9
+===== found label L_branch_aaj at pc  11
+===== found label L_branch_aal at pc  14
+===== found label L_branch_aan at pc  16
+===== found label L_branch_aab at pc  20
+===== found label L_branch_aac at pc  21
+===== found label L_branch_aad at pc  24
+===== found label L_branch_aae at pc  25
+===== found label L_branch_abd at pc  32
+===== found label L_branch_aar at pc  30
+===== found label L_branch_aap at pc  29
+===== found label L_branch_abe at pc  33
+===== found label L_branch_aav at pc  36
+===== found label L_branch_aaw at pc  46
+===== found label L_branch_aax at pc  39
+===== found label L_branch_aaw at pc  46
+===== found label L_branch_aay at pc  42
+===== found label L_branch_aaw at pc  46
+===== found label L_branch_aaz at pc  45
+===== found label L_branch_aaw at pc  46
+===== found label L_branch_aaf at pc  51
+===== found label L_branch_aag at pc  52
+===== found label L_branch_aat at pc  56
+===== found label L_branch_aba at pc  61
+===== found label L_branch_abb at pc  66
+===== found label L_branch_abc at pc  64
+===== found label L_branch_abb at pc  66
+===== found label L_branch_abb at pc  66
+===== found label L_simple_branch at pc  69
+===== found label L_wait_dfhfdaaa at pc  70
+===== found label L_boot at pc  4
+// scs compiler creates an "out" directory at the invokation  
+// directory, and proceeds with the compilation from that directory  
+// so if one wants to use relative path for the include files  
+// one must use the ../ notation   
+//   
+`include ../simple_script_defines.v                 //     0 `include ../simple_script_defines.v               
+//   
+nop                                                 //     0 mandatory, start with nop.                        
+goto 4                                              //     1 goto boot sequence, jump over the interrupt vector
+goto 71                                             //     2 goto ISR, pc=2 interrupt destination              
+goto 72                                             //     3 goto Hardbreak, pc=3 hardbreak destination        
+//   
+//   
+R0=16'h0fff                                         //     4 L_boot, begining of some boot sequence            
+// do something  
+RAM[`APP_OUT0_ADDR]=R0                              //     5 init app out regs                                 
+// do something  
+//   
+R5=5                                                //     6                                                   
+// simple register bit branch  
+branch (!R5[2]) 9                                   //     7 bit of reg branch                                 
+R1=1                                                //     8 branch not taken                                  
+//   
+branch (R5[2]) 11                                   //     9 !bit of reg branch                                
+R1=2                                                //    10 branch not taken                                  
+//   
+R1=30                                               //    11 condition is set to 16'hff00                      
+// simple condition bit branch  
+branch (!c0) 14                                     //    12 bit of condition branch                           
+R1=1                                                //    13 branch not taken                                  
+//   
+branch (!c8) 16                                     //    14 !bit of reg branch                                
+R1=2                                                //    15 branch not taken                                  
+//   
+//   
+R1=40                                               //    16                                                   
+// if else example  
+branch (!c0) 20                                     //    17 bit of condition branch                           
+R1=7                                                //    18 branch not taken                                  
+goto 21                                             //    19                                                   
+//   
+R1=8                                                //    20 branch taken                                      
+//   
+// if else with branch taken  
+branch (!c8) 24                                     //    21 bit of condition branch                           
+R1=9                                                //    22 branch not taken                                  
+goto 25                                             //    23                                                   
+//   
+R1=10                                               //    24 branch taken                                      
+//   
+//   
+// nested if  
+branch (!c0) 32                                     //    25 bit of condition branch                           
+branch (!c1) 30                                     //    26                                                   
+branch (!c2) 29                                     //    27                                                   
+R1=11                                               //    28                                                   
+//   
+R1=12                                               //    29                                                   
+//   
+R1=13                                               //    30                                                   
+goto 33                                             //    31                                                   
+//   
+R1=14                                               //    32                                                   
+//   
+//   
+// if else if example  
+branch (!c6) 36                                     //    33 if elsif start                                    
+R1=20                                               //    34                                                   
+goto 46                                             //    35                                                   
+branch (!c7) 39                                     //    36                                                   
+R1=21                                               //    37                                                   
+goto 46                                             //    38                                                   
+branch (!c8) 42                                     //    39                                                   
+R1=22                                               //    40                                                   
+goto 46                                             //    41                                                   
+branch (!c9) 45                                     //    42                                                   
+R1=23                                               //    43                                                   
+goto 46                                             //    44                                                   
+//   
+R1=24                                               //    45                                                   
+//   
+//   
+//   
+R2=40                                               //    46                                                   
+gr_flag = R2>40                                     //    47                                                   
+branch (!gr_flag) 51                                //    48 alu assist branch                                 
+R1=30                                               //    49                                                   
+goto 52                                             //    50                                                   
+//   
+R1=31                                               //    51                                                   
+//   
+//   
+R2=40                                               //    52                                                   
+gr_flag = R2>40                                     //    53                                                   
+branch (!gr_flag) 56                                //    54 alu assist branch                                 
+R1=30                                               //    55                                                   
+//   
+// the following elsif with compare is not supported  
+// elsif (R2==40) {  
+// R1=31  
+// }  
+//   
+// instead, one can do the following  
+R2=40                                               //    56                                                   
+gr_flag = R2>40                                     //    57 explicit alu compare                              
+branch (!eq_flag) 61                                //    58 start of alu if elsif emulation                   
+R1=30                                               //    59                                                   
+goto 66                                             //    60                                                   
+branch (!ls_flag) 64                                //    61                                                   
+R1=31                                               //    62                                                   
+goto 66                                             //    63                                                   
+branch (!gr_flag) 66                                //    64                                                   
+R1=31                                               //    65                                                   
+//   
+//   
+// if ( some condition) L_label  
+R2=50                                               //    66                                                   
+branch (R2[0]) 69                                   //    67 basic branch                                      
+R2=60                                               //    68                                                   
+R2=70                                               //    69 L_simple_branch                                   
+//   
+branch !c14 70                                      //    70 c14 tied to "0"                                   
+//   
+//   
+// //////////////////////////////////////////////  
+// routines  
+// //////////////////////////////////////////////  
+// //////////////////////////////////////////////  
+//   
+rti                                                 //    71                                                   
+//   
+goto 4                                              //    72                                                   
+//   
+// //////////////////////////////////////////////  
+// ///////// L_delay ////////////////////////////  
+// //////////////////////////////////////////////  
+//   
+loop 1 1 R5                                         //    73                                                   
+nop                                                 //    74                                                   
+return                                              //    75                                                   
+//   
+//   
+//   

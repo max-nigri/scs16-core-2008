@@ -1,0 +1,45 @@
+// scs compiler creates an "out" directory at the invokation
+// directory, and proceeds with the compilation from that directory
+// so if one wants to use relative path for the include files
+// one must use the ../ notation 
+
+`include ../simple_script_defines.v
+
+nop
+goto L_boot  		   // goto boot sequence
+goto L_ISR		   // goto ISR
+goto L_hardbreak_response  // prepare 
+
+
+L_boot, R0=16'h0fff 		   	// L_boot, begining of some boot sequence
+	RAM[`APP_OUT0_ADDR]=R0          // init app out regs
+	// do something
+
+	R6=100
+        OCP[R6] = R6
+	nop
+        R5 = OCP[R6]
+	gosub L_delay
+	wait c14 // c14 tied to "0" 
+
+
+////////////////////////////////////////////////
+// routines
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+
+L_ISR,  rti
+
+L_hardbreak_response, goto L_boot 
+
+
+////////////////////////////////////////////////
+/////////// L_delay ////////////////////////////
+////////////////////////////////////////////////
+
+L_delay, loop L_c L_c R5
+L_c, nop
+return
+
+
+

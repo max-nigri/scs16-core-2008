@@ -1,0 +1,95 @@
+///////////////////////////////////////////////////////////////////////
+// File:  		fifo.scs
+// Location:		
+// Created by:		Nadav Feldman                         
+// Date Creation:  	28.11.03
+// Version:		1.0                                                 
+// Modified:		
+//
+// Project: 		SCS16
+//           
+// Purpose:		This progrem is made to check a fifo of 16 cells.
+//			useing 2 loop one to fill the fifo and one to empty it.
+//
+// Description:         
+//			
+// How to use it:	                                                 
+//
+// ToDo:                                                           
+//
+///////////////////////////////////////////////////////////////////////
+
+nop
+
+
+`define BFA 0
+`define FWP 8
+`define FRP 9
+`define FMN 10
+
+// in this example we define a fifo of 16 lines located in RAM
+// in the region `BFA (Base Fifo Address) to `BFA+15
+// its control struct is located above the fifo region, however
+// its location is totally controlled by the programmer.
+// the control struct consist of 3 lines
+// RAM[16] is the rd pointer 
+// RAM[17] is the wr pointer
+// RAM[18] {full=0 empty=1 size[6:0]=16  len[6:0]=0}
+
+
+// fifo control structure initiation
+// in this specific example, I'm setting the rd,wr ptr to point to 9
+// which is near the middle of the fifo. this will demonstrate the
+// wrap around mechanism
+R6=16
+RAM[R6++]=9	// RAM[16] is the rd pointer
+RAM[R6++]=9     // RAM[17] is the wr pointer
+RAM[R6++]=16'b0100011110000000  // full=0 empty=1 size=16  len=0
+
+R5=20
+
+// writing R5 times to an empty fifo
+
+loop L_fill_fifo_start L_fill_fifo_end R5	// fifo fill loop invokation
+     // loop pre-conditioning
+     R6=17
+     R1=RAM[R6++]	// loading the wr pointer to R1
+     R0=RAM[R6++]	// loading the control to R0
+
+L_fill_fifo_start,	if (R0[15]){ 	   // checking the full
+			   nop	   	   // full!!, do something			
+		    	}		
+		    	else{
+				R7=R1+`BFA	// calc abs wr ptr
+				RAM[R7]=R4	// wr the data
+				R4=R4+1		// inc the data
+L_fill_fifo_end,		(R0,R1)=fifo_wr(R0,R1)	// update control	
+			}	
+
+RAM[17]=R1		// saving back the wr pointer to RAM[17]
+RAM[18]=R0        	// saving back the control record to RAM[18]
+
+
+      R1=RAM[16]	// loading the rd pointer to R1 
+
+// reading R5 times from a full fifo
+
+loop L_emp_fifo_start L_emp_fifo_end R5
+L_emp_fifo_start,       if (R0[14]){	// checking the empty
+			   nop		// empty!!, do something
+			}
+			else{
+				R7=R1+`BFA	// calc the abs rd ptr
+				R4=RAM[R7]	// rd the data		
+L_emp_fifo_end,			(R0,R1)=fifo_rd(R0,R1)		// update control
+			}	
+
+RAM[16]=R1		// saving back the rd pointer to RAM[16]
+RAM[18]=R0		// saving back the control record to RAM[18]
+
+wait c14		// stop
+nop
+
+ 
+
+////////////////////////

@@ -1,0 +1,1029 @@
+Compiling lines .... Statement clasification and translation
+
+###### Line no:    8 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	0 00000000000000000000000000000000// (    0) 00000000 NOP          nop                                 // mandatory, start with nop.
+	0 00000000  // (    0) NOP          nop                                 // mandatory, start with nop.
+
+###### Line no:    9 #### line is : goto 4
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 4
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000000100
+	Array name is G_JUMP_Command_Format, num of fields 8
+	1 01101000000000000000000000000100// (    1) 68000004 JUMP         goto 4                              // goto boot sequence, jump over the interrupt vector
+	1 68000004  // (    1) JUMP         goto 4                              // goto boot sequence, jump over the interrupt vector
+
+###### Line no:   10 #### line is : goto 71
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 71
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00001000111
+	Array name is G_JUMP_Command_Format, num of fields 8
+	2 01101000000000000000000001000111// (    2) 68000047 JUMP         goto 71                             // goto ISR, pc=2 interrupt destination
+	2 68000047  // (    2) JUMP         goto 71                             // goto ISR, pc=2 interrupt destination
+
+###### Line no:   11 #### line is : goto 72
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 72
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00001001000
+	Array name is G_JUMP_Command_Format, num of fields 8
+	3 01101000000000000000000001001000// (    3) 68000048 JUMP         goto 72                             // goto Hardbreak, pc=3 hardbreak destination
+	3 68000048  // (    3) JUMP         goto 72                             // goto Hardbreak, pc=3 hardbreak destination
+
+###### Line no:   14 #### line is : R0=16'h0fff
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R0=16'h0fff
+Error !,width of const 16 is not as expected 11
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00111111111111
+	Dest_reg             => 0000
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	4 00111000000100000000111111111111// (    4) 38100fff LOADID       R0=16'h0fff                         // L_boot, begining of some boot sequence
+	4 38100fff  // (    4) LOADID       R0=16'h0fff                         // L_boot, begining of some boot sequence
+
+###### Line no:   16 #### line is : RAM[2032]=R0
+	Scanning for best match command .....
+	Matching command is : STOREIA
+	Probably STOREIA command : RAM[2032]=R0
+address_mode imd, imd = 2032, r6r7 = R6, inc = 0
+	Successfull command parsing.....
+	imd1                 => 11110000
+	source_reg           => 0000
+	ext_bus              => 0
+	imd2                 => 0111
+	add_data             => 0
+	Array name is G_STOREIA_Command_Format, num of fields 11
+	5 01111000000000111000011011110000// (    5) 780386f0 STOREIA      RAM[`APP_OUT0_ADDR]=R0              // init app out regs
+	5 780386f0  // (    5) STOREIA      RAM[`APP_OUT0_ADDR]=R0              // init app out regs
+
+###### Line no:   19 #### line is : R5=5
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R5=5
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000000101
+	Dest_reg             => 1010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	6 00111000000100101000000000000101// (    6) 38128005 LOADID       R5=5                                // 
+	6 38128005  // (    6) LOADID       R5=5                                // 
+
+###### Line no:   21 #### line is : branch (!R5[2]) 9
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!R5[2]) 9
+	Successfull command parsing.....
+	Imd1                 => 000
+	int_ext              => 1
+	flag_bit             => 0010
+	polarity             => 1
+	ra_sel               => 101
+	reg_flag             => 1
+	Imd                  => 00000001001
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	7 10000000000101111001000000001001// (    7) 80179009 BRANCH       branch (!R5[2]) 9                   // bit of reg branch
+	7 80179009  // (    7) BRANCH       branch (!R5[2]) 9                   // bit of reg branch
+
+###### Line no:   22 #### line is : R1=1
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=1
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000000001
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	8 00111000000100001000000000000001// (    8) 38108001 LOADID       R1=1                                // branch not taken
+	8 38108001  // (    8) LOADID       R1=1                                // branch not taken
+
+###### Line no:   24 #### line is : branch (R5[2]) 11
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (R5[2]) 11
+	Successfull command parsing.....
+	Imd1                 => 000
+	int_ext              => 1
+	flag_bit             => 0010
+	polarity             => 0
+	ra_sel               => 101
+	reg_flag             => 1
+	Imd                  => 00000001011
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	9 10000000000101110001000000001011// (    9) 8017100b BRANCH       branch (R5[2]) 11                   // !bit of reg branch
+	9 8017100b  // (    9) BRANCH       branch (R5[2]) 11                   // !bit of reg branch
+
+###### Line no:   25 #### line is : R1=2
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=2
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000000010
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	10 00111000000100001000000000000010// (   10) 38108002 LOADID       R1=2                                // branch not taken
+	10 38108002  // (   10) LOADID       R1=2                                // branch not taken
+
+###### Line no:   27 #### line is : R1=30
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=30
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011110
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	11 00111000000100001000000000011110// (   11) 3810801e LOADID       R1=30                               // condition is set to 16'hff00
+	11 3810801e  // (   11) LOADID       R1=30                               // condition is set to 16'hff00
+
+###### Line no:   29 #### line is : branch (!c0) 14
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c0) 14
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 0000
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000001110
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	12 10000000000111001000000000001110// (   12) 801c800e BRANCH       branch (!c0) 14                     // bit of condition branch
+	12 801c800e  // (   12) BRANCH       branch (!c0) 14                     // bit of condition branch
+
+###### Line no:   30 #### line is : R1=1
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=1
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000000001
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	13 00111000000100001000000000000001// (   13) 38108001 LOADID       R1=1                                // branch not taken
+	13 38108001  // (   13) LOADID       R1=1                                // branch not taken
+
+###### Line no:   32 #### line is : branch (!c8) 16
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c8) 16
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1000
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000010000
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	14 10000000000111001100000000010000// (   14) 801cc010 BRANCH       branch (!c8) 16                     // !bit of reg branch
+	14 801cc010  // (   14) BRANCH       branch (!c8) 16                     // !bit of reg branch
+
+###### Line no:   33 #### line is : R1=2
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=2
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000000010
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	15 00111000000100001000000000000010// (   15) 38108002 LOADID       R1=2                                // branch not taken
+	15 38108002  // (   15) LOADID       R1=2                                // branch not taken
+
+###### Line no:   36 #### line is : R1=40
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=40
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000101000
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	16 00111000000100001000000000101000// (   16) 38108028 LOADID       R1=40                               // 
+	16 38108028  // (   16) LOADID       R1=40                               // 
+
+###### Line no:   38 #### line is : branch (!c0) 20
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c0) 20
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 0000
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000010100
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	17 10000000000111001000000000010100// (   17) 801c8014 BRANCH       branch (!c0) 20                     // bit of condition branch
+	17 801c8014  // (   17) BRANCH       branch (!c0) 20                     // bit of condition branch
+
+###### Line no:   39 #### line is : R1=7
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=7
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000000111
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	18 00111000000100001000000000000111// (   18) 38108007 LOADID       R1=7                                // branch not taken
+	18 38108007  // (   18) LOADID       R1=7                                // branch not taken
+
+###### Line no:   40 #### line is : goto 21
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 21
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000010101
+	Array name is G_JUMP_Command_Format, num of fields 8
+	19 01101000000000000000000000010101// (   19) 68000015 JUMP         goto 21                             // 
+	19 68000015  // (   19) JUMP         goto 21                             // 
+
+###### Line no:   42 #### line is : R1=8
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=8
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000001000
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	20 00111000000100001000000000001000// (   20) 38108008 LOADID       R1=8                                // branch taken
+	20 38108008  // (   20) LOADID       R1=8                                // branch taken
+
+###### Line no:   45 #### line is : branch (!c8) 24
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c8) 24
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1000
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000011000
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	21 10000000000111001100000000011000// (   21) 801cc018 BRANCH       branch (!c8) 24                     // bit of condition branch
+	21 801cc018  // (   21) BRANCH       branch (!c8) 24                     // bit of condition branch
+
+###### Line no:   46 #### line is : R1=9
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=9
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000001001
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	22 00111000000100001000000000001001// (   22) 38108009 LOADID       R1=9                                // branch not taken
+	22 38108009  // (   22) LOADID       R1=9                                // branch not taken
+
+###### Line no:   47 #### line is : goto 25
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 25
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000011001
+	Array name is G_JUMP_Command_Format, num of fields 8
+	23 01101000000000000000000000011001// (   23) 68000019 JUMP         goto 25                             // 
+	23 68000019  // (   23) JUMP         goto 25                             // 
+
+###### Line no:   49 #### line is : R1=10
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=10
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000001010
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	24 00111000000100001000000000001010// (   24) 3810800a LOADID       R1=10                               // branch taken
+	24 3810800a  // (   24) LOADID       R1=10                               // branch taken
+
+###### Line no:   53 #### line is : branch (!c0) 32
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c0) 32
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 0000
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000100000
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	25 10000000000111001000000000100000// (   25) 801c8020 BRANCH       branch (!c0) 32                     // bit of condition branch
+	25 801c8020  // (   25) BRANCH       branch (!c0) 32                     // bit of condition branch
+
+###### Line no:   54 #### line is : branch (!c1) 30
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c1) 30
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 0001
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000011110
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	26 10000000000111001000100000011110// (   26) 801c881e BRANCH       branch (!c1) 30                     // 
+	26 801c881e  // (   26) BRANCH       branch (!c1) 30                     // 
+
+###### Line no:   55 #### line is : branch (!c2) 29
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c2) 29
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 0010
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000011101
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	27 10000000000111001001000000011101// (   27) 801c901d BRANCH       branch (!c2) 29                     // 
+	27 801c901d  // (   27) BRANCH       branch (!c2) 29                     // 
+
+###### Line no:   56 #### line is : R1=11
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=11
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000001011
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	28 00111000000100001000000000001011// (   28) 3810800b LOADID       R1=11                               // 
+	28 3810800b  // (   28) LOADID       R1=11                               // 
+
+###### Line no:   58 #### line is : R1=12
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=12
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000001100
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	29 00111000000100001000000000001100// (   29) 3810800c LOADID       R1=12                               // 
+	29 3810800c  // (   29) LOADID       R1=12                               // 
+
+###### Line no:   60 #### line is : R1=13
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=13
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000001101
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	30 00111000000100001000000000001101// (   30) 3810800d LOADID       R1=13                               // 
+	30 3810800d  // (   30) LOADID       R1=13                               // 
+
+###### Line no:   61 #### line is : goto 33
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 33
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000100001
+	Array name is G_JUMP_Command_Format, num of fields 8
+	31 01101000000000000000000000100001// (   31) 68000021 JUMP         goto 33                             // 
+	31 68000021  // (   31) JUMP         goto 33                             // 
+
+###### Line no:   63 #### line is : R1=14
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=14
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000001110
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	32 00111000000100001000000000001110// (   32) 3810800e LOADID       R1=14                               // 
+	32 3810800e  // (   32) LOADID       R1=14                               // 
+
+###### Line no:   67 #### line is : branch (!c6) 36
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c6) 36
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 0110
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000100100
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	33 10000000000111001011000000100100// (   33) 801cb024 BRANCH       branch (!c6) 36                     // if elsif start
+	33 801cb024  // (   33) BRANCH       branch (!c6) 36                     // if elsif start
+
+###### Line no:   68 #### line is : R1=20
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=20
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010100
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	34 00111000000100001000000000010100// (   34) 38108014 LOADID       R1=20                               // 
+	34 38108014  // (   34) LOADID       R1=20                               // 
+
+###### Line no:   69 #### line is : goto 46
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 46
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000101110
+	Array name is G_JUMP_Command_Format, num of fields 8
+	35 01101000000000000000000000101110// (   35) 6800002e JUMP         goto 46                             // 
+	35 6800002e  // (   35) JUMP         goto 46                             // 
+
+###### Line no:   70 #### line is : branch (!c7) 39
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c7) 39
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 0111
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000100111
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	36 10000000000111001011100000100111// (   36) 801cb827 BRANCH       branch (!c7) 39                     // 
+	36 801cb827  // (   36) BRANCH       branch (!c7) 39                     // 
+
+###### Line no:   71 #### line is : R1=21
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=21
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010101
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	37 00111000000100001000000000010101// (   37) 38108015 LOADID       R1=21                               // 
+	37 38108015  // (   37) LOADID       R1=21                               // 
+
+###### Line no:   72 #### line is : goto 46
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 46
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000101110
+	Array name is G_JUMP_Command_Format, num of fields 8
+	38 01101000000000000000000000101110// (   38) 6800002e JUMP         goto 46                             // 
+	38 6800002e  // (   38) JUMP         goto 46                             // 
+
+###### Line no:   73 #### line is : branch (!c8) 42
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c8) 42
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1000
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000101010
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	39 10000000000111001100000000101010// (   39) 801cc02a BRANCH       branch (!c8) 42                     // 
+	39 801cc02a  // (   39) BRANCH       branch (!c8) 42                     // 
+
+###### Line no:   74 #### line is : R1=22
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=22
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010110
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	40 00111000000100001000000000010110// (   40) 38108016 LOADID       R1=22                               // 
+	40 38108016  // (   40) LOADID       R1=22                               // 
+
+###### Line no:   75 #### line is : goto 46
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 46
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000101110
+	Array name is G_JUMP_Command_Format, num of fields 8
+	41 01101000000000000000000000101110// (   41) 6800002e JUMP         goto 46                             // 
+	41 6800002e  // (   41) JUMP         goto 46                             // 
+
+###### Line no:   76 #### line is : branch (!c9) 45
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!c9) 45
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1001
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000101101
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	42 10000000000111001100100000101101// (   42) 801cc82d BRANCH       branch (!c9) 45                     // 
+	42 801cc82d  // (   42) BRANCH       branch (!c9) 45                     // 
+
+###### Line no:   77 #### line is : R1=23
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=23
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000010111
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	43 00111000000100001000000000010111// (   43) 38108017 LOADID       R1=23                               // 
+	43 38108017  // (   43) LOADID       R1=23                               // 
+
+###### Line no:   78 #### line is : goto 46
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 46
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000101110
+	Array name is G_JUMP_Command_Format, num of fields 8
+	44 01101000000000000000000000101110// (   44) 6800002e JUMP         goto 46                             // 
+	44 6800002e  // (   44) JUMP         goto 46                             // 
+
+###### Line no:   80 #### line is : R1=24
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=24
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011000
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	45 00111000000100001000000000011000// (   45) 38108018 LOADID       R1=24                               // 
+	45 38108018  // (   45) LOADID       R1=24                               // 
+
+###### Line no:   84 #### line is : R2=40
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R2=40
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000101000
+	Dest_reg             => 0100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	46 00111000000100010000000000101000// (   46) 38110028 LOADID       R2=40                               // 
+	46 38110028  // (   46) LOADID       R2=40                               // 
+
+###### Line no:   85 #### line is : gr_flag = R2>40
+	Scanning for best match command .....
+	Matching command is : ALUI
+	Probably ALUI command : gr_flag=R2>40
+	Successfull command parsing.....
+	is_neg               => 0
+	dest_reg             => 111
+	rb_sel               => 010
+	swap                 => 0
+	operation            => 011
+	Imd                  => 00101000
+	Array name is G_ALUI_Command_Format, num of fields 9
+	47 10001000000000111010011000101000// (   47) 8803a628 ALUI         gr_flag = R2>40                     // 
+	47 8803a628  // (   47) ALUI         gr_flag = R2>40                     // 
+
+###### Line no:   85 #### line is : branch (!gr_flag) 51
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!gr_flag) 51
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1100
+	int_ext              => 1
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000110011
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	48 10000000000111011110000000110011// (   48) 801de033 BRANCH       branch (!gr_flag) 51                // alu assist branch
+	48 801de033  // (   48) BRANCH       branch (!gr_flag) 51                // alu assist branch
+
+###### Line no:   86 #### line is : R1=30
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=30
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011110
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	49 00111000000100001000000000011110// (   49) 3810801e LOADID       R1=30                               // 
+	49 3810801e  // (   49) LOADID       R1=30                               // 
+
+###### Line no:   87 #### line is : goto 52
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 52
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000110100
+	Array name is G_JUMP_Command_Format, num of fields 8
+	50 01101000000000000000000000110100// (   50) 68000034 JUMP         goto 52                             // 
+	50 68000034  // (   50) JUMP         goto 52                             // 
+
+###### Line no:   89 #### line is : R1=31
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=31
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011111
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	51 00111000000100001000000000011111// (   51) 3810801f LOADID       R1=31                               // 
+	51 3810801f  // (   51) LOADID       R1=31                               // 
+
+###### Line no:   92 #### line is : R2=40
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R2=40
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000101000
+	Dest_reg             => 0100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	52 00111000000100010000000000101000// (   52) 38110028 LOADID       R2=40                               // 
+	52 38110028  // (   52) LOADID       R2=40                               // 
+
+###### Line no:   93 #### line is : gr_flag = R2>40
+	Scanning for best match command .....
+	Matching command is : ALUI
+	Probably ALUI command : gr_flag=R2>40
+	Successfull command parsing.....
+	is_neg               => 0
+	dest_reg             => 111
+	rb_sel               => 010
+	swap                 => 0
+	operation            => 011
+	Imd                  => 00101000
+	Array name is G_ALUI_Command_Format, num of fields 9
+	53 10001000000000111010011000101000// (   53) 8803a628 ALUI         gr_flag = R2>40                     // 
+	53 8803a628  // (   53) ALUI         gr_flag = R2>40                     // 
+
+###### Line no:   93 #### line is : branch (!gr_flag) 56
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!gr_flag) 56
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1100
+	int_ext              => 1
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000111000
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	54 10000000000111011110000000111000// (   54) 801de038 BRANCH       branch (!gr_flag) 56                // alu assist branch
+	54 801de038  // (   54) BRANCH       branch (!gr_flag) 56                // alu assist branch
+
+###### Line no:   94 #### line is : R1=30
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=30
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011110
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	55 00111000000100001000000000011110// (   55) 3810801e LOADID       R1=30                               // 
+	55 3810801e  // (   55) LOADID       R1=30                               // 
+
+###### Line no:  102 #### line is : R2=40
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R2=40
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000101000
+	Dest_reg             => 0100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	56 00111000000100010000000000101000// (   56) 38110028 LOADID       R2=40                               // 
+	56 38110028  // (   56) LOADID       R2=40                               // 
+
+###### Line no:  103 #### line is : gr_flag = R2>40
+	Scanning for best match command .....
+	Matching command is : ALUI
+	Probably ALUI command : gr_flag=R2>40
+	Successfull command parsing.....
+	is_neg               => 0
+	dest_reg             => 111
+	rb_sel               => 010
+	swap                 => 0
+	operation            => 011
+	Imd                  => 00101000
+	Array name is G_ALUI_Command_Format, num of fields 9
+	57 10001000000000111010011000101000// (   57) 8803a628 ALUI         gr_flag = R2>40                     // explicit alu compare
+	57 8803a628  // (   57) ALUI         gr_flag = R2>40                     // explicit alu compare
+
+###### Line no:  104 #### line is : branch (!eq_flag) 61
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!eq_flag) 61
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1101
+	int_ext              => 1
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00000111101
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	58 10000000000111011110100000111101// (   58) 801de83d BRANCH       branch (!eq_flag) 61                // start of alu if elsif emulation
+	58 801de83d  // (   58) BRANCH       branch (!eq_flag) 61                // start of alu if elsif emulation
+
+###### Line no:  105 #### line is : R1=30
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=30
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011110
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	59 00111000000100001000000000011110// (   59) 3810801e LOADID       R1=30                               // 
+	59 3810801e  // (   59) LOADID       R1=30                               // 
+
+###### Line no:  106 #### line is : goto 66
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 66
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00001000010
+	Array name is G_JUMP_Command_Format, num of fields 8
+	60 01101000000000000000000001000010// (   60) 68000042 JUMP         goto 66                             // 
+	60 68000042  // (   60) JUMP         goto 66                             // 
+
+###### Line no:  107 #### line is : branch (!ls_flag) 64
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!ls_flag) 64
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1011
+	int_ext              => 1
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00001000000
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	61 10000000000111011101100001000000// (   61) 801dd840 BRANCH       branch (!ls_flag) 64                // 
+	61 801dd840  // (   61) BRANCH       branch (!ls_flag) 64                // 
+
+###### Line no:  108 #### line is : R1=31
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=31
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011111
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	62 00111000000100001000000000011111// (   62) 3810801f LOADID       R1=31                               // 
+	62 3810801f  // (   62) LOADID       R1=31                               // 
+
+###### Line no:  109 #### line is : goto 66
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 66
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00001000010
+	Array name is G_JUMP_Command_Format, num of fields 8
+	63 01101000000000000000000001000010// (   63) 68000042 JUMP         goto 66                             // 
+	63 68000042  // (   63) JUMP         goto 66                             // 
+
+###### Line no:  110 #### line is : branch (!gr_flag) 66
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (!gr_flag) 66
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1100
+	int_ext              => 1
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00001000010
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	64 10000000000111011110000001000010// (   64) 801de042 BRANCH       branch (!gr_flag) 66                // 
+	64 801de042  // (   64) BRANCH       branch (!gr_flag) 66                // 
+
+###### Line no:  111 #### line is : R1=31
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R1=31
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000011111
+	Dest_reg             => 0010
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	65 00111000000100001000000000011111// (   65) 3810801f LOADID       R1=31                               // 
+	65 3810801f  // (   65) LOADID       R1=31                               // 
+
+###### Line no:  115 #### line is : R2=50
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R2=50
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000110010
+	Dest_reg             => 0100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	66 00111000000100010000000000110010// (   66) 38110032 LOADID       R2=50                               // 
+	66 38110032  // (   66) LOADID       R2=50                               // 
+
+###### Line no:  116 #### line is : branch (R2[0]) 69
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch (R2[0]) 69
+	Successfull command parsing.....
+	Imd1                 => 000
+	int_ext              => 1
+	flag_bit             => 0000
+	polarity             => 0
+	ra_sel               => 010
+	reg_flag             => 1
+	Imd                  => 00001000101
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	67 10000000000010110000000001000101// (   67) 800b0045 BRANCH       branch (R2[0]) 69                   // basic branch
+	67 800b0045  // (   67) BRANCH       branch (R2[0]) 69                   // basic branch
+
+###### Line no:  117 #### line is : R2=60
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R2=60
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000000111100
+	Dest_reg             => 0100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	68 00111000000100010000000000111100// (   68) 3811003c LOADID       R2=60                               // 
+	68 3811003c  // (   68) LOADID       R2=60                               // 
+
+###### Line no:  118 #### line is : R2=70
+	Scanning for best match command .....
+	Matching command is : LOADID
+	Probably LOADID command : R2=70
+	Successfull command parsing.....
+	address_data         => 1
+	imd1                 => 00000001000110
+	Dest_reg             => 0100
+	imd2                 => 00
+	Array name is G_LOADID_Command_Format, num of fields 6
+	69 00111000000100010000000001000110// (   69) 38110046 LOADID       R2=70                               // L_simple_branch      
+	69 38110046  // (   69) LOADID       R2=70                               // L_simple_branch      
+
+###### Line no:  120 #### line is : branch !c14 70
+	Scanning for best match command .....
+	Matching command is : BRANCH
+	Probably BRANCH command : branch !c14 70
+	Successfull command parsing.....
+	Imd1                 => 000
+	flag_bit             => 1110
+	int_ext              => 0
+	polarity             => 1
+	reg_flag             => 0
+	Imd                  => 00001000110
+	Array name is G_BRANCH_Command_Format, num of fields 9
+	70 10000000000111001111000001000110// (   70) 801cf046 BRANCH       branch !c14 70                      // c14 tied to "0" 
+	70 801cf046  // (   70) BRANCH       branch !c14 70                      // c14 tied to "0" 
+
+###### Line no:  128 #### line is : rti
+	Scanning for best match command .....
+	Matching command is : RETURN
+	Probably RETURN command : rti
+	Successfull command parsing.....
+	from                 => 10
+	reserved             => 0000000000000000000
+	Array name is G_RETURN_Command_Format, num of fields 4
+	71 01110000000100000000000000000000// (   71) 70100000 RETURN       rti                                 // 
+	71 70100000  // (   71) RETURN       rti                                 // 
+
+###### Line no:  130 #### line is : goto 4
+	Scanning for best match command .....
+	Matching command is : JUMP
+	Probably JUMP command : goto 4
+	Successfull command parsing.....
+	Imd1                 => 000
+	add_sel              => 0
+	goto_type            => 0
+	Imd                  => 00000000100
+	Array name is G_JUMP_Command_Format, num of fields 8
+	72 01101000000000000000000000000100// (   72) 68000004 JUMP         goto 4                              // 
+	72 68000004  // (   72) JUMP         goto 4                              // 
+
+###### Line no:  136 #### line is : loop 1 1 R5
+	Scanning for best match command .....
+	Matching command is : LOOP
+	Probably LOOP command : loop 1 1 R5
+	Successfull command parsing.....
+	end_offset           => 00001
+	start_offset         => 001
+	ra_sel               => 101
+	Imd                  => 0000000000
+	Array name is G_LOOP_Command_Format, num of fields 6
+	73 01001000000101001000010000000000// (   73) 48148400 LOOP         loop 1 1 R5                         // 
+	73 48148400  // (   73) LOOP         loop 1 1 R5                         // 
+
+###### Line no:  137 #### line is : nop
+	Scanning for best match command .....
+	Matching command is : NOP
+	Probably NOP command : nop
+	Successfull command parsing.....
+	Array name is G_NOP_Command_Format, num of fields 3
+	74 00000000000000000000000000000000// (   74) 00000000 NOP          nop                                 // 
+	74 00000000  // (   74) NOP          nop                                 // 
+
+###### Line no:  138 #### line is : return
+	Scanning for best match command .....
+	Matching command is : RETURN
+	Probably RETURN command : return
+	Successfull command parsing.....
+	from                 => 00
+	reserved             => 0000000000000000000
+	Array name is G_RETURN_Command_Format, num of fields 4
+	75 01110000000000000000000000000000// (   75) 70000000 RETURN       return                              // 
+	75 70000000  // (   75) RETURN       return                              // 

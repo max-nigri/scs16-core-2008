@@ -1,0 +1,202 @@
+ `include ..\parameters_definition.v
+
+`define ISR_TO_ALL_MAILBOX  	11'h100
+`define JOJO 1
+`define KOKO 2
+`define TOTO `JOJO + `KOKO
+
+
+nop
+goto L_boot  		   // goto boot sequence
+goto L_ISR		   // goto ISR
+goto L_hardbreak_response  // prepare 
+
+
+
+
+L_boot, R0=16'h0fff 		   	// L_boot, begining of some boot sequence
+	RAM[`APP_OUT0_ADDR]=R0          // init app out regs
+
+
+	// do something
+
+	R6=100
+        OCP[R6] = R6
+	nop
+        R5 = OCP[R6]
+	gosub L_delay
+	wait c14 // c14 tied to "0" 
+
+
+
+
+
+
+L_wait_HB, wait c14        // c14 tied to "0"
+
+L_hardbreak_response, device_3->4'bxx1x	// select GPR1 on s1
+	R5 = s1                    	// the index of the script
+	goto R5 
+	goto L_script1            	// launching script1
+	goto L_script2             	// launching script2
+	goto L_script2             	// launching script3
+	goto L_script2             	// launching script4
+	goto L_wait_HB			// return to wait_HB
+
+
+/////////////////////////////////////////////////////////////////////////////
+// script 1
+/////////////////////////////////////////////////////////////////////////////
+L_script1, nop
+	timer_0 = 200 dec @(c15)   	// c15 tied to "1" => timer_0 count clocks
+	timer_1 = 10  dec @(c15)   	// the same
+	R3 = 72                    	// the value for the first write
+	RAM[`APP_OUT3_ADDR]=R3        	// setting d2a value
+	pulse->p5   
+	wait t1_done               	// waiting for t1 to complete
+	gosub L_a2d_2_read
+
+	wait t0_done               	// wait for the long timer to complete	
+	goto L_wait_HB
+
+/////////////////////////////////////////////////////////////////////////////
+// script 2
+/////////////////////////////////////////////////////////////////////////////
+L_script2, nop
+	goto L_wait_HB
+
+/////////////////////////////////////////////////////////////////////////////
+// routines
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+L_ISR, R7 = 32 // ISR start code. start add of sample buffer
+	R0 = 4
+	R1 = 20	
+	gosub L_sub_mult_8x8
+	timer_0 = 20 dec @(c15)   // c15 tied to "1", so timer count clocks
+	wait t0_done
+	OCP[10]=20 
+	R4=OCP[10]
+	R7=11
+	loop L_ocp_wr L_ocp_wr 5
+	L_ocp_wr, OCP[R7++]=R7  
+	loop L_get_samples L_get_samples 32
+	pulse->p3 
+        R1=s1 pulse->p3 
+	L_get_samples, RAM[R7++]=R1 R1=s1 pulse->p3 	// read a2d buff
+		
+	// do the analysis
+	RAM[`ISR_TO_ALL_MAILBOX] = R0   // put result in mailbox
+	rti
+ 
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// ocp sub-routines
+/////////////////////////////////////////////////////////////////////////////
+
+L_ocp_write, RAM[R7++] = R3 pulse->p3   // issue a store command to mem space outside the RAM
+wait c2 // wait for completion of the ocp slave
+return
+
+
+/////////////////////////////////////////////////////////////////////////////
+L_a2d_2_read, pulse-> p7  // p7 is start cmd for a2d_2
+device_3->4'bxxx1	// selecting a2d_2 on s0
+wait_load c7 R2= s0     // wait for the a2d result
+return                  // return value at R2
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+/////////// L_delay ////////////////////////////
+/////////////////////////RAM[`PORT0_STATUS1_ADDR///////////////////////
+L_delay, loop L_c L_c R5
+L_c, nop
+return
+
+L_hard_break_code, goto L_script2 // indirect example
+nop
+
+////////////////////////////////////////////////
+/////////// L_sub_mult_8x8  ////////////////////
+////////////////////////////////////////////////
+// operands for multiplication are R0 R1 each 8 bits width unsigned
+// result will be in R2
+
+L_sub_mult_8x8, push R0 R1 // L_sub_mult_8x8
+R2=0
+loop L_sub_mult_a L_sub_mult_b 8
+L_sub_mult_a, if (R0[0]) {
+	R2=R2+R1
+}
+R1=R1<<1
+L_sub_mult_b, R0=R0>>1
+pop R0 R1
+return
+
+////////////////////////////////////////////////
+/////////// L_sub_inc  /////////////////////////
+///////////////////////////// if vmain < low_th inc R1		/////////////////////
+L_sub_inc, push R6
+	R6 = 16'hfffe
+      if (R1==R6) {
+		R1=R6+1        			// if not R1=FFFF	
+	}
+      else {
+	R1=R1+1 		// check if R1 is less then FFFE if yes inc
+	pop R6
+	}
+return	
+
+////////////////////////////////////////////////
+/////////// L_sub_dec  /////////////////////////
+////////////////////////////////////////////////
+L_sub_dec, if (R1>0) {
+	R1=R1-1  			// check if R1 is >0 if yes dec
+}
+      else {
+	R1=0    			// if not R1=0
+}	
+return	
+
+////////////////////////////////////////////////
+////////////// L_set_bit_x  ///////////////// ////////////////////////////////////////////////
+// this routine gets the arguments via R5, R6 // do the following R4[R6]= 1, where the other bits of R4 
+// are unchanged // it use R1 as temp reg. use push if neccecery
+
+L_sub_set_bit, push R1
+R1= 16'h1       // the R5[R6]= 1
+R1 = R1 << R6     // positive mask 
+R5 = R5 | R1      // setting the R6 bit
+pop R1
+return
+
+
+
+////////////////////////////////////////////////
+////////////// L_reset_bit_x  ///////////////// ////////////////////////////////////////////////
+// this routine gets the arguments via R5, R6 // do the following R4[R6]= 0, where the other bits of R4 
+// are unchanged // it use R1 and R2 as temp reg. use push if neccecery
+
+L_sub_reset_bit, push R1
+push R2
+R1= 16'h1       // the R5[R6]= 0
+R1 = R5 << R6     // positive mask 
+R2= 16'hffff
+R2= R1 ^ R2       // inverted mask
+R5= R5 & R2       // clearing the R6 bit
+pop R1
+pop R2
+return
+
+
+
+nop
+/////////////////////////////////////////////////////////////////////////////

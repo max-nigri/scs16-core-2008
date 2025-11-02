@@ -1,0 +1,109 @@
+First pass: evaluating defines
+Second pass: translating all defines
+
+
+
+AFTER translating defines
+
+
+
+
+
+      before                                             after
+
+
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+nop                                               nop                                               
+                                                                                                    
+                                                                                                    
+`define BFA 0                                                                                       
+`define FWP 8                                                                                       
+`define FRP 9                                                                                       
+`define FMN 10                                                                                      
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+R6=16                                             R6=16                                             
+RAM[R6++]=9                                       RAM[R6++]=9                                       
+RAM[R6++]=9                                       RAM[R6++]=9                                       
+RAM[R6++]=16'b0100011110000000                    RAM[R6++]=16'b0100011110000000                    
+                                                                                                    
+R5=20                                             R5=20                                             
+                                                                                                    
+                                                                                                    
+                                                                                                    
+loop 4 10 R5                                      loop 4 10 R5                                      
+                                                                                                    
+R6=17                                             R6=17                                             
+R1=RAM[R6++]                                      R1=RAM[R6++]                                      
+R0=RAM[R6++]                                      R0=RAM[R6++]                                      
+                                                                                                    
+branch (!R0[15]) 13                               branch (!R0[15]) 13                               
+nop                                               nop                                               
+goto 17                                           goto 17                                           
+                                                                                                    
+R7=R1+`BFA                                        R7=R1+0                                           
+RAM[R7]=R4                                        RAM[R7]=R4                                        
+R4=R4+1                                           R4=R4+1                                           
+(R0,R1)=fifo_wr(R0,R1)                            (R0,R1)=fifo_wr(R0,R1)                            
+                                                                                                    
+                                                                                                    
+RAM[17]=R1                                        RAM[17]=R1                                        
+RAM[18]=R0                                        RAM[18]=R0                                        
+                                                                                                    
+                                                                                                    
+R1=RAM[16]                                        R1=RAM[16]                                        
+                                                                                                    
+                                                                                                    
+                                                                                                    
+loop 1 6 R5                                       loop 1 6 R5                                       
+branch (!R0[14]) 24                               branch (!R0[14]) 24                               
+nop                                               nop                                               
+goto 27                                           goto 27                                           
+                                                                                                    
+R7=R1+`BFA                                        R7=R1+0                                           
+R4=RAM[R7]                                        R4=RAM[R7]                                        
+(R0,R1)=fifo_rd(R0,R1)                            (R0,R1)=fifo_rd(R0,R1)                            
+                                                                                                    
+                                                                                                    
+RAM[16]=R1                                        RAM[16]=R1                                        
+RAM[18]=R0                                        RAM[18]=R0                                        
+                                                                                                    
+branch !c14 29                                    branch !c14 29                                    
+nop                                               nop                                               
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    

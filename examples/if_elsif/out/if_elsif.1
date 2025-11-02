@@ -1,0 +1,147 @@
+Pre-Processing flow control ......
+	searching for if ( Rx (==|!=|>|<>) ) ... expression, inserting alui and translating to branch
+	searching for if ( cx ) ... expression and translating to branch
+	searching wait cx ... expression and translating to branch with label
+    0     1                                                     // scs compiler creates an "out" directory at the invokation
+    1     2                                                     // directory, and proceeds with the compilation from that directory
+    2     3                                                     // so if one wants to use relative path for the include files
+    3     4                                                     // one must use the ../ notation 
+    4     5                                                     // 
+    5     6 `include ../simple_script_defines.v                 // `include ../simple_script_defines.v
+    6     7                                                     // 
+    7     8 nop                                                 // mandatory, start with nop.
+    8     9  goto L_boot                                        // goto boot sequence, jump over the interrupt vector
+    9    10  goto L_ISR                                         // goto ISR, pc=2 interrupt destination
+   10    11  goto L_hardbreak_response                          // goto Hardbreak, pc=3 hardbreak destination
+   11    12                                                     // 
+   12    13                                                     // 
+   13    14 L_boot, R0=16'h0fff                                 // L_boot, begining of some boot sequence
+   14    15                                                     // do something
+   15    16         RAM[`APP_OUT0_ADDR]=R0                      // init app out regs
+   16    17                                                     // do something
+   17    18                                                     // 
+   18    19         R5=5                                        // 
+   19    20                                                     // simple register bit branch
+   20    21         if (!R5[2]) {                               // bit of reg branch
+   21    22            R1=1                                     // branch not taken
+   22    23         }                                           // 
+   23    24         if (R5[2]) {                                // !bit of reg branch
+   24    25            R1=2                                     // branch not taken
+   25    26         }                                           // 
+   26    27         R1=30                                       // condition is set to 16'hff00
+   27    28                                                     // simple condition bit branch
+   28    29         if (!c0) {                                  // bit of condition branch
+   29    30            R1=1                                     // branch not taken
+   30    31         }                                           // 
+   31    32         if (!c8) {                                  // !bit of reg branch
+   32    33            R1=2                                     // branch not taken
+   33    34         }                                           // 
+   34    35                                                     // 
+   35    36         R1=40                                       // 
+   36    37                                                     // if else example
+   37    38         if (!c0) {                                  // bit of condition branch
+   38    39            R1=7                                     // branch not taken
+   39    40         }                                           // 
+   40    41         else {                                      // 
+   41    42            R1=8                                     // branch taken
+   42    43         }                                           // 
+   43    44                                                     // if else with branch taken
+   44    45         if (!c8) {                                  // bit of condition branch
+   45    46            R1=9                                     // branch not taken
+   46    47         }                                           // 
+   47    48         else {                                      // 
+   48    49            R1=10                                    // branch taken
+   49    50         }                                           // 
+   50    51                                                     // 
+   51    52                                                     // nested if
+   52    53         if (!c0) {                                  // bit of condition branch
+   53    54            if (!c1) {                               // 
+   54    55               if (!c2) {                            // 
+   55    56                  R1=11                              // 
+   56    57               }                                     // 
+   57    58               R1=12                                 // 
+   58    59            }                                        // 
+   59    60            R1=13                                    // 
+   60    61         }                                           // 
+   61    62         else {                                      // 
+   62    63            R1=14                                    // 
+   63    64         }                                           // 
+   64    65                                                     // 
+   65    66                                                     // if else if example
+   66    67         if (!c6) {                                  // if elsif start
+   67    68            R1=20                                    // 
+   68    69         }                                           // 
+   69    70         elsif (!c7) {                               // 
+   70    71            R1=21                                    // 
+   71    72         }                                           // 
+   72    73         elsif (!c8) {                               // 
+   73    74            R1=22                                    // 
+   74    75         }                                           // 
+   75    76         elsif (!c9) {                               // 
+   76    77            R1=23                                    // 
+   77    78         }                                           // 
+   78    79         else {                                      // 
+   79    80            R1=24                                    // 
+   80    81         }                                           // 
+   81    82                                                     // 
+   82    83                                                     // 
+   83    84         R2=40                                       // 
+   84    85 gr_flag = R2>40                                     // 
+   85    85         if (!gr_flag){                              // alu assist branch
+   86    86            R1=30                                    // 
+   87    87         }                                           // 
+   88    88         else {                                      // 
+   89    89            R1=31                                    // 
+   90    90         }                                           // 
+   91    91                                                     // 
+   92    92         R2=40                                       // 
+   93    93 gr_flag = R2>40                                     // 
+   94    93         if (!gr_flag){                              // alu assist branch
+   95    94            R1=30                                    // 
+   96    95         }                                           // 
+   97    96                                                     // the following elsif with compare is not supported
+   98    97                                                     // elsif (R2==40) {
+   99    98                                                     // R1=31
+  100    99                                                     // }
+  101   100                                                     // 
+  102   101                                                     // instead, one can do the following
+  103   102         R2=40                                       // 
+  104   103         gr_flag = R2>40                             // explicit alu compare
+  105   104         if (!eq_flag) {                             // start of alu if elsif emulation
+  106   105            R1=30                                    // 
+  107   106         }                                           // 
+  108   107         elsif (!ls_flag) {                          // 
+  109   108            R1=31                                    // 
+  110   109         }                                           // 
+  111   110         elsif (!gr_flag) {                          // 
+  112   111            R1=31                                    // 
+  113   112         }                                           // 
+  114   113                                                     // 
+  115   114                                                     // if ( some condition) L_label
+  116   115         R2=50                                       // 
+  117   116          branch (R2[0]) L_simple_branch             // basic branch
+  118   117         R2=60                                       // 
+  119   118         L_simple_branch, R2=70                      // L_simple_branch      
+  120   119                                                     // 
+  121   120         L_wait_dfhfdaaa, branch !c14 L_wait_dfhfdaaa  // c14 tied to "0" 
+  122   121                                                     // 
+  123   122                                                     // 
+  124   123                                                     // //////////////////////////////////////////////
+  125   124                                                     // routines
+  126   125                                                     // //////////////////////////////////////////////
+  127   126                                                     // //////////////////////////////////////////////
+  128   127                                                     // 
+  129   128 L_ISR,  rti                                         // 
+  130   129                                                     // 
+  131   130 L_hardbreak_response,  goto L_boot                  // 
+  132   131                                                     // 
+  133   132                                                     // //////////////////////////////////////////////
+  134   133                                                     // ///////// L_delay ////////////////////////////
+  135   134                                                     // //////////////////////////////////////////////
+  136   135                                                     // 
+  137   136 L_delay, loop L_c L_c R5                            // 
+  138   137 L_c, nop                                            // 
+  139   138 return                                              // 
+  140   139                                                     // 
+  141   140                                                     // 
+  142   141                                                     // 
