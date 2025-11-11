@@ -1,6 +1,7 @@
 # SCS16 Core (2008 Release)
 
-Developed by Max Nigri 
+Project by **Max Nigri** — [GitHub](https://github.com/max-nigri) · [LinkedIn](https://www.linkedin.com/in/maxnigri)
+
 
 ## Overview
 **SCS16** is a microcontroller core featuring a **16-bit datapath** and **single-cycle instruction execution**.  
